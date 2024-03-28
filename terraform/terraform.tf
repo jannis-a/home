@@ -1,5 +1,5 @@
 terraform {
-  required_version = ">= 1.7"
+  required_version = ">= 1.7.5"
 
   cloud {
     organization = "jannis-a"
@@ -8,6 +8,7 @@ terraform {
       name = "home"
     }
   }
+
 
   required_providers {
     github = {

@@ -18,7 +18,7 @@ provider "registry.terraform.io/carlpett/sops" {
 
 provider "registry.terraform.io/integrations/github" {
   version     = "6.2.1"
-  constraints = "~> 6.0"
+  constraints = ">= 6.0.0"
   hashes = [
     "h1:uDerb9YJo3vAO+wKw+Z064InX5aXom+nKLDry2eGf14=",
     "zh:172aa5141c525174f38504a0d2e69d0d16c0a0b941191b7170fe6ae4d7282e30",

@@ -4,6 +4,7 @@ resource "github_repository" "home" {
   allow_merge_commit = false
   allow_rebase_merge = false
 }
+
 resource "github_actions_secret" "this" {
   count = length(local.secret_keys)
 
