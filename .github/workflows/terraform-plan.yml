@@ -11,6 +11,36 @@ env:
   PLAN_FILE: tfplan
 
 jobs:
+  check:
+    name: Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
+
+      - name: Terraform Init
+        id: init
+        run: terraform init
+
+      - name: Cache modules
+        uses: actions/cache@v4
+        with:
+          path: ./terraform/.terraform
+          key: tf-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('./terraform/.terraform.lock.hcl') }}
+          restore-keys: |
+            tf-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('./terraform/.terraform.lock.hcl') }}
+            tf-${{ runner.os }}-${{ runner.arch }}-
+            tf-${{ runner.os }}-
+            tf-
+
+      - name: Terraform Validate
+        run: terraform validate
+
   plan:
     name: Plan
     runs-on: ubuntu-latest
