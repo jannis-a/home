@@ -1,0 +1,34 @@
+name: Lint
+
+on:
+  pull_request:
+
+jobs:
+  terraform:
+    name: Terraform
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./terraform
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: opentofu/setup-opentofu@v1
+
+      - name: Terraform Init
+        run: tofu init
+
+      - name: Cache modules
+        uses: actions/cache@v4
+        with:
+          path: ./terraform/.terraform
+          key: tf-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('./terraform/.terraform.lock.hcl') }}
+          restore-keys: |
+            tf-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('./terraform/.terraform.lock.hcl') }}
+            tf-${{ runner.os }}-${{ runner.arch }}-
+            tf-${{ runner.os }}-
+            tf-
+
+      - name: Terraform Validate
+        run: tofu validate
+
