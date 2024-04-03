@@ -1,23 +1,25 @@
 terraform {
-  required_version = ">= 1.7.5"
+  required_version = ">= 1.6.2"
 
-  cloud {
-    organization = "jannis-a"
-
-    workspaces {
-      name = "home"
-    }
-  }
-
+  # cloud {
+  #   organization = "jannis-a"
+  #   workspaces {
+  #     name = "home"
+  #   }
+  # }
 
   required_providers {
-    github = {
-      source  = "integrations/github"
-      version = ">= 6.0"
+    spacelift = {
+      source  = "spacelift-io/spacelift"
+      version = ">= 1.10.0"
     }
-    sops = {
-      source  = "carlpett/sops"
-      version = ">= 1.0"
-    }
+    # github = {
+    #   source  = "integrations/github"
+    #   version = ">= 6.0"
+    # }
+    # sops = {
+    #   source  = "carlpett/sops"
+    #   version = ">= 1.0"
+    # }
   }
 }
