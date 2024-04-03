@@ -1,14 +1,4 @@
-data "spacelift_current_space" "this" {}
-
 data "spacelift_current_stack" "this" {}
-
-resource "spacelift_context" "this" {
-  name     = "home"
-  space_id = data.spacelift_current_space.this.id
-  labels = [
-    "autoattach:${data.spacelift_current_stack.this.id}",
-  ]
-}
 
 resource "spacelift_environment_variable" "secrets" {
   count = length(local.secret_keys)
