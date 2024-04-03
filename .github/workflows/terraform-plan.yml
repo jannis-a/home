@@ -2,32 +2,30 @@ name: Terraform
 
 on:
   pull_request:
-  issue_comment:                                     
-    types: [created, edited, deleted]
+  # issue_comment:                                     
+  #   types: [created, edited, deleted]
 
 defaults:
   run:
     working-directory: ./terraform
 
-env:
-  PLAN_FILE: tfplan
+# env:
+#   PLAN_FILE: tfplan
 
 jobs:
   check:
     name: Check
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v3
-        with:
-          cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
+      - uses: opentofu/setup-opentofu@v1
+        #with:
+        #  cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
 
       - name: Terraform Init
         id: init
-        run: terraform init
+        run: tofu init
 
       - name: Cache modules
         uses: actions/cache@v4
@@ -41,74 +39,74 @@ jobs:
             tf-
 
       - name: Terraform Validate
-        run: terraform validate
+        run: tofu validate
 
-  plan:
-    if: ${{ github.event_name == 'pull_request' }}
-    name: Plan
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+  # plan:
+  #   if: ${{ github.event_name == 'pull_request' }}
+  #   name: Plan
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v4
 
-      - name: Dump GitHub context
-        env:
-          GITHUB_CONTEXT: ${{ toJson(github) }}
-        run: |
-          echo "$GITHUB_CONTEXT"
+  #     - name: Dump GitHub context
+  #       env:
+  #         GITHUB_CONTEXT: ${{ toJson(github) }}
+  #       run: |
+  #         echo "$GITHUB_CONTEXT"
 
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v3
-        with:
-          cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
+  #     - name: Setup Terraform
+  #       uses: hashicorp/setup-terraform@v3
+  #       with:
+  #         cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
 
-      - name: Terraform Init
-        id: init
-        run: terraform init
+  #     - name: Terraform Init
+  #       id: init
+  #       run: terraform init
 
-      - name: Cache modules
-        uses: actions/cache@v4
-        with:
-          path: ./terraform/.terraform
-          key: tf-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('./terraform/.terraform.lock.hcl') }}
-          restore-keys: |
-            tf-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('./terraform/.terraform.lock.hcl') }}
-            tf-${{ runner.os }}-${{ runner.arch }}-
-            tf-${{ runner.os }}-
-            tf-
+  #     - name: Cache modules
+  #       uses: actions/cache@v4
+  #       with:
+  #         path: ./terraform/.terraform
+  #         key: tf-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('./terraform/.terraform.lock.hcl') }}
+  #         restore-keys: |
+  #           tf-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('./terraform/.terraform.lock.hcl') }}
+  #           tf-${{ runner.os }}-${{ runner.arch }}-
+  #           tf-${{ runner.os }}-
+  #           tf-
 
-      - name: Terraform Plan
-        id: plan
-        env:
-          SOPS_AGE_KEY: ${{ secrets.SOPS_AGE_KEY }}
-        run: terraform plan -detailed-exitcode -out $PLAN_FILE
+  #     - name: Terraform Plan
+  #       id: plan
+  #       env:
+  #         SOPS_AGE_KEY: ${{ secrets.SOPS_AGE_KEY }}
+  #       run: terraform plan -detailed-exitcode -out $PLAN_FILE
       
-      - name: Format plan
-        id: plan-formatted
-        run: |
-          cat << EOF >> $GITHUB_STEP_SUMMARY
-          <details open><summary>
+  #     - name: Format plan
+  #       id: plan-formatted
+  #       run: |
+  #         cat << EOF >> $GITHUB_STEP_SUMMARY
+  #         <details open><summary>
 
-          ## Terraform Plan
-          </summary>
+  #         ## Terraform Plan
+  #         </summary>
 
-          \`\`\`terraform
-          $(terraform show -no-color $PLAN_FILE)
-          \`\`\`
-          </details>
-          EOF
+  #         \`\`\`terraform
+  #         $(terraform show -no-color $PLAN_FILE)
+  #         \`\`\`
+  #         </details>
+  #         EOF
 
-  apply:
-    name: Apply
-    runs-on: ubuntu-latest
-    # if: ${{ github.event_name != 'pull_request' }}
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+  # apply:
+  #   name: Apply
+  #   runs-on: ubuntu-latest
+  #   # if: ${{ github.event_name != 'pull_request' }}
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v4
 
-      - name: Dump GitHub context
-        if: ${{ github.event_name != 'pull_request' }}
-        env:
-          GITHUB_CONTEXT: ${{ toJson(github) }}
-        run: |
-          echo "$GITHUB_CONTEXT"
+  #     - name: Dump GitHub context
+  #       if: ${{ github.event_name != 'pull_request' }}
+  #       env:
+  #         GITHUB_CONTEXT: ${{ toJson(github) }}
+  #       run: |
+  #         echo "$GITHUB_CONTEXT"
