@@ -2,6 +2,8 @@ name: Terraform
 
 on:
   pull_request:
+  issue_comment:                                     
+    types: [created, edited, deleted]
 
 defaults:
   run:
@@ -42,11 +44,18 @@ jobs:
         run: terraform validate
 
   plan:
+    if: ${{ github.event_name == 'pull_request' }}
     name: Plan
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: |
+          echo "$GITHUB_CONTEXT"
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
@@ -88,3 +97,18 @@ jobs:
           \`\`\`
           </details>
           EOF
+
+  apply:
+    name: Apply
+    runs-on: ubuntu-latest
+    # if: ${{ github.event_name != 'pull_request' }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Dump GitHub context
+        if: ${{ github.event_name != 'pull_request' }}
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: |
+          echo "$GITHUB_CONTEXT"
