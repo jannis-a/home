@@ -10,5 +10,9 @@ terraform {
       source  = "carlpett/sops"
       version = ">= 1.0"
     }
+    github = {
+      source  = "integrations/github"
+      version = ">= 6.0"
+    }
   }
 }
