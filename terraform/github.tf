@@ -2,6 +2,12 @@ resource "github_repository" "this" {
   name       = "home"
   visibility = "private"
 
+  has_discussions = false
+  has_downloads   = false
+  has_issues      = false
+  has_projects    = false
+  has_wiki        = false
+
   allow_squash_merge = true
   allow_merge_commit = false
   allow_rebase_merge = false
