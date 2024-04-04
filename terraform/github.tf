@@ -1,6 +1,6 @@
 resource "github_repository" "this" {
   name       = "home"
-  visibility = "private"
+  visibility = "public"
 
   has_discussions = false
   has_downloads   = false
