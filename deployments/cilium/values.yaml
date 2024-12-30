@@ -1,0 +1,16 @@
+k8sServiceHost: knecht
+k8sServicePort: 6443
+kubeProxyReplacement: true
+rollOutCiliumPods: true
+gatewayAPI:
+  enabled: true
+ipam:
+  operator:
+    clusterPoolIPv4PodCIDRList: 10.42.0.0/16
+l2announcements:
+  enabled: true
+envoy:
+  rollOutPods: true
+operator:
+  replicas: 1
+  rollOutPods: true
