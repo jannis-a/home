@@ -1,0 +1,6 @@
+imageAutomationController:
+  create: false
+imageReflectionController:
+  create: false
+notificationController:
+  create: false
