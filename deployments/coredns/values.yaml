@@ -1,0 +1,12 @@
+replicaCount: 1
+resources:
+  limits:
+    cpu: 20m
+    memory: 32Mi
+  requests:
+    cpu: 20m
+    memory: 32Mi
+service:
+  clusterIP: 10.43.0.10
+serviceAccount:
+  create: true
