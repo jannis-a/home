@@ -3,5 +3,5 @@ kind: HelmRepository
 metadata:
   name: coredns
 spec:
-  interval: 1m0s
+  interval: 1m
   url: https://coredns.github.io/helm
