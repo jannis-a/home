@@ -12,5 +12,5 @@ spec:
         kind: HelmRepository
         name: cilium
   valuesFrom:
-    - kind: ConfigMap
-      name: cilium-helm-values
+  - kind: ConfigMap
+    name: cilium-helm-values

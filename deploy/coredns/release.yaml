@@ -12,5 +12,5 @@ spec:
         kind: HelmRepository
         name: coredns
   valuesFrom:
-    - kind: ConfigMap
-      name: coredns-helm-values
+  - kind: ConfigMap
+    name: coredns-helm-values

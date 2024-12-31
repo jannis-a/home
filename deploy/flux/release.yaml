@@ -12,5 +12,5 @@ spec:
         kind: HelmRepository
         name: flux
   valuesFrom:
-    - kind: ConfigMap
-      name: flux-helm-values
+  - kind: ConfigMap
+    name: flux-helm-values

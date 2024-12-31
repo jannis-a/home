@@ -4,17 +4,17 @@ kind: Kustomization
 namespace: system-upgrade
 
 resources:
-  - release.yaml
-  - github.com/rancher/system-upgrade-controller
-  - plan.yaml
+- release.yaml
+- github.com/rancher/system-upgrade-controller
+- plan.yaml
 
 images:
-  - name: rancher/system-upgrade-controller
-    newTag: &version v0.14.0
+- name: rancher/system-upgrade-controller
+  newTag: &version v0.14.0
 
 labels:
-  - includeSelectors: true
-    pairs:
-      app.kubernetes.io/component: controller
-      app.kubernetes.io/name: system-upgrade-controller
-      app.kubernetes.io/version: *version
+- includeSelectors: true
+  pairs:
+    app.kubernetes.io/component: controller
+    app.kubernetes.io/name: system-upgrade-controller
+    app.kubernetes.io/version: *version
