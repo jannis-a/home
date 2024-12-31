@@ -11,6 +11,3 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: metrics-server
-  valuesFrom:
-    - kind: ConfigMap
-      name: metrics-server-helm-values

@@ -4,10 +4,3 @@ namespace: kube-system
 resources:
   - repository.yaml
   - release.yaml
-configMapGenerator:
-  - name: metrics-server-helm-values
-    files:
-      - values.yaml=values.yaml
-generatorOptions:
-  disableNameSuffixHash: true
-
