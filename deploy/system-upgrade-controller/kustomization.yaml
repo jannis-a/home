@@ -10,7 +10,7 @@ resources:
 
 images:
 - name: rancher/system-upgrade-controller
-  newTag: &version v0.14.0
+  newTag: &version v0.14.2
 
 labels:
 - includeSelectors: true
