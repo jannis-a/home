@@ -5,7 +5,7 @@ metadata:
 spec:
   interval: 1m
   timeout: 1m
-  path: ./deployments/system-upgrade-controller
+  path: ./deploy/system-upgrade-controller
   prune: true
   sourceRef:
     kind: GitRepository
