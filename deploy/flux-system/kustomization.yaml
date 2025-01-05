@@ -3,6 +3,7 @@ kind: Kustomization
 resources:
   - gotk-components.yaml
   - gotk-sync.yaml
+  - repositories
 patches:
   - target:
       kind: (GitRepository|Kustomization)
