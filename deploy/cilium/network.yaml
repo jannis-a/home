@@ -17,4 +17,3 @@ spec:
   serviceSelector:
     matchLabels:
       io.cilium.gateway/owning-gateway: gateway
-
