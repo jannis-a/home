@@ -4,4 +4,5 @@ resources:
   - cilium.yaml
   - coredns.yaml
   - external-dns.yaml
+  - headlamp.yaml
   - metrics-server.yaml
