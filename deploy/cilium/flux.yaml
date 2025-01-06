@@ -21,12 +21,18 @@ spec:
     gatewayAPI:
       enabled: true
     ipam:
+      mode: kubernetes
       operator:
         clusterPoolIPv4PodCIDRList: 10.42.0.0/16
     l2announcements:
+      enabled: true
+    externalIPs:
       enabled: true
     envoy:
       rollOutPods: true
     operator:
       replicas: 1
       rollOutPods: true
+    k8sClientRateLimit:
+      qps: 50
+      burst: 200
