@@ -1,0 +1,19 @@
+apiVersion: cilium.io/v2alpha1
+kind: CiliumLoadBalancerIPPool
+metadata:
+  name: default
+  namespace: cilium-system
+spec:
+  blocks:
+    - cidr: 10.0.0.192/26
+---
+apiVersion: cilium.io/v2alpha1
+kind: CiliumL2AnnouncementPolicy
+metadata:
+  name: default
+  namespace: cilium-system
+spec:
+  loadBalancerIPs: true
+  serviceSelector:
+    matchLabels:
+      io.cilium.gateway/owning-gateway: gateway
