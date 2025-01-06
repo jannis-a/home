@@ -16,4 +16,4 @@ spec:
   loadBalancerIPs: true
   serviceSelector:
     matchLabels:
-      io.cilium.gateway/owning-gateway: gateway
+      io.cilium.gateway/owning-gateway: cilium-gateway
