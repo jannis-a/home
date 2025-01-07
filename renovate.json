@@ -2,8 +2,13 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "config:recommended",
-    ":dependencyDashboard"
+    ":dependencyDashboard",
+    ":disableRateLimiting",
+    ":enablePreCommit"
   ],
+  "timezone": "Europe/Berlin",
+  "commitBodyTable": true,
+  "platformCommit": "enabled",
   "flux": {
     "fileMatch": [
       "(?:^|/)gotk-components\\.yaml$",
