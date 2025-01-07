@@ -20,8 +20,6 @@ spec:
     rollOutCiliumPods: true
     gatewayAPI:
       enabled: true
-    devices:
-      - ^end[0-9]+
     ipam:
       mode: kubernetes
       operator:
