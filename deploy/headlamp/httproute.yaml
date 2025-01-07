@@ -7,7 +7,7 @@ spec:
   hostnames:
     - headlamp
   parentRefs:
-    - name: cilium-gateway
+    - name: gateway
       namespace: cilium-system
   rules:
     - backendRefs:
