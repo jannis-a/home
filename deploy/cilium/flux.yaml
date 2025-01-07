@@ -20,7 +20,10 @@ spec:
     rollOutCiliumPods: true
     gatewayAPI:
       enabled: true
+    devices:
+      - ^end[0-9]+
     ipam:
+      mode: kubernetes
       operator:
         clusterPoolIPv4PodCIDRList: 10.42.0.0/16
     l2announcements:
@@ -30,3 +33,6 @@ spec:
     operator:
       replicas: 1
       rollOutPods: true
+    k8sClientRateLimit:
+      qps: 50
+      burst: 200
