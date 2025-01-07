@@ -11,8 +11,6 @@ kind: CiliumL2AnnouncementPolicy
 metadata:
   name: default-policy
 spec:
-  externalIPs: true
+  interfaces:
+    - ^end[0-9]+
   loadBalancerIPs: true
-#  serviceSelector:
-#    matchLabels:
-#      io.cilium.gateway/owning-gateway: gateway
