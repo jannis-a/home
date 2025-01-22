@@ -11,6 +11,6 @@ kind: CiliumL2AnnouncementPolicy
 metadata:
   name: default-policy
 spec:
-  interfaces:
-    - ^end[0-9]+
   loadBalancerIPs: true
+  interfaces:
+    - ^eth[0-9]+
