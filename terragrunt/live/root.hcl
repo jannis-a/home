@@ -1,8 +1,9 @@
 locals {
   oci = {
+    profile   = "DEFAULT"
     region    = "eu-frankfurt-1"
     namespace = "frwrrd2q2s5i"
-    bucket    = "jannis-assenheimer-terragrunt"
+    bucket    = "jannis-assenheimer-home-tg-state"
   }
 
   secrets = yamldecode(sops_decrypt_file(find_in_parent_folders("secrets.yaml")))
@@ -21,11 +22,7 @@ remote_state {
     region   = local.oci.region
     bucket   = local.oci.bucket
     key      = "${basename(get_parent_terragrunt_dir())}/${path_relative_to_include()}/tofu.tfstate"
-
-    # TODO: make this work and remove keys
-    # profile = "DEFAULT"
-    access_key = local.secrets.oci_access_key
-    secret_key = local.secrets.oci_secret_key
+    profile  = local.oci.profile
 
     encrypt                     = true
     use_lockfile                = true
