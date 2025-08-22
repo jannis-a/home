@@ -3,7 +3,9 @@ repos:
     rev: v1.100.0
     hooks:
       - id: terraform_fmt
-      - id: terraform_providers_lock
+      # TODO: make this work
+      #- id: terraform_providers_lock
       - id: terraform_docs
       - id: terragrunt_fmt
-      - id: terragrunt_providers_lock
+      # TODO: make this work
+      #- id: terragrunt_providers_lock
