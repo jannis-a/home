@@ -13,7 +13,7 @@ remote_state {
   backend = "s3"
 
   generate = {
-    path      = "backend.tf"
+    path      = "_backend.tf"
     if_exists = "overwrite_terragrunt"
   }
 
@@ -31,4 +31,19 @@ remote_state {
     skip_metadata_api_check     = true
     skip_region_validation      = true
   }
+}
+
+generate "provider_proxmox" {
+  disable   = !strcontains(get_terragrunt_dir(), "/proxmox")
+  path      = "_provider-proxmox.tf"
+  if_exists = "overwrite_terragrunt"
+
+  # language=hcl
+  contents = <<-EOT
+    provider "proxmox" {
+      endpoint  = "${local.secrets.proxmox_endpoint}"
+      insecure  = "${local.secrets.proxmox_insecure}"
+      api_token = "${local.secrets.proxmox_token_id}=${local.secrets.proxmox_secret}"
+}
+  EOT
 }
