@@ -9,13 +9,13 @@ repos:
         files: ^terraform/.*
 
       - id: terragrunt_fmt
-        files: ^terragrunt/.*
+        files: ^infra/.*
 
       - id: terragrunt_validate
-        files: ^terragrunt/live/.*/
+        files: ^infra/live/.*/
 
       - id: terragrunt_validate_inputs
-        files: ^terragrunt/live/.*/
+        files: ^infra/live/.*/
 
       - id: terragrunt_providers_lock
-        files: ^terragrunt/live/.*/
+        files: ^infra/live/.*/
