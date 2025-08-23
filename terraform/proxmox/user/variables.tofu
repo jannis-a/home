@@ -30,6 +30,15 @@ variable "enabled" {
   default  = true
 }
 
+variable "acls" {
+  type = map(object({
+    path      = optional(string, "/")
+    propagate = optional(bool, true)
+  }))
+  nullable = false
+  default  = {}
+}
+
 variable "groups" {
   type     = set(string)
   nullable = false
@@ -48,6 +57,7 @@ variable "password" {
   sensitive = true
   default   = null
 }
+
 variable "type" {
   type     = string
   nullable = false

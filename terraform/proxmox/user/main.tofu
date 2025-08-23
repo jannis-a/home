@@ -8,6 +8,15 @@ resource "proxmox_virtual_environment_user" "this" {
   groups     = var.groups
   keys       = join("\n", var.keys)
   password   = var.password
+
+  dynamic "acl" {
+    for_each = var.acls
+    content {
+      role_id   = acl.key
+      path      = acl.value.path
+      propagate = acl.value.propagate
+    }
+  }
 }
 
 resource "proxmox_virtual_environment_user_token" "this" {
