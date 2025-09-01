@@ -1,6 +1,5 @@
 variable "name" {
-  type     = string
-  nullable = false
+  type = string
 }
 
 variable "first_name" {
@@ -25,9 +24,8 @@ variable "comment" {
 }
 
 variable "enabled" {
-  type     = bool
-  nullable = false
-  default  = true
+  type    = bool
+  default = true
 }
 
 variable "acls" {
@@ -35,32 +33,28 @@ variable "acls" {
     path      = optional(string, "/")
     propagate = optional(bool, true)
   }))
-  nullable = false
-  default  = {}
+  default = {}
 }
 
 variable "groups" {
-  type     = set(string)
-  nullable = false
-  default  = []
+  type    = set(string)
+  default = []
 }
 
 variable "keys" {
-  type     = set(string)
-  nullable = false
-  default  = []
+  type    = set(string)
+  default = []
 }
 
 variable "password" {
   type      = string
-  nullable  = true
   sensitive = true
+  nullable  = true
   default   = null
 }
 
 variable "type" {
-  type     = string
-  nullable = false
+  type = string
 
   validation {
     condition     = contains(["pam", "pve"], var.type)
@@ -74,6 +68,5 @@ variable "tokens" {
     expiration_date       = optional(string, null)
     privileges_separation = optional(bool, true)
   }))
-  nullable = false
-  default  = {}
+  default = {}
 }
