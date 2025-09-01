@@ -1,5 +1,29 @@
+variable "type" {
+  type = string
+
+  validation {
+    condition     = contains(["pam", "pve"], var.type)
+    error_message = "Type must be one of: pam, pve"
+  }
+}
+
 variable "name" {
   type = string
+}
+
+variable "groups" {
+  type    = set(string)
+  default = []
+}
+
+variable "enabled" {
+  type    = bool
+  default = true
+}
+
+variable "email" {
+  type    = string
+  default = null
 }
 
 variable "first_name" {
@@ -12,20 +36,17 @@ variable "last_name" {
   default = null
 }
 
-variable "email" {
-  type    = string
-  default = null
-}
-
 variable "comment" {
   type     = string
   nullable = true
   default  = null
 }
 
-variable "enabled" {
-  type    = bool
-  default = true
+variable "password" {
+  type      = string
+  sensitive = true
+  nullable  = true
+  default   = null
 }
 
 variable "acls" {
@@ -36,29 +57,13 @@ variable "acls" {
   default = {}
 }
 
-variable "groups" {
+variable "ssh_keys" {
   type    = set(string)
   default = []
-}
-
-variable "keys" {
-  type    = set(string)
-  default = []
-}
-
-variable "password" {
-  type      = string
-  sensitive = true
-  nullable  = true
-  default   = null
-}
-
-variable "type" {
-  type = string
 
   validation {
-    condition     = contains(["pam", "pve"], var.type)
-    error_message = "Type must be one of: pam, pve"
+    condition     = alltrue([for k in var.ssh_keys : can(regex("^(?:ssh-(?:rsa|ed25519)|ecdsa-sha2-nistp(?:256|384|521)|sk-(?:ecdsa-sha2-nistp256|ssh-ed25519)@openssh\\.com)(?:-cert-v01@openssh\\.com)? [A-Za-z0-9+/]+={0,2}(?: [^\\r\\n]+)?$", k))])
+    error_message = "Invalid format for item(s) in ssh_keys"
   }
 }
 

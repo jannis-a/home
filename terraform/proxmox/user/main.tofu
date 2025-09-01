@@ -1,13 +1,15 @@
 resource "proxmox_virtual_environment_user" "this" {
-  user_id    = "${var.name}@${var.type}"
+  user_id = "${var.name}@${var.type}"
+  groups  = var.groups
+  enabled = var.enabled
+
   email      = var.email
   first_name = var.first_name
   last_name  = var.last_name
   comment    = var.comment
-  enabled    = var.enabled
-  groups     = var.groups
-  keys       = join("\n", var.keys)
-  password   = var.password
+
+  password = var.password
+  keys     = join("\n", var.ssh_keys)
 
   dynamic "acl" {
     for_each = var.acls
