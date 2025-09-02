@@ -4,12 +4,19 @@ locals {
   secrets = yamldecode(sops_decrypt_file(find_in_parent_folders("secrets.yaml")))
 
   oci = {
-    access_key = run_cmd("--terragrunt-quiet", "op", "read", "op://Home Lab/OCI S3 Terragrunt/username")
-    secret_key = run_cmd("--terragrunt-quiet", "op", "read", "op://Home Lab/OCI S3 Terragrunt/password")
-
     region    = "eu-frankfurt-1"
     namespace = "frwrrd2q2s5i"
     bucket    = "jannis-assenheimer-home-tg-state"
+  }
+}
+
+terraform {
+  extra_arguments "remote_backend_auth" {
+    commands = get_terraform_commands_that_need_input()
+    env_vars = {
+      AWS_ACCESS_KEY_ID     = run_cmd("--terragrunt-quiet", "op", "read", "op://Homelab/OCI S3 Terragrunt/username")
+      AWS_SECRET_ACCESS_KEY = run_cmd("--terragrunt-quiet", "op", "read", "op://Homelab/OCI S3 Terragrunt/password")
+    }
   }
 }
 
@@ -20,9 +27,6 @@ generate "backend" {
   contents = <<-EOT
     terraform {
       backend "s3" {
-        access_key = "${local.oci.access_key}"
-        secret_key = "${local.oci.secret_key}"
-
         endpoint = "https://${local.oci.namespace}.compat.objectstorage.${local.oci.region}.oraclecloud.com"
         bucket   = "${local.oci.bucket}"
         region   = "${local.oci.region}"
