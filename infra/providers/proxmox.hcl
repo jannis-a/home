@@ -1,9 +1,6 @@
-terraform_binary = "tofu"
-
 locals {
   secrets = yamldecode(sops_decrypt_file(find_in_parent_folders("secrets.yaml")))
 }
-
 
 generate "provider_proxmox" {
   path      = "_provider-proxmox.tofu"
