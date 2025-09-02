@@ -1,16 +1,10 @@
-locals {
-  secrets = yamldecode(sops_decrypt_file(find_in_parent_folders("secrets.yaml")))
-}
-
-generate "provider_proxmox" {
-  path      = "_provider-proxmox.tofu"
-  if_exists = "overwrite_terragrunt"
-  # language=hcl
-  contents = <<-EOT
-    provider "proxmox" {
-      endpoint  = "${local.secrets.proxmox_endpoint}"
-      insecure  = "${local.secrets.proxmox_insecure}"
-      api_token = "${local.secrets.proxmox_token_id}=${local.secrets.proxmox_secret}"
+terraform {
+  extra_arguments "provider_proxmox" {
+    commands = get_terraform_commands_that_need_input()
+    env_vars = {
+      PROXMOX_VE_ENDPOINT  = run_cmd("--terragrunt-quiet", "op", "read", "op://Homelab/Proxmox Terraform/website")
+      PROXMOX_VE_API_TOKEN = run_cmd("--terragrunt-quiet", "op", "read", "op://Homelab/Proxmox Terraform/token")
+      PROXMOX_VE_INSECURE  = true
     }
-  EOT
+  }
 }
