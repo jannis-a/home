@@ -1,27 +1,22 @@
 variable "name" {
-  type     = string
-  nullable = false
+  type = string
 }
 
 variable "time_zone" {
-  type     = string
-  nullable = false
-  default  = "Europe/Berlin"
+  type    = string
+  default = "Europe/Berlin"
 }
 
 variable "ipv4" {
-  type     = string
-  nullable = false
+  type = string
 }
 
 variable "domain" {
-  type     = string
-  nullable = false
+  type = string
 }
 
 variable "dns" {
-  type     = list(string)
-  nullable = false
+  type = list(string)
 
   validation {
     condition     = length(var.dns) == length(distinct(var.dns))
