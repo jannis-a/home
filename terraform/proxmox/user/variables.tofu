@@ -1,9 +1,9 @@
-variable "type" {
+variable "realm" {
   type = string
 
   validation {
-    condition     = contains(["pam", "pve"], var.type)
-    error_message = "Type must be one of: pam, pve"
+    condition     = contains(["pam", "pve"], var.realm)
+    error_message = "Realm must be one of: pam, pve"
   }
 }
 

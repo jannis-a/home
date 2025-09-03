@@ -11,8 +11,8 @@ terraform {
 }
 
 inputs = {
-  name = "terraform"
-  type = "pve"
+  name  = "terraform"
+  realm = "pve"
   acls = {
     Administrator = {}
   }

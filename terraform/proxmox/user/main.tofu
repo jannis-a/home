@@ -1,5 +1,5 @@
 resource "proxmox_virtual_environment_user" "this" {
-  user_id = "${var.name}@${var.type}"
+  user_id = "${var.name}@${var.realm}"
   groups  = var.groups
   enabled = var.enabled
 
