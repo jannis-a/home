@@ -10,7 +10,13 @@ locals {
 
 terraform {
   extra_arguments "remote_backend_auth" {
-    commands = get_terraform_commands_that_need_input()
+    commands = distinct(concat(
+      ["force-unlock", "state"],
+      get_terraform_commands_that_need_vars(),
+      get_terraform_commands_that_need_input(),
+      get_terraform_commands_that_need_locking(),
+      get_terraform_commands_that_need_parallelism(),
+    ))
     env_vars = {
       AWS_ACCESS_KEY_ID     = run_cmd("--terragrunt-quiet", "op", "read", "op://Homelab/OCI S3 Terragrunt/username")
       AWS_SECRET_ACCESS_KEY = run_cmd("--terragrunt-quiet", "op", "read", "op://Homelab/OCI S3 Terragrunt/password")
