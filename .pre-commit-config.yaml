@@ -1,0 +1,18 @@
+repos:
+  - repo: https://github.com/antonbabenko/pre-commit-terraform
+    rev: v1.100.0
+    hooks:
+      - id: terraform_fmt
+        files: ^modules/.*
+
+      - id: terragrunt_fmt
+        files: ^infra/.*
+
+      - id: terragrunt_validate
+        files: ^infra/live/.*/
+
+      - id: terragrunt_validate_inputs
+        files: ^infra/live/.*/
+
+      - id: terragrunt_providers_lock
+        files: ^infra/live/.*/
