@@ -1,0 +1,32 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:base"
+  ],
+  "enabledManagers": [
+    "pre-commit",
+    "terraform"
+  ],
+  "regexManagers": [
+    {
+      "depNameTemplate": "opentofu/opentofu",
+      "datasourceTemplate": "github-releases",
+      "fileMatch": [
+        "^\\.opentofu-version$"
+      ],
+      "matchStrings": [
+        "^(?<currentValue>.*)$"
+      ]
+    },
+    {
+      "depNameTemplate": "gruntwork-io/terragrunt",
+      "datasourceTemplate": "github-releases",
+      "fileMatch": [
+        "^\\.terragrunt-version$"
+      ],
+      "matchStrings": [
+        "^(?<currentValue>.*)$"
+      ]
+    }
+  ]
+}
