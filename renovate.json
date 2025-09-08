@@ -4,9 +4,9 @@
     "config:base"
   ],
   "enabledManagers": [
+    "github-actions",
     "pre-commit",
-    "terraform",
-    "github-actions"
+    "terraform"
   ],
   "regexManagers": [
     {
@@ -20,20 +20,20 @@
       ]
     },
     {
-      "depNameTemplate": "gruntwork-io/terragrunt",
-      "datasourceTemplate": "github-releases",
+      "depNameTemplate": "python",
+      "datasourceTemplate": "python",
       "fileMatch": [
-        "^\\.terragrunt-version$"
+        "^\\.python-version$"
       ],
       "matchStrings": [
         "^(?<currentValue>.*)$"
       ]
     },
     {
-      "depNameTemplate": "python",
-      "datasourceTemplate": "python",
+      "depNameTemplate": "gruntwork-io/terragrunt",
+      "datasourceTemplate": "github-releases",
       "fileMatch": [
-        "^\\.python-version$"
+        "^\\.terragrunt-version$"
       ],
       "matchStrings": [
         "^(?<currentValue>.*)$"
