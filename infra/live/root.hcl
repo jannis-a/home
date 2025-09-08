@@ -26,28 +26,22 @@ terraform {
   }
 }
 
-generate "backend" {
-  path      = "_backend.tofu"
-  if_exists = "overwrite_terragrunt"
-  # language=hcl
-  contents = <<-EOT
-    terraform {
-      backend "s3" {
-        endpoint = "https://${local.oci.namespace}.compat.objectstorage.${local.oci.region}.oraclecloud.com"
-        bucket   = "${local.oci.bucket}"
-        region   = "${local.oci.region}"
-        key      = "${basename(get_parent_terragrunt_dir())}/${path_relative_to_include()}/tofu.tfstate"
+remote_state {
+  backend = "s3"
+  config = {
+    endpoint = "https://${local.oci.namespace}.compat.objectstorage.${local.oci.region}.oraclecloud.com"
+    bucket   = local.oci.bucket
+    region   = local.oci.region
+    key      = "${basename(get_parent_terragrunt_dir())}/${path_relative_to_include()}/tofu.tfstate"
 
-        encrypt      = true
-        use_lockfile = true
+    encrypt      = true
+    use_lockfile = true
 
-        # S3-compatible flags
-        use_path_style              = true
-        skip_credentials_validation = true
-        skip_metadata_api_check     = true
-        skip_region_validation      = true
-        skip_requesting_account_id  = true
-      }
-    }
-  EOT
+    # S3-compatible flags
+    use_path_style              = true
+    skip_credentials_validation = true
+    skip_metadata_api_check     = true
+    skip_region_validation      = true
+    skip_requesting_account_id  = true
+  }
 }
