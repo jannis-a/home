@@ -1,0 +1,58 @@
+name: pre-commit
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  gather-hooks:
+    runs-on: ubuntu-latest
+    outputs:
+      hooks: ${{ steps.hooks.outputs.hooks }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v4
+        with:
+          python-version-file: '.python-version'
+          cache: 'pip'
+      - id: hooks
+        run: |
+          pip install pyyaml >/dev/null
+          hooks=$(python - <<'PY'
+import json, yaml
+with open('.pre-commit-config.yaml') as f:
+    data = yaml.safe_load(f)
+print(json.dumps([h['id'] for r in data.get('repos', []) for h in r.get('hooks', [])]))
+PY
+)
+          echo "hooks=${hooks}" >> $GITHUB_OUTPUT
+
+  pre-commit:
+    runs-on: ubuntu-latest
+    needs: gather-hooks
+    strategy:
+      fail-fast: false
+      matrix:
+        hook: ${{ fromJSON(needs.gather-hooks.outputs.hooks) }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v4
+        with:
+          python-version-file: '.python-version'
+          cache: 'pip'
+      - uses: actions/cache@v3
+        with:
+          path: ~/.cache/pre-commit
+          key: ${{ runner.os }}-pre-commit-${{ hashFiles('.pre-commit-config.yaml') }}
+      - name: Install pre-commit
+        run: pip install pre-commit
+      - id: tg_version
+        run: echo "version=$(cat .terragrunt-version)" >> $GITHUB_OUTPUT
+      - uses: gruntwork-io/terragrunt-action@v1
+        with:
+          terragrunt_version: ${{ steps.tg_version.outputs.version }}
+      - uses: opentofu/setup-opentofu@v1
+        with:
+          version-file: '.opentofu-version'
+      - name: Run ${{ matrix.hook }}
+        run: pre-commit run --all-files ${{ matrix.hook }}

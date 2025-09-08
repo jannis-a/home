@@ -5,7 +5,8 @@
   ],
   "enabledManagers": [
     "pre-commit",
-    "terraform"
+    "terraform",
+    "github-actions"
   ],
   "regexManagers": [
     {
@@ -23,6 +24,16 @@
       "datasourceTemplate": "github-releases",
       "fileMatch": [
         "^\\.terragrunt-version$"
+      ],
+      "matchStrings": [
+        "^(?<currentValue>.*)$"
+      ]
+    },
+    {
+      "depNameTemplate": "python",
+      "datasourceTemplate": "python",
+      "fileMatch": [
+        "^\\.python-version$"
       ],
       "matchStrings": [
         "^(?<currentValue>.*)$"
