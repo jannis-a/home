@@ -1,0 +1,23 @@
+$schema: "https://docs.renovatebot.com/renovate-schema.json"
+extends:
+- config:base
+
+enabledManagers:
+- pre-commit
+- terraform
+
+regexManagers:
+# OpenTofu
+- depNameTemplate: opentofu/opentofu
+  datasourceTemplate: github-releases
+  fileMatch:
+  - '^\.opentofu-version$'
+  matchStrings:
+  - '^(?<currentValue>.*)$'
+# Terragrunt
+- depNameTemplate: gruntwork-io/terragrunt
+  datasourceTemplate: github-releases
+  fileMatch:
+  - '^\.terragrunt-version$'
+  matchStrings:
+  - '^(?<currentValue>.*)$'
