@@ -6,6 +6,8 @@ locals {
     namespace = "frwrrd2q2s5i"
     bucket    = "jannis-assenheimer-home-tg-state"
   }
+  aws_access_key        = run_cmd("--terragrunt-quiet", "op", "read", "op://Homelab/OCI S3 Terragrunt/username")
+  aws_secret_access_key = run_cmd("--terragrunt-quiet", "op", "read", "op://Homelab/OCI S3 Terragrunt/password")
 }
 
 terraform {
@@ -18,10 +20,15 @@ terraform {
       get_terraform_commands_that_need_parallelism(),
     ))
     env_vars = {
-      AWS_ACCESS_KEY_ID     = run_cmd("--terragrunt-quiet", "op", "read", "op://Homelab/OCI S3 Terragrunt/username")
-      AWS_SECRET_ACCESS_KEY = run_cmd("--terragrunt-quiet", "op", "read", "op://Homelab/OCI S3 Terragrunt/password")
+      AWS_ACCESS_KEY_ID     = local.aws_access_key
+      AWS_SECRET_ACCESS_KEY = local.aws_secret_access_key
     }
   }
+}
+
+before_hook "export_aws_credentials" {
+  commands = get_terraform_commands_that_need_input()
+  execute  = ["bash", "-c", "export AWS_ACCESS_KEY_ID='${local.aws_access_key}' AWS_SECRET_ACCESS_KEY='${local.aws_secret_access_key}'"]
 }
 
 generate "backend" {
