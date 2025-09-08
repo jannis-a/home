@@ -6,6 +6,7 @@ locals {
     namespace = "frwrrd2q2s5i"
     bucket    = "jannis-assenheimer-home-tg-state"
   }
+  aws_secret_access_key = run_cmd("sh", "-c", "echo AAAAAAAAA $AWS_ACCESS_KEY_ID")
 }
 
 remote_state {

@@ -35,7 +35,22 @@ jobs:
           tg_version: ${{ steps.versions.outputs.terragrunt }}
           tofu_version: ${{ steps.versions.outputs.tofu }}
       - uses: actions/setup-python@v6.0.0
-      - name: Run ${{ matrix.hook }}
-        uses: pre-commit/action@v3.0.1
+      - run:
+          echo "### My var" >> $GITHUB_STEP_SUMMARY
+          echo "\`MY_VAR2=$AWS_ACCESS_KEY_ID\`" >> $GITHUB_STEP_SUMMARY
+      - uses: 1password/load-secrets-action/configure@v2
+        with:
+          service-account-token: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
+      - uses: 1password/load-secrets-action@v3
+        with:
+          export-env: true
+        env:
+          OP_ENV_FILE: ${{ env.GITHUB_WORKSPACE }}/.env
+      - run:
+          echo "### My var" >> $GITHUB_STEP_SUMMARY
+          echo "\`MY_VAR3=$AWS_ACCESS_KEY_ID\`" >> $GITHUB_STEP_SUMMARY
+      - uses: pre-commit/action@v3.0.1
+        env:
+          AWS_EC2_METADATA_DISABLED: true
         with:
           extra_args: ${{ matrix.hook }} --all-files
