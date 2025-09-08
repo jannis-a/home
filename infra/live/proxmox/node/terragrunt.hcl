@@ -7,7 +7,7 @@ include "proxmox" {
 }
 
 terraform {
-  source = "${get_repo_root()}/terraform/proxmox/node"
+  source = "${get_repo_root()}/modules/proxmox/node"
 }
 
 inputs = {
