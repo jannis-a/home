@@ -26,11 +26,6 @@ terraform {
   }
 }
 
-before_hook "export_aws_credentials" {
-  commands = get_terraform_commands_that_need_input()
-  execute  = ["bash", "-c", "export AWS_ACCESS_KEY_ID='${local.aws_access_key}' AWS_SECRET_ACCESS_KEY='${local.aws_secret_access_key}'"]
-}
-
 generate "backend" {
   path      = "_backend.tofu"
   if_exists = "overwrite_terragrunt"
