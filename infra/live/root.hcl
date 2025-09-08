@@ -28,10 +28,14 @@ terraform {
 
 remote_state {
   backend = "s3"
+  generate = {
+    path      = "_backend.tf"
+    if_exists = "overwrite_terragrunt"
+  }
   config = {
-    endpoint = "https://${local.oci.namespace}.compat.objectstorage.${local.oci.region}.oraclecloud.com"
-    bucket   = local.oci.bucket
     region   = local.oci.region
+    bucket   = local.oci.bucket
+    endpoint = "https://${local.oci.namespace}.compat.objectstorage.${local.oci.region}.oraclecloud.com"
     key      = "${basename(get_parent_terragrunt_dir())}/${path_relative_to_include()}/tofu.tfstate"
 
     encrypt      = true
