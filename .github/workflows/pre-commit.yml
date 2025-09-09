@@ -1,0 +1,46 @@
+name: pre-commit
+
+on:
+  pull_request:
+
+jobs:
+  get-hooks:
+    runs-on: ubuntu-latest
+    name: "Get hooks"
+    outputs:
+      ids: ${{ steps.hooks.outputs.ids }}
+    steps:
+      - uses: actions/checkout@v5.0.0
+      - uses: frenck/action-setup-yq@v1.0.2
+      - id: hooks
+        run: |
+          hooks="$(yq -o=json -I=0 '[.repos[].hooks[].id]' .pre-commit-config.yaml)"
+          echo "ids=${hooks}" >> $GITHUB_OUTPUT
+
+  hook:
+    runs-on: ubuntu-latest
+    name: "Hook: ${{ matrix.hook }}"
+    needs: get-hooks
+    strategy:
+      fail-fast: false
+      matrix:
+        hook: ${{ fromJSON(needs.get-hooks.outputs.ids) }}
+    steps:
+      - uses: actions/checkout@v5.0.0
+      - id: versions
+        run: |
+          echo "terragrunt=$(cat .terragrunt-version)" >> $GITHUB_OUTPUT
+          echo "tofu=$(cat .opentofu-version)" >> $GITHUB_OUTPUT
+          echo $GITHUB_OUTPUT
+      - uses: gruntwork-io/terragrunt-action@v3.0.2
+        with:
+          tg_version: ${{ steps.versions.outputs.terragrunt }}
+          tofu_version: ${{ steps.versions.outputs.tofu }}
+      - uses: actions/setup-python@v6.0.0
+      - uses: 1password/install-cli-action@v2.0.1
+      - uses: 1password/load-secrets-action/configure@v3.0.0
+        with:
+          service-account-token: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
+      - uses: pre-commit/action@v3.0.1
+        with:
+          extra_args: ${{ matrix.hook }} --all-files

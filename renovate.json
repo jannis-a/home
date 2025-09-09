@@ -4,6 +4,7 @@
     "config:recommended"
   ],
   "enabledManagers": [
+    "github-actions",
     "pre-commit",
     "terraform"
   ],
@@ -14,6 +15,17 @@
       "datasourceTemplate": "github-releases",
       "managerFilePatterns": [
         "/^\\.opentofu-version$/"
+      ],
+      "matchStrings": [
+        "^(?<currentValue>.*)$"
+      ]
+    },
+    {
+      "customType": "regex",
+      "depNameTemplate": "python",
+      "datasourceTemplate": "python",
+      "managerFilePatterns": [
+        "/^\\.python-version$"
       ],
       "matchStrings": [
         "^(?<currentValue>.*)$"

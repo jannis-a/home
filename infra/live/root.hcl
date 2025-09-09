@@ -19,6 +19,16 @@ terraform {
       get_terraform_commands_that_need_parallelism(),
     ))
   }
+
+  before_hook "lock_providers" {
+    commands = ["init", "providers"]
+    execute = concat(["tofu", "providers", "lock"], formatlist("-platform=%s", [
+      "linux_amd64",
+      "linux_arm64",
+      "darwin_amd64",
+      "darwin_arm64",
+    ]))
+  }
 }
 
 remote_state {
