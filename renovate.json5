@@ -25,7 +25,8 @@
   "enabledManagers": [
     "github-actions",
     "pre-commit",
-    "terraform"
+    "terraform",
+    "terragrunt",
   ],
   "customManagers": [
     {
