@@ -2,7 +2,25 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "config:recommended",
-    ":enablePreCommit"
+    //
+    ":disableRateLimiting",
+    ":prImmediately",
+    ":updateNotScheduled",
+    // versioning
+    ":autodetectPinVersions",
+    ":ignoreUnstable",
+    ":separateMajorReleases",
+    // grouping
+    "group:monorepos",
+    "group:recommended",
+    // auto-merge
+    ":automergeDigest",
+    ":automergeDisabled",
+    ":automergeMinor",
+    ":automergePatch",
+    // misc
+    ":enablePreCommit",
+    ":gitSignOff",
   ],
   "enabledManagers": [
     "github-actions",
@@ -15,21 +33,21 @@
       "depNameTemplate": "opentofu/opentofu",
       "datasourceTemplate": "github-releases",
       "managerFilePatterns": ["/^\\.opentofu-version$/"],
-      "matchStrings": ["^(?<currentValue>.*)$"]
+      "matchStrings": ["^(?<currentValue>.*)$"],
     },
     {
       "customType": "regex",
       "depNameTemplate": "python",
       "datasourceTemplate": "python",
       "managerFilePatterns": ["/^\\.python-version$"],
-      "matchStrings": ["^(?<currentValue>.*)$"]
+      "matchStrings": ["^(?<currentValue>.*)$"],
     },
     {
       "customType": "regex",
       "depNameTemplate": "gruntwork-io/terragrunt",
       "datasourceTemplate": "github-releases",
       "managerFilePatterns": ["/^\\.terragrunt-version$/"],
-      "matchStrings": ["^(?<currentValue>.*)$"]
-    }
+      "matchStrings": ["^(?<currentValue>.*)$"],
+    },
   ]
 }
