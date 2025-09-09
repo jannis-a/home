@@ -21,6 +21,7 @@
     // misc
     ":enablePreCommit",
     ":gitSignOff",
+    ":semanticCommits",
   ],
   "enabledManagers": [
     "github-actions",
@@ -50,5 +51,17 @@
       "managerFilePatterns": ["/^\\.terragrunt-version$/"],
       "matchStrings": ["^(?<currentValue>.*)$"],
     },
-  ]
+  ],
+  "packageRules": [
+    {
+      "matchManagers": ["github-actions", "pre-commit"],
+      "semanticCommitScope": "ci",
+      "semanticCommitType": "chore",
+    },
+    {
+      "matchManagers": ["terraform", "terragrunt"],
+      "semanticCommitScope": "terraform",
+      "semanticCommitType": "feat",
+    }
+  ],
 }
