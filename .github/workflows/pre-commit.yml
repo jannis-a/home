@@ -6,6 +6,7 @@ on:
 jobs:
   get-hooks:
     runs-on: ubuntu-latest
+    name: "Get hooks"
     outputs:
       ids: ${{ steps.hooks.outputs.ids }}
     steps:
@@ -16,8 +17,9 @@ jobs:
           hooks="$(yq -o=json -I=0 '[.repos[].hooks[].id]' .pre-commit-config.yaml)"
           echo "ids=${hooks}" >> $GITHUB_OUTPUT
 
-  run-hook:
+  hook:
     runs-on: ubuntu-latest
+    name: "Hook: ${{ matrix.hook }}"
     needs: get-hooks
     strategy:
       fail-fast: false
