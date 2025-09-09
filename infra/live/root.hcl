@@ -6,7 +6,18 @@ locals {
     namespace = "frwrrd2q2s5i"
     bucket    = "jannis-assenheimer-home-tg-state"
   }
-  aws_secret_access_key = run_cmd("sh", "-c", "echo AAAAAAAAA $AWS_ACCESS_KEY_ID")
+}
+terraform {
+  extra_arguments "read_secrets" {
+    env_vars = yamldecode(run_cmd("--terragrunt-quiet", "op", "inject", "-i", "${get_repo_root()}/.env.yaml"))
+    commands = distinct(concat(
+      ["force-unlock", "state"],
+      get_terraform_commands_that_need_vars(),
+      get_terraform_commands_that_need_input(),
+      get_terraform_commands_that_need_locking(),
+      get_terraform_commands_that_need_parallelism(),
+    ))
+  }
 }
 
 remote_state {
