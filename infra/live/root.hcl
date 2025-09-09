@@ -7,6 +7,7 @@ locals {
     bucket    = "jannis-assenheimer-home-tg-state"
   }
 }
+
 terraform {
   extra_arguments "read_secrets" {
     env_vars = yamldecode(run_cmd("--terragrunt-quiet", "op", "inject", "-i", "${get_repo_root()}/.env.yaml"))
@@ -17,6 +18,16 @@ terraform {
       get_terraform_commands_that_need_locking(),
       get_terraform_commands_that_need_parallelism(),
     ))
+  }
+
+  before_hook "lock_providers" {
+    commands = ["init", "providers"]
+    execute = concat(["tofu", "providers", "lock"], formatlist("-platform=%s", [
+      "linux_amd64",
+      "linux_arm64",
+      "darwin_amd64",
+      "darwin_arm64",
+    ]))
   }
 }
 
