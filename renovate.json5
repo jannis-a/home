@@ -1,0 +1,68 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended",
+    // behaviour
+    ":disableRateLimiting",
+    ":prImmediately",
+    ":updateNotScheduled",
+    // versioning
+    ":autodetectPinVersions",
+    ":ignoreUnstable",
+    ":separateMajorReleases",
+    // grouping
+    "group:monorepos",
+    "group:recommended",
+    // auto-merge
+    ":automergeDigest",
+    ":automergeMinor",
+    ":automergePatch",
+    // misc
+    ":enablePreCommit",
+    ":gitSignOff",
+    ":semanticCommits",
+    "helpers:pinGitHubActionDigests",
+  ],
+  "automergeType": "pr",
+  "enabledManagers": [
+    "github-actions",
+    "pre-commit",
+    "terraform",
+    "terragrunt",
+  ],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "depNameTemplate": "opentofu/opentofu",
+      "datasourceTemplate": "github-releases",
+      "managerFilePatterns": ["/^\\.opentofu-version$/"],
+      "matchStrings": ["^(?<currentValue>.*)$"],
+    },
+    {
+      "customType": "regex",
+      "depNameTemplate": "python",
+      "datasourceTemplate": "python",
+      "managerFilePatterns": ["/^\\.python-version$"],
+      "matchStrings": ["^(?<currentValue>.*)$"],
+    },
+    {
+      "customType": "regex",
+      "depNameTemplate": "gruntwork-io/terragrunt",
+      "datasourceTemplate": "github-releases",
+      "managerFilePatterns": ["/^\\.terragrunt-version$/"],
+      "matchStrings": ["^(?<currentValue>.*)$"],
+    },
+  ],
+  "packageRules": [
+    {
+      "matchManagers": ["github-actions", "pre-commit"],
+      "semanticCommitScope": "ci",
+      "semanticCommitType": "chore",
+    },
+    {
+      "matchManagers": ["terraform", "terragrunt"],
+      "semanticCommitScope": "terraform",
+      "semanticCommitType": "feat",
+    },
+  ],
+}
