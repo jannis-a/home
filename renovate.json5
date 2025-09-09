@@ -15,7 +15,6 @@
     "group:recommended",
     // auto-merge
     ":automergeDigest",
-    ":automergeDisabled",
     ":automergeMinor",
     ":automergePatch",
     // misc
@@ -23,6 +22,7 @@
     ":gitSignOff",
     ":semanticCommits",
   ],
+  "automergeType": "pr",
   "enabledManagers": [
     "github-actions",
     "pre-commit",
