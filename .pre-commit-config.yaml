@@ -16,3 +16,8 @@ repos:
 
   - id: terragrunt_providers_lock
     files: ^infra/live/.*/
+    args:
+    - --args=-platform=darwin_arm64
+    - --args=-platform=darwin_amd64
+    - --args=-platform=linux_amd64
+    - --args=-platform=linux_arm64
