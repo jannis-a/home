@@ -21,6 +21,7 @@
     ":enablePreCommit",
     ":gitSignOff",
     ":semanticCommits",
+    "helpers:pinGitHubActionDigests",
   ],
   "automergeType": "pr",
   "enabledManagers": [
@@ -62,6 +63,6 @@
       "matchManagers": ["terraform", "terragrunt"],
       "semanticCommitScope": "terraform",
       "semanticCommitType": "feat",
-    }
+    },
   ],
 }
