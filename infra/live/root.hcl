@@ -6,12 +6,11 @@ locals {
     namespace = "frwrrd2q2s5i"
     bucket    = "jannis-assenheimer-home-tg-state"
   }
-  aws_access_key        = run_cmd("--terragrunt-quiet", "op", "read", "op://Homelab/OCI S3 Terragrunt/username")
-  aws_secret_access_key = run_cmd("--terragrunt-quiet", "op", "read", "op://Homelab/OCI S3 Terragrunt/password")
 }
 
 terraform {
-  extra_arguments "remote_backend_auth" {
+  extra_arguments "read_secrets" {
+    env_vars = yamldecode(run_cmd("--terragrunt-quiet", "op", "inject", "-i", "${get_repo_root()}/.env.yaml"))
     commands = distinct(concat(
       ["force-unlock", "state"],
       get_terraform_commands_that_need_vars(),
@@ -19,10 +18,6 @@ terraform {
       get_terraform_commands_that_need_locking(),
       get_terraform_commands_that_need_parallelism(),
     ))
-    env_vars = {
-      AWS_ACCESS_KEY_ID     = local.aws_access_key
-      AWS_SECRET_ACCESS_KEY = local.aws_secret_access_key
-    }
   }
 }
 
