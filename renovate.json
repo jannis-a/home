@@ -14,34 +14,22 @@
       "customType": "regex",
       "depNameTemplate": "opentofu/opentofu",
       "datasourceTemplate": "github-releases",
-      "managerFilePatterns": [
-        "/^\\.opentofu-version$/"
-      ],
-      "matchStrings": [
-        "^(?<currentValue>.*)$"
-      ]
+      "managerFilePatterns": ["/^\\.opentofu-version$/"],
+      "matchStrings": ["^(?<currentValue>.*)$"]
     },
     {
       "customType": "regex",
       "depNameTemplate": "python",
       "datasourceTemplate": "python",
-      "managerFilePatterns": [
-        "/^\\.python-version$"
-      ],
-      "matchStrings": [
-        "^(?<currentValue>.*)$"
-      ]
+      "managerFilePatterns": ["/^\\.python-version$"],
+      "matchStrings": ["^(?<currentValue>.*)$"]
     },
     {
       "customType": "regex",
       "depNameTemplate": "gruntwork-io/terragrunt",
       "datasourceTemplate": "github-releases",
-      "managerFilePatterns": [
-        "/^\\.terragrunt-version$/"
-      ],
-      "matchStrings": [
-        "^(?<currentValue>.*)$"
-      ]
+      "managerFilePatterns": ["/^\\.terragrunt-version$/"],
+      "matchStrings": ["^(?<currentValue>.*)$"]
     }
   ]
 }
