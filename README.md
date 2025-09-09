@@ -6,6 +6,7 @@ This repository contains my home lab setup.
 
 The following software is required to use this repository:
 - `1password-cli`
+- `direnv`
 - `opentofu`
 - `pre-commit`
 - `sops`
