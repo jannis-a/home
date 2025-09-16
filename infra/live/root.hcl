@@ -24,7 +24,7 @@ remote_state {
     use_lockfile = true
 
     # S3-compatible flags
-    use_path_style              = true
+    force_path_style            = true
     skip_credentials_validation = true
     skip_metadata_api_check     = true
     skip_region_validation      = true
