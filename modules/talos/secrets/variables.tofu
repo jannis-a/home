@@ -1,3 +1,0 @@
-variable "release" {
-  type = string
-}
