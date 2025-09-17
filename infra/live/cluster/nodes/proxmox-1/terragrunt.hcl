@@ -8,7 +8,7 @@ terraform {
 
 inputs = {
   node = "proxmox"
-  name = "talos"
+  name = "talos-1"
   cpu = {
     cores = 1
   }
