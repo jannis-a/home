@@ -78,6 +78,7 @@ resource "talos_machine_configuration_apply" "this" {
 }
 
 resource "talos_machine_bootstrap" "this" {
+  depends_on           = [talos_machine_configuration_apply.this]
   client_configuration = talos_machine_secrets.this.client_configuration
   node                 = local.ip_cp[0]
 }
