@@ -2,6 +2,10 @@ output "id" {
   value = proxmox_virtual_environment_vm.this.id
 }
 
+output "hostname" {
+  value = proxmox_virtual_environment_vm.this.name
+}
+
 output "ipv4" {
   value = [
     for ip in flatten(proxmox_virtual_environment_vm.this.ipv4_addresses) : ip
@@ -13,9 +17,8 @@ locals {
   ipv6 = {
     addresses = flatten(proxmox_virtual_environment_vm.this.ipv6_addresses)
     regex = {
-      link = "(?i)^fe[89ab][0-9a-f]:"
-      ula  = "^f(c|d)[0-9a-f]{2}:"
-      gua  = "^(2|3)[0-9a-f]{3}:"
+      ula = "^f(c|d)[0-9a-f]{2}:"
+      gua = "^(2|3)[0-9a-f]{3}:"
     }
   }
 }
