@@ -16,7 +16,7 @@ repos:
 
 # TODO: remove this after fixes have been merge to upstream
 - repo: https://github.com/jannis-a/pre-commit-terraform
-  rev: a8247f4d84b2242b04b9c6ae2b64c385f87f15d9
+  rev: aeb18a0035bd25bb3cd4198379736a90e9709f4a
   hooks:
   - id: terragrunt_providers_lock
     files: ^infra/live/.*/

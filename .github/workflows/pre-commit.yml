@@ -40,6 +40,8 @@ jobs:
           tg_version: ${{ steps.versions.outputs.terragrunt }}
           tofu_version: ${{ steps.versions.outputs.tofu }}
       - uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c # v6.0.0
+        with:
+          python-version-file: .python-version
       - uses: 1password/load-secrets-action/configure@13f58eec611f8e5db52ec16247f58c508398f3e6 # v3.0.0
         with:
           service-account-token: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
@@ -50,4 +52,4 @@ jobs:
           OP_ENV_FILE: op.env
       - uses: pre-commit/action@2c7b3805fd2a0fd8c1884dcaebf91fc102a13ecd # v3.0.1
         with:
-          extra_args: ${{ matrix.hook }} --all-files
+          extra_args: ${{ matrix.hook }}
