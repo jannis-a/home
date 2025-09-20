@@ -97,7 +97,15 @@ data "talos_machine_configuration" "this" {
           ]
         }
       }
-    })
+    }),
+    # CoreDNS
+    yamlencode({
+      cluster = {
+        coreDNS = {
+          disabled = true
+        }
+      }
+    }),
   ]
 }
 
