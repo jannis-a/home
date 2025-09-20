@@ -25,6 +25,7 @@ data "talos_machine_configuration" "this" {
   machine_type     = each.value.control_plane ? "controlplane" : "worker"
   machine_secrets  = talos_machine_secrets.this.machine_secrets
   config_patches = [
+    # Base
     yamlencode({
       machine = {
         install = {
@@ -70,6 +71,33 @@ data "talos_machine_configuration" "this" {
         allowSchedulingOnControlPlanes = true
       }
     }),
+    # Cilium
+    yamlencode({
+      machine = {
+        nodeTaints = {
+          "node.cilium.io/agent-not-ready" = "true:NoExecute"
+        }
+      }
+
+      cluster = {
+        proxy = {
+          disabled = true
+        }
+
+        network = {
+          cni = {
+            name = "none"
+          }
+
+          podSubnets = [
+            "10.244.0.0/16",
+          ]
+          serviceSubnets = [
+            "10.96.0.0/12",
+          ]
+        }
+      }
+    })
   ]
 }
 
