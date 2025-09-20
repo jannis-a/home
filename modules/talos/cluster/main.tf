@@ -60,12 +60,16 @@ data "talos_machine_configuration" "this" {
             forwardKubeDNSToHost = false
           }
         }
+
+        nodeLabels = {
+          site = "home"
+        }
       }
 
       cluster = {
         allowSchedulingOnControlPlanes = true
       }
-    })
+    }),
   ]
 }
 
