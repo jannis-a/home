@@ -2,6 +2,10 @@ include {
   path = find_in_parent_folders("root.hcl")
 }
 
+include "helm" {
+  path = find_in_parent_folders("helm.hcl")
+}
+
 include "kubernetes" {
   path = find_in_parent_folders("kubernetes.hcl")
 }
