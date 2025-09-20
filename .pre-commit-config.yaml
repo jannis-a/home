@@ -9,17 +9,17 @@ repos:
     files: ^infra/.*
 
   - id: terragrunt_validate
-    files: ^infra/live/.*/
+    files: ^infra/live/.*/terragrunt\.hcl$
 
   - id: terragrunt_validate_inputs
-    files: ^infra/live/.*/
+    files: ^infra/live/.*/terragrunt\.hcl$
 
 # TODO: remove this after fixes have been merge to upstream
 - repo: https://github.com/jannis-a/pre-commit-terraform
   rev: aeb18a0035bd25bb3cd4198379736a90e9709f4a
   hooks:
   - id: terragrunt_providers_lock
-    files: ^infra/live/.*/
+    files: ^infra/live/.*/terragrunt\.hcl$
     args:
       - --args=-platform=linux_amd64
       - --args=-platform=darwin_arm64
