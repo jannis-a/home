@@ -7,10 +7,6 @@ resource "helm_release" "this" {
 
   set = [
     {
-      name  = "isClusterService"
-      value = true
-    },
-    {
       name  = "replicaCount"
       value = 1
     },
@@ -21,6 +17,10 @@ resource "helm_release" "this" {
     {
       name  = "service.clusterIP"
       value = "10.96.0.10"
+    },
+    {
+      name  = "service.ipFamilyPolicy"
+      value = "RequireDualStack"
     },
   ]
 }
