@@ -4,6 +4,8 @@ resource "helm_release" "this" {
   version    = "1.18.2"
   namespace  = "kube-system"
   name       = "cilium"
+  wait       = true
+
   # language=yaml
   values = [
     <<-YAML
@@ -81,8 +83,10 @@ resource "helm_release" "this" {
   ]
 }
 
-resource "kubernetes_manifest" "pod_ip_pool" {
-  manifest = {
+resource "kubectl_manifest" "pod_ip_pool" {
+  depends_on = [helm_release.this]
+
+  yaml_body = yamlencode({
     apiVersion = "cilium.io/v2alpha1"
     kind       = "CiliumPodIPPool"
     metadata = {
@@ -101,11 +105,13 @@ resource "kubernetes_manifest" "pod_ip_pool" {
         cidrs    = ["2a02:8070:6480:32f1:0::/68"]
       }
     }
-  }
+  })
 }
 
-resource "kubernetes_manifest" "node_config" {
-  manifest = {
+resource "kubectl_manifest" "node_config" {
+  depends_on = [helm_release.this]
+
+  yaml_body = yamlencode({
     apiVersion = "cilium.io/v2"
     kind       = "CiliumNodeConfig"
     metadata = {
@@ -122,14 +128,16 @@ resource "kubernetes_manifest" "node_config" {
         }
       }
       defaults = {
-        ipam-default-ip-pool = kubernetes_manifest.pod_ip_pool.manifest.metadata.name
+        ipam-default-ip-pool = kubectl_manifest.pod_ip_pool.name
       }
     }
-  }
+  })
 }
 
-resource "kubernetes_manifest" "bgp_advertisement" {
-  manifest = {
+resource "kubectl_manifest" "bgp_advertisement" {
+  depends_on = [helm_release.this]
+
+  yaml_body = yamlencode({
     apiVersion = "cilium.io/v2"
     kind       = "CiliumBGPAdvertisement"
     metadata = {
@@ -165,11 +173,13 @@ resource "kubernetes_manifest" "bgp_advertisement" {
         },
       ]
     }
-  }
+  })
 }
 
-resource "kubernetes_manifest" "bgp_peer_config" {
-  manifest = {
+resource "kubectl_manifest" "bgp_peer_config" {
+  depends_on = [helm_release.this]
+
+  yaml_body = yamlencode({
     apiVersion = "cilium.io/v2"
     kind       = "CiliumBGPPeerConfig"
     metadata = {
@@ -186,11 +196,13 @@ resource "kubernetes_manifest" "bgp_peer_config" {
         }
       }]
     }
-  }
+  })
 }
 
-resource "kubernetes_manifest" "bgp_cluster_config" {
-  manifest = {
+resource "kubectl_manifest" "bgp_cluster_config" {
+  depends_on = [helm_release.this]
+
+  yaml_body = yamlencode({
     apiVersion = "cilium.io/v2"
     kind       = "CiliumBGPClusterConfig"
     metadata = {
@@ -211,7 +223,7 @@ resource "kubernetes_manifest" "bgp_cluster_config" {
             peerASN     = 64512
             peerAddress = "192.168.16.1"
             peerConfigRef = {
-              name = kubernetes_manifest.bgp_peer_config.manifest.metadata.name
+              name = kubectl_manifest.bgp_peer_config.name
             }
           },
           {
@@ -219,11 +231,11 @@ resource "kubernetes_manifest" "bgp_cluster_config" {
             peerASN     = 64512
             peerAddress = "fd11:99c6:9b95:10::1"
             peerConfigRef = {
-              name = kubernetes_manifest.bgp_peer_config.manifest.metadata.name
+              name = kubectl_manifest.bgp_peer_config.name
             }
           }
         ]
       }]
     }
-  }
+  })
 }

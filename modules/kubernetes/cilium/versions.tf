@@ -6,8 +6,8 @@ terraform {
       source  = "hashicorp/helm"
       version = "~> 3.0"
     }
-    kubernetes = {
-      source  = "hashicorp/kubernetes"
+    kubectl = {
+      source  = "alekc/kubectl"
       version = "~> 2.0"
     }
   }

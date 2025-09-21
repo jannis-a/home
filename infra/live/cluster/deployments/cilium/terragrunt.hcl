@@ -6,8 +6,8 @@ include "helm" {
   path = find_in_parent_folders("helm.hcl")
 }
 
-include "kubernetes" {
-  path = find_in_parent_folders("kubernetes.hcl")
+include "kubectl" {
+  path = find_in_parent_folders("kubectl.hcl")
 }
 
 terraform {
