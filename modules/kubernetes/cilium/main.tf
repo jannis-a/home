@@ -19,22 +19,19 @@ resource "helm_release" "this" {
 
       # No SNAT in Cilium; your OpenWrt does NAT44 to the Internet
       enableIPv4Masquerade: false
-      # Tell Cilium what's natively routable (no SNAT there)
-      ipv4NativeRoutingCIDR: "10.244.0.0/16"
+      enableIPv6Masquerade: false
 
-      # IPv4 only for now
       ipv4:
         enabled: true
       ipv6:
-        enabled: false
+        enabled: true
 
       # IPAM: simple (controller assigns per-node PodCIDR)
       ipam:
-        mode: "kubernetes"
+        mode: "multi-pool"
+
       bpf:
         lbExternalClusterIP: true
-      k8s:
-        requireIPv4PodCIDR: true
 
       bgpControlPlane:
         enabled: true
@@ -84,6 +81,53 @@ resource "helm_release" "this" {
   ]
 }
 
+resource "kubernetes_manifest" "pod_ip_pool" {
+  manifest = {
+    apiVersion = "cilium.io/v2alpha1"
+    kind       = "CiliumPodIPPool"
+    metadata = {
+      name = "home"
+      labels = {
+        site = "home"
+      }
+    }
+    spec = {
+      ipv4 = {
+        maskSize = 24
+        cidrs    = ["10.244.0.0/16"]
+      }
+      ipv6 = {
+        maskSize = 80
+        cidrs    = ["2a02:8070:6480:32f1:0::/68"]
+      }
+    }
+  }
+}
+
+resource "kubernetes_manifest" "node_config" {
+  manifest = {
+    apiVersion = "cilium.io/v2"
+    kind       = "CiliumNodeConfig"
+    metadata = {
+      name      = "home-defaults"
+      namespace = helm_release.this.namespace
+      labels = {
+        site = "home"
+      }
+    }
+    spec = {
+      nodeSelector = {
+        matchLabels = {
+          site = "home"
+        }
+      }
+      defaults = {
+        ipam-default-ip-pool = kubernetes_manifest.pod_ip_pool.manifest.metadata.name
+      }
+    }
+  }
+}
+
 resource "kubernetes_manifest" "bgp_advertisement" {
   manifest = {
     apiVersion = "cilium.io/v2"
@@ -97,7 +141,12 @@ resource "kubernetes_manifest" "bgp_advertisement" {
     spec = {
       advertisements = [
         {
-          advertisementType = "PodCIDR"
+          advertisementType = "CiliumPodIPPool"
+          selector = {
+            matchLabels = {
+              pool = "home"
+            }
+          }
         },
         {
           advertisementType = "Service"
@@ -127,8 +176,8 @@ resource "kubernetes_manifest" "bgp_peer_config" {
       name = "openwrt"
     }
     spec = {
-      families = [{
-        afi  = "ipv4"
+      families = [for version in [4, 6] : {
+        afi  = "ipv${version}"
         safi = "unicast"
         advertisements = {
           matchLabels = {
@@ -156,14 +205,24 @@ resource "kubernetes_manifest" "bgp_cluster_config" {
       bgpInstances = [{
         name     = "as-64513"
         localASN = 64513
-        peers = [{
-          name        = "openwrt"
-          peerASN     = 64512
-          peerAddress = "192.168.16.1"
-          peerConfigRef = {
-            name = kubernetes_manifest.bgp_peer_config.manifest.metadata.name
+        peers = [
+          {
+            name        = "openwrt-v4"
+            peerASN     = 64512
+            peerAddress = "192.168.16.1"
+            peerConfigRef = {
+              name = kubernetes_manifest.bgp_peer_config.manifest.metadata.name
+            }
+          },
+          {
+            name        = "openwrt-v6"
+            peerASN     = 64512
+            peerAddress = "fd11:99c6:9b95:10::1"
+            peerConfigRef = {
+              name = kubernetes_manifest.bgp_peer_config.manifest.metadata.name
+            }
           }
-        }]
+        ]
       }]
     }
   }

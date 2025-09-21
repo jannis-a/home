@@ -91,10 +91,19 @@ data "talos_machine_configuration" "this" {
 
           podSubnets = [
             "10.244.0.0/16",
+            "2a02:8070:6480:32f1:0::/68"
           ]
           serviceSubnets = [
             "10.96.0.0/12",
+            "2a02:8070:6480:32f1:1::/68"
           ]
+
+        }
+        controllerManager = {
+          extraArgs = {
+            node-cidr-mask-size-ipv4 = 24
+            node-cidr-mask-size-ipv6 = 80
+          }
         }
       }
     }),
@@ -128,14 +137,14 @@ locals {
 }
 
 # noinspection TfUnusedElements
-data "talos_cluster_health" "this" {
-  depends_on = [talos_machine_bootstrap.this]
-
-  skip_kubernetes_checks = true
-  client_configuration   = talos_machine_secrets.this.client_configuration
-  endpoints              = local.ipv4_cp
-  control_plane_nodes    = local.ipv4_cp
-}
+# data "talos_cluster_health" "this" {
+#   depends_on = [talos_machine_bootstrap.this]
+#
+#   skip_kubernetes_checks = true
+#   client_configuration   = talos_machine_secrets.this.client_configuration
+#   endpoints              = local.ipv4_cp
+#   control_plane_nodes    = local.ipv4_cp
+# }
 
 resource "local_file" "talos_config" {
   content  = data.talos_client_configuration.this.talos_config
