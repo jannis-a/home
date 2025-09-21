@@ -23,4 +23,9 @@ resource "helm_release" "this" {
       value = "RequireDualStack"
     },
   ]
+
+  set_list = [{
+    name  = "service.clusterIPs"
+    value = ["10.96.0.10", "fd11:99c6:9b95:ffff::a"]
+  }]
 }
