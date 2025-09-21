@@ -152,7 +152,7 @@ resource "kubectl_manifest" "bgp_advertisement" {
           advertisementType = "CiliumPodIPPool"
           selector = {
             matchLabels = {
-              pool = "home"
+              site = "home"
             }
           }
         },
