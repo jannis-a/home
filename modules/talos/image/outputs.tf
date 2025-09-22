@@ -13,3 +13,7 @@ output "kernel" {
 output "kernel_command_line" {
   value = data.talos_image_factory_urls.this.urls.kernel_command_line
 }
+
+output "installer" {
+  value = data.talos_image_factory_urls.this.urls.installer
+}

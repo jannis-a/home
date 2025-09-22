@@ -22,12 +22,10 @@ variable "virtual_ip" {
   default = "192.168.16.10"
 }
 
-variable "platform" {
-  type    = string
-  default = "metal"
+variable "installer" {
+  type = string
 }
 
-variable "schema_id" {
-  type    = string
-  default = "dc9cbcdee581eba1a3cb3f6ca711e94be0426e3fa9a90ae105cfc4d9f5c0ace1"
+variable "service_subnets" {
+  type = list(string)
 }

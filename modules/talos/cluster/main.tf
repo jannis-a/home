@@ -5,6 +5,8 @@ resource "talos_machine_secrets" "this" {
 locals {
   ip_cp    = flatten([for n in var.nodes : n.ip_addresses if n.control_plane])
   ip_nodes = flatten([for n in var.nodes : n.ip_addresses])
+
+  cluster_dns = [for cidr in var.service_subnets : cidrhost(cidr, 10)]
 }
 
 data "talos_client_configuration" "this" {
@@ -25,10 +27,11 @@ data "talos_machine_configuration" "this" {
   machine_type     = each.value.control_plane ? "controlplane" : "worker"
   machine_secrets  = talos_machine_secrets.this.machine_secrets
   config_patches = [
+    # Base
     yamlencode({
       machine = {
         install = {
-          image = "factory.talos.dev/${var.platform}-installer/${var.schema_id}:v${var.talos_version}"
+          image = var.installer
         }
 
         network = {
@@ -60,12 +63,61 @@ data "talos_machine_configuration" "this" {
             forwardKubeDNSToHost = false
           }
         }
+
+        nodeLabels = {
+          site = "home"
+        }
       }
 
       cluster = {
         allowSchedulingOnControlPlanes = true
       }
-    })
+    }),
+
+    # Cilium
+    yamlencode({
+      machine = {
+        nodeTaints = {
+          "node.cilium.io/agent-not-ready" = "true:NoExecute"
+        }
+      }
+
+      cluster = {
+        proxy = {
+          disabled = true
+        }
+
+        network = {
+          cni = {
+            name = "none"
+          }
+
+          podSubnets     = []
+          serviceSubnets = var.service_subnets
+
+        }
+        controllerManager = {
+          extraArgs = {
+            allocate-node-cidrs = false
+          }
+        }
+      }
+    }),
+
+    # CoreDNS
+    yamlencode({
+      machine = {
+        kubelet = {
+          clusterDNS = local.cluster_dns
+        }
+      }
+
+      cluster = {
+        coreDNS = {
+          disabled = true
+        }
+      }
+    }),
   ]
 }
 
