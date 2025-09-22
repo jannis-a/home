@@ -6,6 +6,10 @@ terraform {
   source = "${get_repo_root()}/modules/talos/cluster"
 }
 
+dependency "image" {
+  config_path = "${get_terragrunt_dir()}/../image"
+}
+
 dependency "proxmox_1" {
   config_path = "${get_terragrunt_dir()}/../../nodes/proxmox-1"
 }
@@ -14,6 +18,7 @@ inputs = {
   cluster_name       = "knecht"
   talos_version      = "1.11.1"
   kubernetes_version = "1.34.1"
+  installer          = dependency.image.outputs.installer
   nodes = {
     (dependency.proxmox_1.outputs.hostname) = {
       control_plane = true

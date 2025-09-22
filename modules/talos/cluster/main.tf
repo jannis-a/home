@@ -29,7 +29,7 @@ data "talos_machine_configuration" "this" {
     yamlencode({
       machine = {
         install = {
-          image = "factory.talos.dev/${var.platform}-installer/${var.schema_id}:v${var.talos_version}"
+          image = var.installer
         }
 
         network = {
