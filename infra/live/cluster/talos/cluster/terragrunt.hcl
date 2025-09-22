@@ -7,7 +7,7 @@ terraform {
 }
 
 dependency "proxmox_1" {
-  config_path = "${get_terragrunt_dir()}/../nodes/proxmox-1"
+  config_path = "${get_terragrunt_dir()}/../../nodes/proxmox-1"
 }
 
 inputs = {
