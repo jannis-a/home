@@ -1,5 +1,5 @@
 dependency "talos" {
-  config_path = "${get_parent_terragrunt_dir("helm")}/../talos"
+  config_path = "${get_parent_terragrunt_dir("helm")}/../talos/cluster"
 }
 
 generate "provide-helm" {

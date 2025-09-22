@@ -5,6 +5,8 @@ resource "talos_machine_secrets" "this" {
 locals {
   ip_cp    = flatten([for n in var.nodes : n.ip_addresses if n.control_plane])
   ip_nodes = flatten([for n in var.nodes : n.ip_addresses])
+
+  cluster_dns = [for cidr in var.service_subnets : cidrhost(cidr, 10)]
 }
 
 data "talos_client_configuration" "this" {
@@ -104,6 +106,12 @@ data "talos_machine_configuration" "this" {
 
     # CoreDNS
     yamlencode({
+      machine = {
+        kubelet = {
+          clusterDNS = local.cluster_dns
+        }
+      }
+
       cluster = {
         coreDNS = {
           disabled = true

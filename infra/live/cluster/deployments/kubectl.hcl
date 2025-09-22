@@ -1,5 +1,5 @@
 dependency "talos" {
-  config_path = "${get_parent_terragrunt_dir("kubectl")}/../talos"
+  config_path = "${get_parent_terragrunt_dir("kubectl")}/../talos/cluster"
 }
 
 generate "provider-kubectl" {

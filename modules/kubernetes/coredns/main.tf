@@ -16,7 +16,7 @@ resource "helm_release" "this" {
     },
     {
       name  = "service.clusterIP"
-      value = "10.96.0.10"
+      value = var.service_ips[0]
     },
     {
       name  = "service.ipFamilyPolicy"
@@ -26,6 +26,6 @@ resource "helm_release" "this" {
 
   set_list = [{
     name  = "service.clusterIPs"
-    value = ["10.96.0.10", "fd11:99c6:9b95:ffff::a"]
+    value = var.service_ips
   }]
 }

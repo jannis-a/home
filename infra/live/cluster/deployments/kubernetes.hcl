@@ -1,5 +1,5 @@
 dependency "talos" {
-  config_path = "${get_parent_terragrunt_dir("kubernetes")}/../talos"
+  config_path = "${get_parent_terragrunt_dir("kubernetes")}/../talos/cluster"
 }
 
 generate "provider-kubernetes" {
