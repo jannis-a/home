@@ -6,7 +6,6 @@ include "helm" {
   path = find_in_parent_folders("helm.hcl")
 }
 
-
 dependency "talos" {
   config_path = "${get_terragrunt_dir()}/../../talos/cluster"
 }

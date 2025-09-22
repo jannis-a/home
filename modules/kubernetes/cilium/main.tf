@@ -97,12 +97,12 @@ resource "kubectl_manifest" "pod_ip_pool" {
     }
     spec = {
       ipv4 = {
-        maskSize = 24
-        cidrs    = ["10.244.0.0/16"]
+        maskSize = var.pod_subnets.v4.mask
+        cidrs    = [var.pod_subnets.v4.cidr]
       }
       ipv6 = {
-        maskSize = 80
-        cidrs    = ["2a02:8070:6480:32f1:0::/68"]
+        maskSize = var.pod_subnets.v6.mask
+        cidrs    = [var.pod_subnets.v6.cidr]
       }
     }
   })
@@ -178,16 +178,17 @@ resource "kubectl_manifest" "bgp_advertisement" {
 
 resource "kubectl_manifest" "bgp_peer_config" {
   depends_on = [helm_release.this]
+  for_each   = var.bgp.peers
 
   yaml_body = yamlencode({
     apiVersion = "cilium.io/v2"
     kind       = "CiliumBGPPeerConfig"
     metadata = {
-      name = "openwrt"
+      name = "${var.bgp.name}-${each.key}"
     }
     spec = {
-      families = [for version in [4, 6] : {
-        afi  = "ipv${version}"
+      families = [{
+        afi  = "ip${each.key}"
         safi = "unicast"
         advertisements = {
           matchLabels = {
@@ -217,24 +218,14 @@ resource "kubectl_manifest" "bgp_cluster_config" {
       bgpInstances = [{
         name     = "as-64513"
         localASN = 64513
-        peers = [
-          {
-            name        = "openwrt-v4"
-            peerASN     = 64512
-            peerAddress = "192.168.16.1"
-            peerConfigRef = {
-              name = kubectl_manifest.bgp_peer_config.name
-            }
-          },
-          {
-            name        = "openwrt-v6"
-            peerASN     = 64512
-            peerAddress = "fd11:99c6:9b95:10::1"
-            peerConfigRef = {
-              name = kubectl_manifest.bgp_peer_config.name
-            }
+        peers = [for protocol, address in var.bgp.peers : {
+          name        = "${var.bgp.name}-${protocol}"
+          peerASN     = var.bgp.asn
+          peerAddress = address
+          peerConfigRef = {
+            name = kubectl_manifest.bgp_peer_config[protocol].name
           }
-        ]
+        }]
       }]
     }
   })
