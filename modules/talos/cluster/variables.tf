@@ -25,3 +25,7 @@ variable "virtual_ip" {
 variable "installer" {
   type = string
 }
+
+variable "service_subnets" {
+  type = list(string)
+}

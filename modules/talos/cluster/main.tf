@@ -90,11 +90,8 @@ data "talos_machine_configuration" "this" {
             name = "none"
           }
 
-          podSubnets = []
-          serviceSubnets = [
-            "10.96.0.0/12",
-            "fd11:99c6:9b95:ffff::/112", # TODO: change this?
-          ]
+          podSubnets     = []
+          serviceSubnets = var.service_subnets
 
         }
         controllerManager = {
