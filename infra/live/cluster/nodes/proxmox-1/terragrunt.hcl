@@ -10,11 +10,11 @@ inputs = {
   node = "proxmox"
   name = "talos-1"
   cpu = {
-    cores = 1
+    cores = 16
   }
   memory = {
-    floating  = 0
-    dedicated = 2048
+    floating  = 16384
+    dedicated = 16384
   }
   network = {
     device = "vmbr0"
