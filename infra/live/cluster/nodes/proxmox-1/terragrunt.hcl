@@ -17,7 +17,8 @@ inputs = {
     dedicated = 2048
   }
   network = {
-    vlan = 16
+    device = "vmbr0"
+    vlan   = 16
   }
   disk = {
     size = 32
