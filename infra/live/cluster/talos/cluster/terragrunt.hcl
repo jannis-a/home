@@ -18,12 +18,12 @@ terraform {
   source = "${get_repo_root()}/modules/talos/cluster"
 }
 
-dependency "image" {
-  config_path = "${get_terragrunt_dir()}/../image"
+dependencies {
+  paths = ["../../nodes/proxmox"]
 }
 
-dependency "proxmox_1" {
-  config_path = "${get_terragrunt_dir()}/../../nodes/proxmox-1"
+dependency "image" {
+  config_path = "${get_terragrunt_dir()}/../image"
 }
 
 inputs = {
@@ -33,14 +33,12 @@ inputs = {
   installer          = dependency.image.outputs.installer
   service_subnets    = include.cluster.locals.service_subnets
   nodes = {
-    (dependency.proxmox_1.outputs.hostname) = {
+    talos = {
       control_plane = true
-      ip_addresses = concat(
-        dependency.proxmox_1.outputs.ipv4,
-        flatten(values(dependency.proxmox_1.outputs.ipv6)),
-      )
-      dns = include.network.locals.dns
-      ntp = include.network.locals.ntp
+      kubelet_subnets = [
+        include.network.locals.subnets.v4,
+        include.network.locals.subnets.v6_ula,
+      ]
     }
   }
 }

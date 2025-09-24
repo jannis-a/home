@@ -12,16 +12,9 @@ variable "kubernetes_version" {
 
 variable "nodes" {
   type = map(object({
-    ip_addresses  = list(string)
-    control_plane = optional(bool, true)
-    dns           = list(string)
-    ntp           = list(string)
+    control_plane   = bool
+    kubelet_subnets = list(string)
   }))
-}
-
-variable "virtual_ip" {
-  type    = string
-  default = "192.168.16.10"
 }
 
 variable "installer" {
