@@ -2,6 +2,12 @@ include {
   path = find_in_parent_folders("root.hcl")
 }
 
+include "network" {
+  path           = find_in_parent_folders("network.hcl")
+  expose         = true
+  merge_strategy = "deep"
+}
+
 include "cluster" {
   path           = find_in_parent_folders("cluster.hcl")
   expose         = true
@@ -33,6 +39,8 @@ inputs = {
         dependency.proxmox_1.outputs.ipv4,
         flatten(values(dependency.proxmox_1.outputs.ipv6)),
       )
+      dns = include.network.locals.dns
+      ntp = include.network.locals.ntp
     }
   }
 }

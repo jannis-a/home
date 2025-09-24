@@ -14,6 +14,8 @@ variable "nodes" {
   type = map(object({
     ip_addresses  = list(string)
     control_plane = optional(bool, true)
+    dns           = list(string)
+    ntp           = list(string)
   }))
 }
 

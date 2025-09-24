@@ -46,6 +46,12 @@ data "talos_machine_configuration" "this" {
               ip = var.virtual_ip
             }
           }]
+
+          nameservers = each.value.dns
+        }
+
+        time = {
+          servers = each.value.ntp
         }
 
         kubelet = {
