@@ -2,6 +2,12 @@ include {
   path = find_in_parent_folders("root.hcl")
 }
 
+include "network" {
+  path           = find_in_parent_folders("network.hcl")
+  expose         = true
+  merge_strategy = "deep"
+}
+
 include "cluster" {
   path           = find_in_parent_folders("cluster.hcl")
   expose         = true
@@ -12,27 +18,27 @@ terraform {
   source = "${get_repo_root()}/modules/talos/cluster"
 }
 
+dependencies {
+  paths = ["../../nodes/proxmox"]
+}
+
 dependency "image" {
   config_path = "${get_terragrunt_dir()}/../image"
 }
 
-dependency "proxmox_1" {
-  config_path = "${get_terragrunt_dir()}/../../nodes/proxmox-1"
-}
-
 inputs = {
-  cluster_name       = "knecht"
-  talos_version      = include.cluster.locals.talos_version
-  kubernetes_version = "1.34.1"
-  installer          = dependency.image.outputs.installer
-  service_subnets    = include.cluster.locals.service_subnets
+  cluster_name    = "knecht"
+  service_subnets = include.cluster.locals.service_subnets
   nodes = {
-    (dependency.proxmox_1.outputs.hostname) = {
-      control_plane = true
-      ip_addresses = concat(
-        dependency.proxmox_1.outputs.ipv4,
-        flatten(values(dependency.proxmox_1.outputs.ipv6)),
-      )
+    talos = {
+      control_plane      = true
+      talos_version      = dependency.image.outputs.version
+      talos_installer    = dependency.image.outputs.installer
+      kubernetes_version = "1.34.1"
+      kubelet_subnets = [
+        include.network.locals.subnets.v4,
+        include.network.locals.subnets.v6_ula,
+      ]
     }
   }
 }

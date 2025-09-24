@@ -83,14 +83,20 @@ resource "helm_release" "this" {
   ]
 }
 
-resource "kubectl_manifest" "pod_ip_pool" {
+resource "time_sleep" "crd_creation" {
   depends_on = [helm_release.this]
+
+  create_duration = "20s"
+}
+
+resource "kubectl_manifest" "pod_ip_pool" {
+  depends_on = [time_sleep.crd_creation]
 
   yaml_body = yamlencode({
     apiVersion = "cilium.io/v2alpha1"
     kind       = "CiliumPodIPPool"
     metadata = {
-      name = "home"
+      name = "default"
       labels = {
         site = "home"
       }
@@ -109,13 +115,13 @@ resource "kubectl_manifest" "pod_ip_pool" {
 }
 
 resource "kubectl_manifest" "node_config" {
-  depends_on = [helm_release.this]
+  depends_on = [time_sleep.crd_creation]
 
   yaml_body = yamlencode({
     apiVersion = "cilium.io/v2"
     kind       = "CiliumNodeConfig"
     metadata = {
-      name      = "home-defaults"
+      name      = "home"
       namespace = helm_release.this.namespace
       labels = {
         site = "home"
@@ -135,7 +141,7 @@ resource "kubectl_manifest" "node_config" {
 }
 
 resource "kubectl_manifest" "bgp_advertisement" {
-  depends_on = [helm_release.this]
+  depends_on = [time_sleep.crd_creation]
 
   yaml_body = yamlencode({
     apiVersion = "cilium.io/v2"
@@ -177,7 +183,7 @@ resource "kubectl_manifest" "bgp_advertisement" {
 }
 
 resource "kubectl_manifest" "bgp_peer_config" {
-  depends_on = [helm_release.this]
+  depends_on = [time_sleep.crd_creation]
   for_each   = var.bgp.peers
 
   yaml_body = yamlencode({
@@ -201,7 +207,7 @@ resource "kubectl_manifest" "bgp_peer_config" {
 }
 
 resource "kubectl_manifest" "bgp_cluster_config" {
-  depends_on = [helm_release.this]
+  depends_on = [time_sleep.crd_creation]
 
   yaml_body = yamlencode({
     apiVersion = "cilium.io/v2"

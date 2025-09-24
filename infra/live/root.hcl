@@ -18,7 +18,7 @@ remote_state {
     region   = local.oci.region
     bucket   = local.oci.bucket
     endpoint = "https://${local.oci.namespace}.compat.objectstorage.${local.oci.region}.oraclecloud.com"
-    key      = "${basename(get_parent_terragrunt_dir())}/${path_relative_to_include()}/tofu.tfstate"
+    key      = "${path_relative_to_include()}/tfstate.json"
 
     encrypt      = true
     use_lockfile = true

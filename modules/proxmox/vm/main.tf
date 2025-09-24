@@ -29,9 +29,10 @@ resource "proxmox_virtual_environment_vm" "this" {
   }
 
   network_device {
-    bridge   = "vmbr0"
-    vlan_id  = var.network.vlan
-    firewall = var.network.firewall
+    bridge      = var.network.device
+    mac_address = var.network.mac
+    vlan_id     = var.network.vlan
+    firewall    = var.network.firewall
   }
 
   efi_disk {

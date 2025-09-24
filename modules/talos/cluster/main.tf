@@ -1,29 +1,24 @@
-resource "talos_machine_secrets" "this" {
-  talos_version = var.talos_version
-}
+resource "talos_machine_secrets" "this" {}
 
 locals {
-  ip_cp    = flatten([for n in var.nodes : n.ip_addresses if n.control_plane])
-  ip_nodes = flatten([for n in var.nodes : n.ip_addresses])
-
   cluster_dns = [for cidr in var.service_subnets : cidrhost(cidr, 10)]
 }
 
 data "talos_client_configuration" "this" {
   cluster_name         = var.cluster_name
   client_configuration = talos_machine_secrets.this.client_configuration
-  endpoints            = local.ip_cp
-  nodes                = local.ip_nodes
+  endpoints            = [for name, conf in var.nodes : name if conf.control_plane]
+  nodes                = keys(var.nodes)
 }
 
 data "talos_machine_configuration" "this" {
   for_each = var.nodes
 
-  kubernetes_version = var.kubernetes_version
-  talos_version      = var.talos_version
   cluster_name       = var.cluster_name
+  talos_version      = each.value.talos_version
+  kubernetes_version = each.value.kubernetes_version
 
-  cluster_endpoint = "https://${var.virtual_ip}:6443"
+  cluster_endpoint = "https://${data.talos_client_configuration.this.endpoints[0]}:6443"
   machine_type     = each.value.control_plane ? "controlplane" : "worker"
   machine_secrets  = talos_machine_secrets.this.machine_secrets
   config_patches = [
@@ -31,29 +26,16 @@ data "talos_machine_configuration" "this" {
     yamlencode({
       machine = {
         install = {
-          image = var.installer
+          image = each.value.talos_installer
         }
 
         network = {
           hostname = each.key
-
-          interfaces = [{
-            deviceSelector = {
-              physical = true
-            }
-            dhcp = true
-            vip = {
-              ip = var.virtual_ip
-            }
-          }]
         }
 
         kubelet = {
           nodeIP = {
-            validSubnets = [for ip in each.value.ip_addresses : (strcontains(ip, ".")
-              ? format("%s.0/24", join(".", slice(split(".", ip), 0, 3)))
-              : format("%s::/64", join(":", slice(split(":", ip), 0, 4)))
-            )]
+            validSubnets = each.value.kubelet_subnets
           }
         }
 
@@ -122,21 +104,22 @@ data "talos_machine_configuration" "this" {
 }
 
 resource "talos_machine_configuration_apply" "this" {
-  for_each = var.nodes
+  for_each = data.talos_machine_configuration.this
 
-  node                        = each.value.ip_addresses[0]
+  node                        = each.key
   client_configuration        = talos_machine_secrets.this.client_configuration
-  machine_configuration_input = data.talos_machine_configuration.this[each.key].machine_configuration
+  machine_configuration_input = each.value.machine_configuration
 }
 
 resource "talos_machine_bootstrap" "this" {
   depends_on           = [talos_machine_configuration_apply.this]
   client_configuration = talos_machine_secrets.this.client_configuration
-  node                 = local.ip_cp[0]
+  node                 = data.talos_client_configuration.this.endpoints[0]
 }
 
-locals {
-  ipv4_cp = [for ip in local.ip_cp : ip if strcontains(ip, ".")]
+data "dns_a_record_set" "endpoints" {
+  for_each = toset(data.talos_client_configuration.this.endpoints)
+  host     = each.key
 }
 
 # noinspection TfUnusedElements
@@ -145,8 +128,8 @@ data "talos_cluster_health" "this" {
 
   skip_kubernetes_checks = true
   client_configuration   = talos_machine_secrets.this.client_configuration
-  endpoints              = local.ipv4_cp
-  control_plane_nodes    = local.ipv4_cp
+  endpoints              = data.talos_client_configuration.this.endpoints
+  control_plane_nodes    = [for e in data.dns_a_record_set.endpoints : one(e.addrs)]
 }
 
 resource "local_file" "talos_config" {
@@ -160,7 +143,7 @@ resource "local_file" "talos_config" {
 resource "talos_cluster_kubeconfig" "this" {
   depends_on = [talos_machine_bootstrap.this]
 
-  node                 = flatten([for n in var.nodes : n.ip_addresses if n.control_plane])[0]
+  node                 = talos_machine_bootstrap.this.node
   client_configuration = talos_machine_secrets.this.client_configuration
 }
 
