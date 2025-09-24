@@ -1,3 +1,7 @@
+output "version" {
+  value = data.talos_image_factory_urls.this.talos_version
+}
+
 output "schematic_id" {
   value = talos_image_factory_schematic.this.id
 }

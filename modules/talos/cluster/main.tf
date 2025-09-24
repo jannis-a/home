@@ -14,9 +14,9 @@ data "talos_client_configuration" "this" {
 data "talos_machine_configuration" "this" {
   for_each = var.nodes
 
-  kubernetes_version = var.kubernetes_version
-  talos_version      = var.talos_version
   cluster_name       = var.cluster_name
+  talos_version      = each.value.talos_version
+  kubernetes_version = each.value.kubernetes_version
 
   cluster_endpoint = "https://${data.talos_client_configuration.this.endpoints[0]}:6443"
   machine_type     = each.value.control_plane ? "controlplane" : "worker"
@@ -26,7 +26,7 @@ data "talos_machine_configuration" "this" {
     yamlencode({
       machine = {
         install = {
-          image = var.installer
+          image = each.value.talos_installer
         }
 
         network = {
