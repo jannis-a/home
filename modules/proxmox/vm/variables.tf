@@ -32,6 +32,7 @@ variable "disk" {
 variable "network" {
   type = object({
     device   = string
+    mac      = string
     vlan     = number
     firewall = optional(bool, true)
   })

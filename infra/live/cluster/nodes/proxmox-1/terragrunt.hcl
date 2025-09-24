@@ -18,6 +18,7 @@ inputs = {
   }
   network = {
     device = "vmbr0"
+    mac    = "BC:24:11:44:8F:D9"
     vlan   = 16
   }
   disk = {
