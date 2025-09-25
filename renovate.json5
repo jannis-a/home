@@ -19,11 +19,16 @@
   ],
   automergeType: 'pr',
   enabledManagers: [
+    "flux",
     'github-actions',
+    "kubernetes",
     'pre-commit',
     'terraform',
     'terragrunt',
   ],
+  flux: {
+    "managerFilePatterns": ["/deploy/.+\\.ya?ml$/"]
+  },
   customManagers: [
     {
       customType: 'regex',
