@@ -8,6 +8,10 @@ include "cluster" {
   merge_strategy = "deep"
 }
 
+include "kubernetes" {
+  path = find_in_parent_folders("kubernetes.hcl")
+}
+
 dependency "talos" {
   config_path = "${get_terragrunt_dir()}/../../talos/cluster"
 }

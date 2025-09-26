@@ -2,18 +2,18 @@ include {
   path = find_in_parent_folders("root.hcl")
 }
 
-include "helm" {
-  path = find_in_parent_folders("helm.hcl")
-}
-
-include "kubectl" {
-  path = find_in_parent_folders("kubectl.hcl")
-}
-
 include "cluster" {
   path           = find_in_parent_folders("cluster.hcl")
   expose         = true
   merge_strategy = "deep"
+}
+
+include "helm" {
+  path = find_in_parent_folders("helm.hcl")
+}
+
+include "kubernetes" {
+  path = find_in_parent_folders("kubernetes.hcl")
 }
 
 terraform {
@@ -21,6 +21,7 @@ terraform {
 }
 
 inputs = {
-  pod_subnets = include.cluster.locals.pod_subnets
+  deploy_path = include.cluster.locals.flux_repo_path
+  ip_pools    = include.cluster.locals.ip_pools
   bgp         = include.cluster.locals.bgp
 }

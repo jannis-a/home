@@ -1,0 +1,18 @@
+%{~ for name, pool in ip_pools ~}
+apiVersion: cilium.io/v2alpha1
+kind: CiliumPodIPPool
+metadata:
+  name: ${name}
+  labels:
+    site: ${name}
+spec:
+  ipv4:
+    cidrs:
+    - ${pool.v4.cidr}
+    maskSize: ${pool.v4.mask}
+  ipv6:
+    cidrs:
+    - ${pool.v6.cidr}
+    maskSize: ${pool.v6.mask}
+---
+%{~ endfor ~}
