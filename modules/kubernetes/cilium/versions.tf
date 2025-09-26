@@ -6,12 +6,8 @@ terraform {
       source  = "hashicorp/helm"
       version = "~> 3.0"
     }
-    time = {
-      source  = "hashicorp/time"
-      version = "~> 0.13"
-    }
-    kubectl = {
-      source  = "alekc/kubectl"
+    kubernetes = {
+      source  = "hashicorp/kubernetes"
       version = "~> 2.0"
     }
   }

@@ -1,0 +1,84 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: cilium
+  namespace: kube-system
+spec:
+  interval: 10m
+  chart:
+    spec:
+      chart: cilium
+      version: 1.18.2
+      sourceRef:
+        kind: HelmRepository
+        name: cilium
+      interval: 30m
+  values:
+    rollOutCiliumPods: true
+
+    k8sServiceHost: localhost
+    k8sServicePort: 7445
+    kubeProxyReplacement: true
+
+    routingMode: native
+    autoDirectNodeRoutes: true
+    enableIPv4Masquerade: false
+    enableIPv6Masquerade: false
+
+    ipv4:
+      enabled: true
+    ipv6:
+      enabled: true
+
+    ipam:
+      mode: multi-pool
+
+    bpf:
+      lbExternalClusterIP: true
+
+    bgpControlPlane:
+      enabled: true
+
+    hubble:
+      relay:
+        enabled: true
+      ui:
+        enabled: true
+
+    # TODO: install Gateway API
+    #gatewayAPI:
+    #  enabled: true
+    #  enableAlpn: true
+    #  enableAppProtocol: true
+
+    operator:
+      replicas: 1
+      rollOutPods: true
+
+    envoy:
+      rollOutPods: true
+
+    cgroup:
+      hostRoot: /sys/fs/cgroup
+      autoMount:
+        enabled: false
+
+    securityContext:
+      capabilities:
+        ciliumAgent:
+        - CHOWN
+        - DAC_OVERRIDE
+        - FOWNER
+        - IPC_LOCK
+        - KILL
+        - NET_ADMIN
+        - NET_RAW
+        - SETGID
+        - SETUID
+        - SYS_ADMIN
+        - SYS_RESOURCE
+        cleanCiliumState:
+        - NET_ADMIN
+        - SYS_ADMIN
+        - SYS_RESOURCE
+

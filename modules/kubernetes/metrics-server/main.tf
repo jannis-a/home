@@ -13,8 +13,10 @@ resource "local_file" "flux" {
   directory_permission = "0755"
   file_permission      = "0644"
   content = templatefile("flux/${each.key}", {
-    chart_version = data.helm_template.this.version
-    name          = var.name
-    namespace     = var.namespace
+    chart_repository = data.helm_template.this.repository
+    chart_name       = data.helm_template.this.chart
+    chart_version    = data.helm_template.this.version
+    name             = var.name
+    namespace        = var.namespace
   })
 }

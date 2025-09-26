@@ -1,0 +1,24 @@
+%{ for name, config in bgp ~}
+apiVersion: cilium.io/v2
+kind: CiliumBGPClusterConfig
+metadata:
+  name: ${name}
+  labels:
+    site: ${config.site}
+spec:
+  nodeSelector:
+    matchLabels:
+      site: ${config.site}
+  bgpInstances:
+  - localASN: 64513
+    name: ${config.site}
+    peers:
+    %{~ for protocol, address in config.peers ~}
+    - name: ${name}-${protocol}
+      peerASN: ${config.asn}
+      peerAddress: ${address}
+      peerConfigRef:
+        name: ${name}-${protocol}
+    %{~ endfor ~}
+---
+%{ endfor ~}
