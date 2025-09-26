@@ -5,4 +5,4 @@ metadata:
   namespace: ${namespace}
 spec:
   interval: 30m
-  url: https://kubernetes-sigs.github.io/metrics-server
+  url: ${chart_repository}
