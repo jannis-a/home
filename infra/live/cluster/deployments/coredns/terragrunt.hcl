@@ -2,12 +2,14 @@ include {
   path = find_in_parent_folders("root.hcl")
 }
 
-include "helm" {
-  path = find_in_parent_folders("helm.hcl")
+include "cluster" {
+  path           = find_in_parent_folders("cluster.hcl")
+  expose         = true
+  merge_strategy = "deep"
 }
 
-dependency "flux" {
-  config_path = "${get_terragrunt_dir()}/../flux"
+include "helm" {
+  path = find_in_parent_folders("helm.hcl")
 }
 
 dependency "talos" {
@@ -19,6 +21,6 @@ terraform {
 }
 
 inputs = {
-  deploy_path = "${get_repo_root()}/${dependency.flux.outputs.deploy_path}"
+  deploy_path = include.cluster.locals.flux_repo_path
   service_ips = dependency.talos.outputs.cluster_dns
 }

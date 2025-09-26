@@ -24,4 +24,7 @@ locals {
       v6 = "fd11:99c6:9b95:10::1"
     }
   }
+
+  flux_path      = "deploy"
+  flux_repo_path = "${get_repo_root()}/${local.flux_path}"
 }

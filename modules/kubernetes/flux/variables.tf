@@ -3,8 +3,7 @@ variable "repository" {
 }
 
 variable "path" {
-  type    = string
-  default = "deploy"
+  type = string
 }
 
 variable "key_name" {
