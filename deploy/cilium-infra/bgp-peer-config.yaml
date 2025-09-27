@@ -25,4 +25,3 @@ spec:
         bgp-advertise: home
     afi: ipv6
     safi: unicast
----

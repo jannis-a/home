@@ -1,7 +1,7 @@
 apiVersion: cilium.io/v2alpha1
 kind: CiliumPodIPPool
 metadata:
-  name: home
+  name: default
   labels:
     site: home
 spec:
@@ -13,4 +13,3 @@ spec:
     cidrs:
     - 2a02:8070:6480:32f1:0::/68
     maskSize: 80
----

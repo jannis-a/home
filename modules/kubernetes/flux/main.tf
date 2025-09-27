@@ -17,4 +17,8 @@ resource "flux_bootstrap_git" "this" {
   depends_on = [github_repository_deploy_key.this]
 
   path = var.path
+  kustomization_override = (var.bootstrap
+    ? file("${path.module}/patches/bootstrap.yaml")
+    : null
+  )
 }

@@ -22,4 +22,3 @@ spec:
       peerAddress: fd11:99c6:9b95:10::1
       peerConfigRef:
         name: openwrt-v6
----

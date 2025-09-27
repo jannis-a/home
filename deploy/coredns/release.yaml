@@ -7,11 +7,11 @@ spec:
   interval: 10m
   chart:
     spec:
-      chart: coredns
-      version: 1.43.3
       sourceRef:
         kind: HelmRepository
         name: coredns
+      chart: coredns
+      version: 1.43.3
       interval: 30m
   values:
     replicaCount: 1
@@ -23,4 +23,3 @@ spec:
       clusterIPs:
       - 10.96.0.10
       - fd11:99c6:9b95:ffff::a
-
