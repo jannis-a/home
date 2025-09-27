@@ -1,0 +1,25 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: coredns
+  namespace: kube-system
+spec:
+  interval: 10m
+  chart:
+    spec:
+      sourceRef:
+        kind: HelmRepository
+        name: coredns
+      chart: coredns
+      version: 1.43.3
+      interval: 30m
+  values:
+    replicaCount: 1
+    serviceAccount:
+      create: true
+    service:
+      ipFamilyPolicy: RequireDualStack
+      clusterIP: 10.96.0.10
+      clusterIPs:
+      - 10.96.0.10
+      - fd11:99c6:9b95:ffff::a
