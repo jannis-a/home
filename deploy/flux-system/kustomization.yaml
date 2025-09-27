@@ -10,7 +10,7 @@ patches:
   patch: |-
     - op: replace
       path: /spec/template/spec/hostNetwork
-      value: "true"
+      value: true
     - op: add
       path: /spec/template/spec/dnsPolicy
       value: "ClusterFirstWithHostNet"
