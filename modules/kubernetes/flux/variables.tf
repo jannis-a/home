@@ -2,6 +2,11 @@ variable "repository" {
   type = string
 }
 
+variable "branch" {
+  type    = string
+  default = "main"
+}
+
 variable "path" {
   type = string
 }
@@ -19,4 +24,9 @@ variable "kubernetes" {
     client_key             = string
   })
   sensitive = true
+}
+
+variable "bootstrap" {
+  type    = bool
+  default = false
 }

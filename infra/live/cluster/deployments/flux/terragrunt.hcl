@@ -19,6 +19,8 @@ terraform {
 inputs = {
   repository = "home"
   path       = include.cluster.locals.flux_path
+  branch     = "feat/avoid_terraform_for_deployments"
+  bootstrap  = true
   kubernetes = {
     host                   = dependency.talos.outputs.host
     cluster_ca_certificate = base64decode(dependency.talos.outputs.cluster_ca_certificate)

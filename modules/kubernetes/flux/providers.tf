@@ -6,7 +6,8 @@ provider "flux" {
     client_key             = var.kubernetes.client_key
   }
   git = {
-    url = "ssh://${replace(data.github_repository.this.ssh_clone_url, ":", "/")}"
+    url    = "ssh://${replace(data.github_repository.this.ssh_clone_url, ":", "/")}"
+    branch = var.branch
     ssh = {
       username    = split("@", data.github_repository.this.ssh_clone_url)[0]
       private_key = tls_private_key.this.private_key_pem
