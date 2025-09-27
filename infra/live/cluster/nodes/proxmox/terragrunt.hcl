@@ -13,8 +13,8 @@ inputs = {
     cores = 16
   }
   memory = {
-    floating  = 16384
-    dedicated = 16384
+    floating  = 20 * 1024
+    dedicated = 20 * 1024
   }
   network = {
     device = "vmbr0"
