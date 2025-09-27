@@ -7,6 +7,9 @@ spec:
   dependsOn:
     - name: cilium
       namespace: kube-system
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
   path: ./deploy/flux-system
   interval: 1m
   prune: true

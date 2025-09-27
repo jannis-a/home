@@ -4,6 +4,9 @@ metadata:
   name: flux-no-cni
   namespace: flux-system
 spec:
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
   path: ./deploy/flux-system/no-cni
   interval: 1m
   prune: true
