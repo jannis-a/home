@@ -1,7 +1,7 @@
 data "helm_template" "this" {
   repository = "https://kubernetes-sigs.github.io/metrics-server"
   chart      = "metrics-server"
-  version    = "3.13.0"
+  version    = "3.12.0"
   namespace  = var.namespace
   name       = var.name
 }
