@@ -165,3 +165,41 @@ resource "terraform_data" "kube_config" {
     CMD
   }
 }
+
+resource "terraform_data" "install_cilium" {
+  depends_on = [
+    data.talos_cluster_health.this,
+    terraform_data.kube_config,
+  ]
+
+  provisioner "local-exec" {
+    command = <<-CMD
+      helm repo add --force-update cilium https://helm.cilium.io
+      helm install cilium cilium/cilium -n kube-system \
+        --set cluster.name=${var.cluster_name} \
+        --set kubeProxyReplacement=true \
+        --set k8sServiceHost=localhost \
+        --set k8sServicePort=7445 \
+        --set bgpControlPlane.enabled=true \
+        --set operator.replicas=1 \
+        --set securityContext.capabilities.ciliumAgent="{CHOWN,KILL,NET_ADMIN,NET_RAW,IPC_LOCK,SYS_ADMIN,SYS_RESOURCE,DAC_OVERRIDE,FOWNER,SETGID,SETUID}" \
+        --set securityContext.capabilities.cleanCiliumState="{NET_ADMIN,SYS_ADMIN,SYS_RESOURCE}" \
+        --set cgroup.autoMount.enabled=false \
+        --set cgroup.hostRoot=/sys/fs/cgroup
+    CMD
+  }
+}
+
+resource "terraform_data" "install_coredns" {
+  depends_on = [terraform_data.install_cilium]
+
+  provisioner "local-exec" {
+    command = <<-CMD
+      helm repo add --force-update coredns https://coredns.github.io/helm
+      helm install coredns coredns/coredns -n kube-system \
+        --set service.ipFamilyPolicy=PreferDualStack \
+        --set service.clusterIP=${local.cluster_dns[0]} \
+        --set service.clusterIPs="{${join(",", local.cluster_dns)}}"
+    CMD
+  }
+}

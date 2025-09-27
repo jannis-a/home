@@ -27,7 +27,7 @@ dependency "image" {
 }
 
 inputs = {
-  cluster_name    = "knecht"
+  cluster_name    = include.cluster.locals.name
   service_subnets = include.cluster.locals.service_subnets
   nodes = {
     talos = {

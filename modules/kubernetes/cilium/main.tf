@@ -26,6 +26,7 @@ resource "local_file" "flux" {
     chart_version    = data.helm_template.this.version
     namespace        = var.namespace
     name             = var.name
+    cluster_name     = var.cluster_name
     ip_pools         = var.ip_pools
     bgp              = var.bgp
   })

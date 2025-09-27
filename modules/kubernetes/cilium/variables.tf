@@ -2,6 +2,10 @@ variable "deploy_path" {
   type = string
 }
 
+variable "cluster_name" {
+  type = string
+}
+
 variable "name" {
   type    = string
   default = "cilium"
