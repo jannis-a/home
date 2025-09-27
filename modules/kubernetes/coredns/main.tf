@@ -6,13 +6,18 @@ data "helm_template" "this" {
   name       = var.name
 }
 
-resource "local_file" "flux" {
-  for_each = fileset("${path.module}/flux", "*.yaml")
+locals {
+  deploy_files = { for file in fileset(path.module, "flux/*.yaml.tftpl") :
+    basename(trimsuffix(file, ".tftpl")) => file
+  }
+}
 
-  filename             = "${var.deploy_path}/${var.name}/${each.key}"
-  directory_permission = "0755"
-  file_permission      = "0644"
-  content = templatefile("flux/${each.key}", {
+resource "local_file" "flux" {
+  for_each = local.deploy_files
+
+  filename = "${var.deploy_path}/${var.name}/${each.key}"
+  content = templatefile(each.value, {
+    kustomize_files  = [for f, _ in local.deploy_files : f if f != "kustomization.yaml"]
     chart_repository = data.helm_template.this.repository
     chart_name       = data.helm_template.this.chart
     chart_version    = data.helm_template.this.version
@@ -20,4 +25,7 @@ resource "local_file" "flux" {
     namespace        = var.namespace
     service_ips      = var.service_ips
   })
+
+  directory_permission = "0755"
+  file_permission      = "0644"
 }

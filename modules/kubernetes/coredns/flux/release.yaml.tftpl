@@ -23,4 +23,4 @@ spec:
       clusterIPs:
       %{~ for ip in service_ips ~}
       - ${ip}
-      %{~endfor}
+      %{~ endfor }
