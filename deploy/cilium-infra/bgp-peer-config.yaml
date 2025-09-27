@@ -1,0 +1,27 @@
+apiVersion: cilium.io/v2
+kind: CiliumBGPPeerConfig
+metadata:
+  name: openwrt-v4
+  labels:
+    site: home
+spec:
+  families:
+  - advertisements:
+      matchLabels:
+        bgp-advertise: home
+    afi: ipv4
+    safi: unicast
+---
+apiVersion: cilium.io/v2
+kind: CiliumBGPPeerConfig
+metadata:
+  name: openwrt-v6
+  labels:
+    site: home
+spec:
+  families:
+  - advertisements:
+      matchLabels:
+        bgp-advertise: home
+    afi: ipv6
+    safi: unicast
