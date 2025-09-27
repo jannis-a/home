@@ -1,4 +1,5 @@
 locals {
+  name          = "knecht"
   talos_version = "1.11.1"
   service_subnets = [
     "10.96.0.0/12",

@@ -21,7 +21,8 @@ terraform {
 }
 
 inputs = {
-  deploy_path = include.cluster.locals.flux_repo_path
-  ip_pools    = include.cluster.locals.ip_pools
-  bgp         = include.cluster.locals.bgp
+  deploy_path  = include.cluster.locals.flux_repo_path
+  cluster_name = include.cluster.locals.name
+  ip_pools     = include.cluster.locals.ip_pools
+  bgp          = include.cluster.locals.bgp
 }
