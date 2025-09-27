@@ -13,4 +13,10 @@ patches:
       value: true
     - op: add
       path: /spec/template/spec/dnsPolicy
-      value: "ClusterFirstWithHostNet"
+      value: ClusterFirstWithHostNet
+    - op: add
+      path: /spec/template/spec/tolerations
+      value:
+      - key: node.kubernetes.io/not-ready
+      - key: node.cilium.io/agent-not-ready
+        value: "true"
