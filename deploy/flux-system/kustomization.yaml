@@ -34,12 +34,6 @@ patches:
     - op: add
       path: /spec/template/spec/containers/0/args/-
       value: --events-addr=http://127.0.0.1:45423
-    
-    - op: add
-      path: /spec/template/spec/dnsConfig
-      value:
-        nameservers:
-        - 192.168.16.1
 
 - target:
     kind: Deployment
@@ -99,7 +93,7 @@ patches:
         type: Recreate
     - op: add
       path: /spec/template/spec/dnsPolicy
-      value: ClusterFirstWithHostNet
+      value: Default
     
     - op: replace
       path: /spec/template/spec/hostNetwork
