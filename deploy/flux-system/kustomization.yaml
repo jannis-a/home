@@ -36,8 +36,10 @@ patches:
       value: --events-addr=http://127.0.0.1:45423
     
     - op: add
-      path: /spec/template/spec/dnsConfig/nameservers/-
-      value: 192.168.16.1
+      path: /spec/template/spec/dnsConfig/-
+      value:
+        nameservers:
+        - 192.168.16.1
 
 - target:
     kind: Deployment
