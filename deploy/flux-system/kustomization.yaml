@@ -16,6 +16,10 @@ patches:
     name: source-controller
   patch: |-
     - op: add
+      path: /spec/template/spec/dnsPolicy
+      value: Default
+
+    - op: add
       path: /spec/template/spec/containers/0/args/-
       value: --health-addr=127.0.0.1:45121
     
@@ -91,9 +95,6 @@ patches:
       path: /spec/strategy
       value:
         type: Recreate
-    - op: add
-      path: /spec/template/spec/dnsPolicy
-      value: Default
     
     - op: replace
       path: /spec/template/spec/hostNetwork
