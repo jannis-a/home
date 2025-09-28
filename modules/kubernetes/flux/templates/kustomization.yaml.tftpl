@@ -3,6 +3,8 @@ kind: Kustomization
 resources:
 - gotk-components.yaml
 - gotk-sync.yaml
+- apps/
+%{~ if bootstrap }
 patches:
 - target:
     kind: Namespace
@@ -129,3 +131,4 @@ patches:
       value:
         name: KUBERNETES_SERVICE_PORT
         value: "6443"
+%{~ endif }
