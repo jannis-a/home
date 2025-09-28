@@ -3,4 +3,16 @@ kind: Kustomization
 resources:
 - gotk-components.yaml
 - gotk-sync.yaml
+- secret.sops-age.yaml
 - apps/
+patches:
+- target:
+    kind: Kustomization
+    name: flux-system
+  patch: |
+    - op: add
+      path: /spec/decryption
+      value:
+        provider: sops
+        secretRef:
+          name: sops-age
