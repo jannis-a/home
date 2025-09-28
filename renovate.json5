@@ -34,6 +34,11 @@
       "/(?:^|/)repository\\.ya?ml$/",
     ],
   },
+  kubernetes: {
+    managerFilePatterns: [
+      "/\\.yaml$/",
+    ],
+  },
   customManagers: [
     {
       customType: 'regex',
@@ -86,5 +91,14 @@
       semanticCommitScope: 'terraform',
       semanticCommitType: 'feat',
     },
+    {
+      matchDatasources: [
+        "terraform-provider",
+        "terraform-module",
+      ],
+      registryUrls: [
+        "https://registry.opentofu.org",
+      ],
+    }
   ],
 }
