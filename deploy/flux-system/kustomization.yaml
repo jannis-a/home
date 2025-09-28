@@ -4,6 +4,7 @@ resources:
 - gotk-components.yaml
 - gotk-sync.yaml
 - secret.sops-age.yaml
+- secret.ghcr-auth.yaml
 - apps/
 patches:
 - target:
@@ -16,3 +17,12 @@ patches:
         provider: sops
         secretRef:
           name: sops-age
+
+- target:
+    kind: ServiceAccount
+    name: source-controller
+  patch: |
+    - op: add
+      path: /imagePullSecrets
+      value:
+        - name: ghcr-auth
