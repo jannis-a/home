@@ -27,7 +27,12 @@
     'terragrunt',
   ],
   flux: {
-    "managerFilePatterns": ["/deploy/.+\\.ya?ml$/"]
+    managerFilePatterns: [
+      "/(?:^|/)gotk-components\\.ya?ml$/",
+      "/(?:^|/)kustomization/\\.ya?ml$/",
+      "/(?:^|/)release\\.ya?ml$/",
+      "/(?:^|/)repository\\.ya?ml$/",
+    ],
   },
   customManagers: [
     {
