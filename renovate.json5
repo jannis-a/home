@@ -29,7 +29,7 @@
   flux: {
     managerFilePatterns: [
       "/(?:^|/)gotk-components\\.ya?ml$/",
-      "/(?:^|/)kustomization/\\.ya?ml$/",
+      "/(?:^|/)apps/\\.ya?ml$/",
       "/(?:^|/)release\\.ya?ml$/",
       "/(?:^|/)repository\\.ya?ml$/",
     ],
