@@ -15,6 +15,7 @@ spec:
       version: 1.43.3
       interval: 30m
   targetNamespace: kube-system
+  releaseName: coredns
   values:
     replicaCount: 1
     serviceAccount:
