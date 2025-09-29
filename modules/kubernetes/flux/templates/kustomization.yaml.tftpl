@@ -1,12 +1,33 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
+namespace: flux-system
 resources:
 - gotk-components.yaml
 - gotk-sync.yaml
 - secrets/
 - apps/
-%{~ if bootstrap }
 patches:
+- target:
+    kind: Kustomization
+    name: flux-system
+  patch: |
+    - op: add
+      path: /spec/decryption
+      value:
+        provider: sops
+        secretRef:
+          name: sops-age
+
+- target:
+    kind: ServiceAccount
+    name: source-controller
+  patch: |
+    - op: add
+      path: /imagePullSecrets
+      value:
+        - name: ghcr-auth
+%{~ if bootstrap }
+
 - target:
     kind: Namespace
   patch: |-
@@ -28,19 +49,19 @@ patches:
     - op: add
       path: /spec/template/spec/containers/0/args/-
       value: --health-addr=127.0.0.1:45121
-    
+
     - op: add
       path: /spec/template/spec/containers/0/args/-
       value: --metrics-addr=127.0.0.1:45122
-    
+
     - op: add
       path: /spec/template/spec/containers/0/args/-
       value: --storage-addr=127.0.0.1:45123
-    
+
     - op: add
       path: /spec/template/spec/containers/0/args/-
       value: --storage-adv-addr=127.0.0.1:45123
-    
+
     - op: add
       path: /spec/template/spec/containers/0/args/-
       value: --events-addr=http://127.0.0.1:45423
@@ -52,11 +73,11 @@ patches:
     - op: add
       path: /spec/template/spec/containers/0/args/-
       value: --health-addr=127.0.0.1:45221
-    
+
     - op: add
       path: /spec/template/spec/containers/0/args/-
       value: --metrics-addr=127.0.0.1:45222
-    
+
     - op: add
       path: /spec/template/spec/containers/0/args/-
       value: --events-addr=http://127.0.0.1:45423
@@ -68,11 +89,11 @@ patches:
     - op: add
       path: /spec/template/spec/containers/0/args/-
       value: --health-addr=127.0.0.1:45321
-    
+
     - op: add
       path: /spec/template/spec/containers/0/args/-
       value: --metrics-addr=127.0.0.1:45322
-    
+
     - op: add
       path: /spec/template/spec/containers/0/args/-
       value: --events-addr=http://127.0.0.1:45423
@@ -84,11 +105,11 @@ patches:
     - op: add
       path: /spec/template/spec/containers/0/args/-
       value: --health-addr=127.0.0.1:45421
-    
+
     - op: add
       path: /spec/template/spec/containers/0/args/-
       value: --metrics-addr=127.0.0.1:45422
-    
+
     - op: add
       path: /spec/template/spec/containers/0/args/-
       value: --receiverAddr=127.0.0.1:45423
@@ -100,20 +121,20 @@ patches:
       path: /spec/strategy
       value:
         type: Recreate
-    
+
     - op: replace
       path: /spec/template/spec/hostNetwork
       value: true
-    
+
     - op: remove
       path: /spec/template/spec/containers/0/ports
-    
+
     - op: remove
       path: /spec/template/spec/containers/0/livenessProbe
-    
+
     - op: remove
       path: /spec/template/spec/containers/0/readinessProbe
-    
+
     - op: add
       path: /spec/template/spec/tolerations
       value:

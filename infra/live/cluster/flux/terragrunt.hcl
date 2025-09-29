@@ -9,7 +9,7 @@ include "cluster" {
 }
 
 dependency "talos" {
-  config_path = "${get_terragrunt_dir()}/../../talos/cluster"
+  config_path = "../talos/cluster"
 }
 
 terraform {
