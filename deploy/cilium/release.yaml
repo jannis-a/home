@@ -50,11 +50,10 @@ spec:
       ui:
         enabled: true
 
-    # TODO: install Gateway API
-    #gatewayAPI:
-    #  enabled: true
-    #  enableAlpn: true
-    #  enableAppProtocol: true
+    gatewayAPI:
+      enabled: true
+      enableAlpn: true
+      enableAppProtocol: true
 
     operator:
       replicas: 1
