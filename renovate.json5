@@ -19,28 +19,25 @@
   ],
   automergeType: 'pr',
   enabledManagers: [
-    "flux",
+    'flux',
     'github-actions',
-    "kubernetes",
+    'kubernetes',
     'pre-commit',
     'terraform',
     'terragrunt',
   ],
   flux: {
     managerFilePatterns: [
-      "/(?:^|/)gotk-components\\.ya?ml$/",
-      "/(?:^|/)apps/\\.ya?ml$/",
-      "/(?:^|/)release\\.ya?ml$/",
-      "/(?:^|/)repository\\.ya?ml$/",
+      '/(?:^|/)gotk-components\\.ya?ml$/',
+      '/(?:^|/)apps/\\.ya?ml$/',
+      '/(?:^|/)release\\.ya?ml$/',
+      '/(?:^|/)repository\\.ya?ml$/',
     ],
   },
   kubernetes: {
     managerFilePatterns: [
-      "/^deploy\\/.*\\.ya?ml$/",
+      '/^deploy\\/.*\\.ya?ml$/',
     ],
-  },
-  docker: {
-    ignorePaths: ["**/gotk-components.yaml"],
   },
   customManagers: [
     {
@@ -79,6 +76,14 @@
   ],
   packageRules: [
     {
+      matchCategories: [
+        'docker',
+      ],
+      ignorePaths: [
+        '**/gotk-components.yaml',
+      ],
+    },
+    {
       matchManagers: [
         'github-actions',
         'pre-commit',
@@ -96,12 +101,12 @@
     },
     {
       matchDatasources: [
-        "terraform-provider",
-        "terraform-module",
+        'terraform-provider',
+        'terraform-module',
       ],
       registryUrls: [
-        "https://registry.opentofu.org",
+        'https://registry.opentofu.org',
       ],
-    }
+    },
   ],
 }
