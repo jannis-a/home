@@ -1,12 +1,5 @@
 terraform_binary = "tofu"
 
-locals {
-  oci = {
-    region    = "eu-frankfurt-1"
-    namespace = "frwrrd2q2s5i"
-    bucket    = "jannis-assenheimer-home-tg-state"
-  }
-}
 
 remote_state {
   backend = "s3"
@@ -15,10 +8,12 @@ remote_state {
     if_exists = "overwrite_terragrunt"
   }
   config = {
-    region   = local.oci.region
-    bucket   = local.oci.bucket
-    endpoint = "https://${local.oci.namespace}.compat.objectstorage.${local.oci.region}.oraclecloud.com"
-    key      = "${path_relative_to_include()}/tfstate.json"
+    bucket = get_env("OCI_BUCKET")
+    key    = "${path_relative_to_include()}/tfstate.json"
+    endpoint = format("https://%s.compat.objectstorage.%s.oraclecloud.com",
+      get_env("OCI_NAMESPACE"),
+      get_env("AWS_REGION"),
+    )
 
     encrypt      = true
     use_lockfile = true
