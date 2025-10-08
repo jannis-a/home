@@ -39,6 +39,9 @@
       "/^deploy\\/.*\\.ya?ml$/",
     ],
   },
+  docker: {
+    ignorePaths: ["**/gotk-components.yaml"],
+  },
   customManagers: [
     {
       customType: 'regex',
