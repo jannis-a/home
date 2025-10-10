@@ -8,6 +8,11 @@ variable "nodes" {
     talos_installer    = string
     kubernetes_version = string
     kubelet_subnets    = list(string)
+    site               = string
+    disks = map(object({
+      device   = string
+      min_size = string
+    }))
   }))
 }
 

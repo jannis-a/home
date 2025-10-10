@@ -21,86 +21,104 @@ data "talos_machine_configuration" "this" {
   cluster_endpoint = "https://${data.talos_client_configuration.this.endpoints[0]}:6443"
   machine_type     = each.value.control_plane ? "controlplane" : "worker"
   machine_secrets  = talos_machine_secrets.this.machine_secrets
-  config_patches = [
-    # Base
-    yamlencode({
-      machine = {
-        install = {
-          image = each.value.talos_installer
-        }
+  config_patches = concat(
+    [
+      # Base
+      yamlencode({
+        machine = {
+          install = {
+            image = each.value.talos_installer
+          }
 
-        network = {
-          hostname = each.key
-        }
+          network = {
+            hostname = each.key
+          }
 
-        kubelet = {
-          nodeIP = {
-            validSubnets = each.value.kubelet_subnets
+          kubelet = {
+            nodeIP = {
+              validSubnets = each.value.kubelet_subnets
+            }
+          }
+
+          features = {
+            hostDNS = {
+              enabled              = true
+              forwardKubeDNSToHost = false
+            }
+          }
+
+          nodeLabels = {
+            site = each.value.site
           }
         }
 
-        features = {
-          hostDNS = {
-            enabled              = true
-            forwardKubeDNSToHost = false
+        cluster = {
+          allowSchedulingOnControlPlanes = true
+        }
+      }),
+
+      # Cilium
+      yamlencode({
+        machine = {
+          nodeTaints = {
+            "node.cilium.io/agent-not-ready" = "true:NoExecute"
           }
         }
 
-        nodeLabels = {
-          site = "home"
-        }
-      }
-
-      cluster = {
-        allowSchedulingOnControlPlanes = true
-      }
-    }),
-
-    # Cilium
-    yamlencode({
-      machine = {
-        nodeTaints = {
-          "node.cilium.io/agent-not-ready" = "true:NoExecute"
-        }
-      }
-
-      cluster = {
-        proxy = {
-          disabled = true
-        }
-
-        network = {
-          cni = {
-            name = "none"
+        cluster = {
+          proxy = {
+            disabled = true
           }
 
-          podSubnets     = []
-          serviceSubnets = var.service_subnets
+          network = {
+            cni = {
+              name = "none"
+            }
 
-        }
-        controllerManager = {
-          extraArgs = {
-            allocate-node-cidrs = false
+            podSubnets     = []
+            serviceSubnets = var.service_subnets
+
+          }
+          controllerManager = {
+            extraArgs = {
+              allocate-node-cidrs = false
+            }
           }
         }
-      }
-    }),
+      }),
 
-    # CoreDNS
-    yamlencode({
-      machine = {
-        kubelet = {
-          clusterDNS = local.cluster_dns
+      # CoreDNS
+      yamlencode({
+        machine = {
+          kubelet = {
+            clusterDNS = local.cluster_dns
+          }
         }
-      }
 
-      cluster = {
-        coreDNS = {
-          disabled = true
+        cluster = {
+          coreDNS = {
+            disabled = true
+          }
         }
+      }),
+    ],
+
+    # Volumes
+    [for name, config in each.value.disks : yamlencode({
+      apiVersion = "v1alpha1"
+      kind       = "UserVolumeConfig"
+      name       = name
+      provisioning = {
+        diskSelector = {
+          match = "disk.dev_path == '${config.device}'"
+        }
+        minSize = config.min_size
       }
-    }),
-  ]
+      filesystem = {
+        type = "ext4"
+      }
+    })],
+  )
 }
 
 resource "talos_machine_configuration_apply" "this" {
@@ -162,44 +180,6 @@ resource "terraform_data" "kube_config" {
       mkdir -p $(dirname $KUBECONFIG)
       echo "${talos_cluster_kubeconfig.this.kubeconfig_raw}" > $KUBECONFIG
       chmod 600 $KUBECONFIG
-    CMD
-  }
-}
-
-resource "terraform_data" "install_cilium" {
-  depends_on = [
-    data.talos_cluster_health.this,
-    terraform_data.kube_config,
-  ]
-
-  provisioner "local-exec" {
-    command = <<-CMD
-      helm repo add --force-update cilium https://helm.cilium.io
-      helm install cilium cilium/cilium -n kube-system \
-        --set cluster.name=${var.cluster_name} \
-        --set kubeProxyReplacement=true \
-        --set k8sServiceHost=localhost \
-        --set k8sServicePort=7445 \
-        --set bgpControlPlane.enabled=true \
-        --set operator.replicas=1 \
-        --set securityContext.capabilities.ciliumAgent="{CHOWN,KILL,NET_ADMIN,NET_RAW,IPC_LOCK,SYS_ADMIN,SYS_RESOURCE,DAC_OVERRIDE,FOWNER,SETGID,SETUID}" \
-        --set securityContext.capabilities.cleanCiliumState="{NET_ADMIN,SYS_ADMIN,SYS_RESOURCE}" \
-        --set cgroup.autoMount.enabled=false \
-        --set cgroup.hostRoot=/sys/fs/cgroup
-    CMD
-  }
-}
-
-resource "terraform_data" "install_coredns" {
-  depends_on = [terraform_data.install_cilium]
-
-  provisioner "local-exec" {
-    command = <<-CMD
-      helm repo add --force-update coredns https://coredns.github.io/helm
-      helm install coredns coredns/coredns -n kube-system \
-        --set service.ipFamilyPolicy=PreferDualStack \
-        --set service.clusterIP=${local.cluster_dns[0]} \
-        --set service.clusterIPs="{${join(",", local.cluster_dns)}}"
     CMD
   }
 }

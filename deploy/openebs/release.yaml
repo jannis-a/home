@@ -1,0 +1,35 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: openebs
+  namespace: flux-system
+spec:
+  interval: 10m
+  targetNamespace: openebs
+  releaseName: openebs
+  chart:
+    spec:
+      sourceRef:
+        kind: HelmRepository
+        namespace: flux-system
+        name: openebs
+      chart: openebs
+      version: 4.3.3
+  values:
+    localpv-provisioner:
+      localpv:
+        basePath: "/var/mnt/openebs-local"
+
+    engines:
+      local:
+        lvm:
+          enabled: false
+        zfs:
+          enabled: false
+      replicated:
+        mayastor:
+          enabled: false
+    alloy:
+      enabled: false
+    loki:
+      enabled: false

@@ -39,6 +39,13 @@ inputs = {
         include.network.locals.subnets.v4,
         include.network.locals.subnets.v6_ula,
       ]
+      site = "home"
+      disks = {
+        openebs-local = {
+          min_size = "500GB"
+          device   = "/dev/sdb"
+        }
+      }
     }
   }
 }
