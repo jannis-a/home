@@ -31,6 +31,10 @@ patches:
         secretRef:
           name: sops-age
 
+    - op: replace
+      path: /ref/branch
+      value: feat/homeassistant
+
 - target:
     kind: ServiceAccount
     name: source-controller
