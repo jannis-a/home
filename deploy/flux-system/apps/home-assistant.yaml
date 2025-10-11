@@ -27,5 +27,5 @@ spec:
   healthChecks:
   - apiVersion: postgresql.cnpg.io/v1
     kind: Cluster
-    name: home-assistant
+    name: home-assistant-database
     namespace: home-assistant
