@@ -1,31 +1,31 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: homeassistant-namespace
+  name: home-assistant-namespace
 spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
-  path: ./deploy/apps/homeassistant/namespace
+  path: ./deploy/apps/home-assistant/namespace
   interval: 10m
   prune: true
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: homeassistant-database
+  name: home-assistant-database
 spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
-  path: ./deploy/apps/homeassistant/database
+  path: ./deploy/apps/home-assistant/database
   interval: 10m
   prune: true
   dependsOn:
   - name: cloudnative-pg
-  - name: homeassistant-namespace
+  - name: home-assistant-namespace
   healthChecks:
   - apiVersion: postgresql.cnpg.io/v1
     kind: Cluster
-    name: homeassistant
-    namespace: homeassistant
+    name: home-assistant
+    namespace: home-assistant

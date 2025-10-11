@@ -4,4 +4,4 @@ resources:
 - cilium.yaml
 - cilium-infra.yaml
 - cloundative-pg.yaml
-- homeassistant.yaml
+- home-assistant.yaml
