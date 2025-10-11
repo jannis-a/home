@@ -14,4 +14,4 @@ spec:
         namespace: flux-system
         name: cloudnative-pg
       chart: cloudnative-pg
-      version: 0.25.0
+      version: 0.26.0
