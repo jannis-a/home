@@ -19,6 +19,8 @@ spec:
     localpv-provisioner:
       localpv:
         basePath: "/var/mnt/openebs-local"
+      hostpathClass:
+        reclaimPolicy: Retain
 
     engines:
       local:
