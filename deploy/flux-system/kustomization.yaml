@@ -31,8 +31,12 @@ patches:
         secretRef:
           name: sops-age
 
+- target:
+    kind: GitRepository
+    name: flux-system
+  patch: |
     - op: replace
-      path: /ref/branch
+      path: /spec/ref/branch
       value: feat/homeassistant
 
 - target:
