@@ -19,6 +19,8 @@ spec:
   targetNamespace: external-dns
   releaseName: external-dns
   values:
+    triggerLoopOnEvent: true
+
     sources:
       - gateway-httproute
 
