@@ -18,6 +18,7 @@ resource "flux_bootstrap_git" "this" {
 
   path = var.path
   kustomization_override = templatefile("${path.module}/templates/kustomization.yaml.tftpl", {
+    pss_name  = var.bootstrap ? "privileged" : "restricted"
     bootstrap = var.bootstrap
   })
 }

@@ -8,6 +8,19 @@ resources:
 - apps/
 patches:
 - target:
+    kind: Namespace
+  patch: |
+    - op: add
+      path: /metadata/labels/pod-security.kubernetes.io~1audit
+      value: ${pss_name}
+    - op: add
+      path: /metadata/labels/pod-security.kubernetes.io~1enforce
+      value: ${pss_name}
+    - op: add
+      path: /metadata/labels/pod-security.kubernetes.io~1warn
+      value: ${pss_name}
+
+- target:
     kind: Kustomization
     name: flux-system
   patch: |
@@ -27,16 +40,6 @@ patches:
       value:
         - name: ghcr-auth
 %{~ if bootstrap }
-
-- target:
-    kind: Namespace
-  patch: |-
-    - op: add
-      path: /metadata/labels/pod-security.kubernetes.io~1enforce
-      value: privileged
-    - op: add
-      path: /metadata/labels/pod-security.kubernetes.io~1warn
-      value: privileged
 
 - target:
     kind: Deployment
