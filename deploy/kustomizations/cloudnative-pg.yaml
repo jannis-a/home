@@ -10,3 +10,18 @@ spec:
   path: ./deploy/cloudnative-pg/base
   interval: 10m
   prune: true
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: cloudnativepg-crds
+spec:
+  dependsOn:
+  - name: cloudnative-pg
+  sourceRef:
+    kind: GitRepository
+    namespace: flux-system
+    name: flux-system
+  path:  ./deploy/cloudnative-pg/crds
+  interval: 10m
+  prune: true
