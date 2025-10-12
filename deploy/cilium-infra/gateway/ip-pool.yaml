@@ -1,0 +1,13 @@
+apiVersion: cilium.io/v2alpha1
+kind: CiliumLoadBalancerIPPool
+metadata:
+  name: home
+spec:
+  serviceSelector:
+    matchLabels:
+      gateway.networking.k8s.io/gateway-name: cilium
+  blocks:
+  - start: 10.96.0.100
+    stop: 10.96.0.199
+  - start: fd11:99c6:9b95:ffff::100
+    stop: fd11:99c6:9b95:ffff::199

@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: home-assistant
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: home-assistant
+  template:
+    metadata:
+      labels:
+        app: home-assistant
+    spec:
+      serviceAccountName: home-assistant
+      containers:
+      - name: home-assistant
+        image: ghcr.io/home-assistant/home-assistant:2025.10.2
+        env:
+        - name: TZ
+          value: Europe/Berlin
+        ports:
+        - name: http
+          containerPort: 8123
+        - name: homekit
+          containerPort: 51827
+        volumeMounts:
+        - name: config
+          mountPath: /config
+        livenessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /
+            port: http
+            scheme: HTTP
+          periodSeconds: 20
+          successThreshold: 1
+          timeoutSeconds: 2
+        readinessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /
+            port: http
+            scheme: HTTP
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 1
+      volumes:
+      - name: config
+        persistentVolumeClaim:
+          claimName: home-assistant-config

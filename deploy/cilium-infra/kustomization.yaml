@@ -6,3 +6,4 @@ resources:
 - bgp-advertisement.yaml
 - bgp-peer-config.yaml
 - bgp-cluster-config.yaml
+- gateway
