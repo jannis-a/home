@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: home-assistant
+spec:
+  type: ClusterIP
+  ipFamilyPolicy: RequireDualStack
+  selector:
+    app: home-assistant
+  ports:
+  - name: http
+    port: 8123
+    targetPort: http
