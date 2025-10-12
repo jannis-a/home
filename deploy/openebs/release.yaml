@@ -22,12 +22,16 @@ spec:
       hostpathClass:
         reclaimPolicy: Retain
 
+    zfs-localpv:
+      zfsNode:
+        encrKeysDir: /var/openebs/zfs/keys
+
     engines:
       local:
         lvm:
           enabled: false
         zfs:
-          enabled: false
+          enabled: true
       replicated:
         mayastor:
           enabled: false
