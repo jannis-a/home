@@ -5,3 +5,4 @@ resources:
 - cilium-infra.yaml
 - cloundative-pg.yaml
 - home-assistant.yaml
+- openebs.yaml
