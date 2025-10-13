@@ -12,5 +12,3 @@ spec:
   prune: true
   dependsOn:
   - name: cilium
-  # TODO: remove
-  suspend: true
