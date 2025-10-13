@@ -23,8 +23,9 @@ variable "memory" {
 variable "disks" {
   type = list(object({
     size      = number
-    iothread  = optional(bool, true)
     ssd       = optional(bool, true)
+    iothread  = optional(bool, true)
+    backup    = optional(bool, false)
     replicate = optional(bool, false)
     discard   = optional(string, "on")
   }))

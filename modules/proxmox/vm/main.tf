@@ -27,6 +27,7 @@ resource "proxmox_virtual_environment_vm" "this" {
       size      = disk.value.size
       iothread  = disk.value.iothread
       replicate = disk.value.replicate
+      backup    = disk.value.backup
       ssd       = disk.value.ssd
       discard   = disk.value.discard
     }

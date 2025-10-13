@@ -31,6 +31,7 @@ inputs = {
   service_subnets = include.cluster.locals.service_subnets
   nodes = {
     knecht = {
+      site               = "home"
       control_plane      = true
       talos_version      = dependency.image.outputs.version
       talos_installer    = dependency.image.outputs.installer
@@ -39,7 +40,6 @@ inputs = {
         include.network.locals.subnets.v4,
         include.network.locals.subnets.v6_ula,
       ]
-      site = "home"
       disks = {
         openebs-local = {
           min_size = "500GB"
