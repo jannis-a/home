@@ -4,7 +4,6 @@ namespace: flux-system
 resources:
 - gotk-components.yaml
 - gotk-sync.yaml
-#- secrets/
 - apps/
 - crds/
 patches:
@@ -19,6 +18,10 @@ patches:
     kind: Kustomization
     name: flux-system
   patch: |
+    - op: replace
+      path: /spec/path
+      value: ./deploy/flux-system
+
     - op: add
       path: /spec/decryption
       value:
