@@ -4,16 +4,7 @@ namespace: flux-system
 resources:
 - gotk-components.yaml
 - gotk-sync.yaml
-#- secrets/
-- apps/
 patches:
-- target:
-    kind: Namespace
-  patch: |
-    - op: add
-      path: /metadata/labels/pod-security.kubernetes.io~1enforce
-      value: privileged
-
 - target:
     kind: Kustomization
     name: flux-system
@@ -24,7 +15,6 @@ patches:
         provider: sops
         secretRef:
           name: ${sops_secret}
-
 - target:
     kind: ServiceAccount
     name: source-controller
@@ -34,7 +24,12 @@ patches:
       value:
         - name: ${registry_auth}
 %{~ if bootstrap }
-
+- target:
+    kind: Namespace
+  patch: |
+    - op: add
+      path: /metadata/labels/pod-security.kubernetes.io~1enforce
+      value: privileged
 - target:
     kind: Deployment
     name: source-controller
@@ -62,7 +57,6 @@ patches:
     - op: add
       path: /spec/template/spec/containers/0/args/-
       value: --events-addr=http://127.0.0.1:45423
-
 - target:
     kind: Deployment
     name: helm-controller
@@ -78,7 +72,6 @@ patches:
     - op: add
       path: /spec/template/spec/containers/0/args/-
       value: --events-addr=http://127.0.0.1:45423
-
 - target:
     kind: Deployment
     name: kustomize-controller
@@ -94,7 +87,6 @@ patches:
     - op: add
       path: /spec/template/spec/containers/0/args/-
       value: --events-addr=http://127.0.0.1:45423
-
 - target:
     kind: Deployment
     name: notification-controller
@@ -110,7 +102,6 @@ patches:
     - op: add
       path: /spec/template/spec/containers/0/args/-
       value: --receiverAddr=127.0.0.1:45423
-
 - target:
     kind: Deployment
   patch: |-

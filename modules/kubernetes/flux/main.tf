@@ -59,7 +59,6 @@ resource "flux_bootstrap_git" "this" {
   namespace = var.namespace
 
   kustomization_override = templatefile("${path.module}/templates/kustomization.yaml.tftpl", {
-    # pss_name  = var.bootstrap ? "privileged" : "restricted"
     sops_secret   = kubernetes_secret.sops.metadata[0].name
     registry_auth = kubernetes_secret.registry_auth.metadata[0].name
     bootstrap     = var.bootstrap
