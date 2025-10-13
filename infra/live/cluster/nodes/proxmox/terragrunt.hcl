@@ -8,7 +8,7 @@ terraform {
 
 inputs = {
   node = "proxmox"
-  name = "talos"
+  name = "knecht"
   cpu = {
     cores = 16
   }
@@ -22,6 +22,6 @@ inputs = {
     vlan   = 16
   }
   disk = {
-    size = 32
+    size = 50
   }
 }
