@@ -27,7 +27,7 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
-  path: ./deploy/cilium/infra
+  path: ./deploy/cilium/bgp
   interval: 10m
   prune: true
   dependsOn:
