@@ -1,24 +1,24 @@
-#apiVersion: cilium.io/v2
-#kind: CiliumBGPClusterConfig
-#metadata:
-#  name: openwrt
-#  labels:
-#    site: home
-#spec:
-#  nodeSelector:
-#    matchLabels:
-#      site: home
-#  bgpInstances:
-#  - localASN: 64513
-#    name: home
-#    peers:
-#    - name: openwrt-v4
-#      peerASN: 64512
-#      peerAddress: 192.168.16.1
-#      peerConfigRef:
-#        name: openwrt-v4
-#    - name: openwrt-v6
-#      peerASN: 64512
-#      peerAddress: fd11:99c6:9b95:10::1
-#      peerConfigRef:
-#        name: openwrt-v6
+apiVersion: cilium.io/v2
+kind: CiliumBGPClusterConfig
+metadata:
+  name: openwrt
+  labels:
+    site: home
+spec:
+  nodeSelector:
+    matchLabels:
+      site: home
+  bgpInstances:
+  - localASN: 64513
+    name: home
+    peers:
+    - name: openwrt-v4
+      peerASN: 64512
+      peerAddress: 192.168.16.1
+      peerConfigRef:
+        name: openwrt-v4
+    - name: openwrt-v6
+      peerASN: 64512
+      peerAddress: fd11:99c6:9b95:10::1
+      peerConfigRef:
+        name: openwrt-v6
