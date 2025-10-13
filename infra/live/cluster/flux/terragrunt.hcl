@@ -16,9 +16,16 @@ terraform {
   source = "${get_repo_root()}/modules/kubernetes/flux"
 }
 
+locals {
+  secrets = yamldecode(sops_decrypt_file("secrets.yaml"))
+}
+
 inputs = {
-  repository = "home"
-  path       = include.cluster.locals.flux_path
+  repository    = "home"
+  path          = include.cluster.locals.flux_path
+  sops_key      = local.secrets["sops_agekey"]
+  registry_auth = local.secrets["registry_auth"]
+  bootstrap     = true
   kubernetes = {
     host                   = dependency.talos.outputs.host
     cluster_ca_certificate = base64decode(dependency.talos.outputs.cluster_ca_certificate)

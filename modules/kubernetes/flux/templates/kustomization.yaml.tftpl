@@ -4,21 +4,15 @@ namespace: flux-system
 resources:
 - gotk-components.yaml
 - gotk-sync.yaml
-- secrets/
+#- secrets/
 - apps/
 patches:
 - target:
     kind: Namespace
   patch: |
     - op: add
-      path: /metadata/labels/pod-security.kubernetes.io~1audit
-      value: ${pss_name}
-    - op: add
       path: /metadata/labels/pod-security.kubernetes.io~1enforce
-      value: ${pss_name}
-    - op: add
-      path: /metadata/labels/pod-security.kubernetes.io~1warn
-      value: ${pss_name}
+      value: privileged
 
 - target:
     kind: Kustomization
@@ -29,7 +23,7 @@ patches:
       value:
         provider: sops
         secretRef:
-          name: sops-age
+          name: ${sops_secret}
 
 - target:
     kind: ServiceAccount
@@ -38,7 +32,7 @@ patches:
     - op: add
       path: /imagePullSecrets
       value:
-        - name: ghcr-auth
+        - name: ${registry_auth}
 %{~ if bootstrap }
 
 - target:

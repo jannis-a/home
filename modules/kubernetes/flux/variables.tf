@@ -16,6 +16,25 @@ variable "key_name" {
   default = "Flux"
 }
 
+variable "namespace" {
+  type    = string
+  default = "flux-system"
+}
+
+variable "sops_key" {
+  type      = string
+  sensitive = true
+}
+
+variable "registry_auth" {
+  type = map(object({
+    username = string
+    password = string
+  }))
+  sensitive = true
+  default   = {}
+}
+
 variable "kubernetes" {
   type = object({
     host                   = string
