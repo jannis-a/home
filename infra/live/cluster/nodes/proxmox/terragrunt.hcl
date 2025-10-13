@@ -21,7 +21,8 @@ inputs = {
     mac    = "BC:24:11:44:8F:D9"
     vlan   = 16
   }
-  disk = {
-    size = 50
-  }
+  disks = [
+    { size = 50 },
+    { size = 500 },
+  ]
 }
