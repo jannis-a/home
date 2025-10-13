@@ -30,6 +30,12 @@ data "talos_machine_configuration" "this" {
             image = each.value.talos_installer
           }
 
+          kernel = {
+            modules = [{
+              name = "zfs"
+            }]
+          }
+
           network = {
             hostname = each.key
           }
@@ -38,6 +44,17 @@ data "talos_machine_configuration" "this" {
             nodeIP = {
               validSubnets = each.value.kubelet_subnets
             }
+
+            extraMounts = [for path in ["plugins", "plugins_registry"] : {
+              source      = "/var/lib/kubelet/${path}"
+              destination = "/var/lib/kubelet/${path}"
+              type        = "bind"
+              options = [
+                "rbind",
+                "rshared",
+                "rw",
+              ]
+            }]
           }
 
           features = {
