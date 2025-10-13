@@ -3,6 +3,3 @@ kind: Kustomization
 resources:
 - pod-ip-pool.yaml
 - node-config.yaml
-- bgp-advertisement.yaml
-- bgp-peer-config.yaml
-- bgp-cluster-config.yaml
