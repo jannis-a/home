@@ -6,13 +6,6 @@ resources:
 - gotk-sync.yaml
 patches:
 - target:
-    kind: Namespace
-  patch: |
-    - op: add
-      path: /metadata/labels/pod-security.kubernetes.io~1enforce
-      value: privileged
-
-- target:
     kind: Kustomization
     name: flux-system
   patch: |
@@ -31,6 +24,13 @@ patches:
       path: /imagePullSecrets
       value:
         - name: registry-auth
+
+- target:
+    kind: Namespace
+  patch: |
+    - op: add
+      path: /metadata/labels/pod-security.kubernetes.io~1enforce
+      value: privileged
 
 - target:
     kind: Deployment
