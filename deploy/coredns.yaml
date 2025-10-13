@@ -1,15 +1,14 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: akri
+  name: coredns
+  namespace: flux-system
 spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
-  path: ./deploy/akri
+  path: ./apps/coredns
   interval: 10m
   prune: true
   dependsOn:
   - name: cilium
-  # TODO: remove
-  suspend: true

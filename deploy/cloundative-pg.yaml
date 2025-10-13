@@ -1,16 +1,16 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: external-dns
+  name: cloudnative-pg
+  namespace: flux-system
 spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
-  path: ./deploy/external-dns
+  path: ./apps/cloudnative-pg
   interval: 10m
   prune: true
   dependsOn:
   - name: cilium
-  - name: coredns
   # TODO: remove
   suspend: true

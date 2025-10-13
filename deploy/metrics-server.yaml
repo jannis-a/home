@@ -1,12 +1,13 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: openebs
+  name: metrics-server
+  namespace: flux-system
 spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
-  path: ./deploy/ebs
+  path: ./apps/metrics-server
   interval: 10m
   prune: true
   dependsOn:
