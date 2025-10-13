@@ -6,6 +6,7 @@ resources:
 - gotk-sync.yaml
 #- secrets/
 - apps/
+- crds/
 patches:
 - target:
     kind: Namespace
