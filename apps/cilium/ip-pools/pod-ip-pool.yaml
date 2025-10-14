@@ -1,7 +1,7 @@
 apiVersion: cilium.io/v2alpha1
 kind: CiliumPodIPPool
 metadata:
-  name: default
+  name: home
   labels:
     site: home
 spec:

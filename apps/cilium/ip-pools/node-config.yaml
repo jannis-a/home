@@ -10,4 +10,4 @@ spec:
     matchLabels:
       site: home
   defaults:
-    ipam-default-ip-pool: default
+    ipam-default-ip-pool: home
