@@ -8,7 +8,7 @@ spec:
   families:
   - advertisements:
       matchLabels:
-        bgp-advertise: home
+        site: home
     afi: ipv4
     safi: unicast
 ---
@@ -22,6 +22,6 @@ spec:
   families:
   - advertisements:
       matchLabels:
-        bgp-advertise: home
+        site: home
     afi: ipv6
     safi: unicast

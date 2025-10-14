@@ -3,7 +3,7 @@ kind: CiliumBGPAdvertisement
 metadata:
   name: home
   labels:
-    bgp-advertise: home
+    site: home
 spec:
   advertisements:
   - advertisementType: CiliumPodIPPool
@@ -13,7 +13,8 @@ spec:
   - advertisementType: Service
     selector:
       matchLabels:
-        bgp: "true"
+        site: home
+        bgp: announce
     service:
       addresses:
       - ClusterIP
