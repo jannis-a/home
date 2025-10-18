@@ -30,7 +30,12 @@ generate "remote_state_encryption_config" {
     terraform {
       encryption {
         key_provider "external" "environment" {
-          command = ["${get_repo_root()}/scripts/keyprovider-environment.sh"]
+          command = ["sh", "-c",
+            <<-SH
+              KEY="$(base64 <<< $TOFU_STATE_KEY)"
+              printf '{"keys": {"encryption_key": "%s", "decryption_key": "%s"}}' $KEY $KEY
+            SH
+          ]
         }
 
         key_provider "pbkdf2" "this" {
