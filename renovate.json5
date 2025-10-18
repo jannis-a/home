@@ -9,15 +9,12 @@
     ':separateMajorReleases',
     'group:monorepos',
     'group:recommended',
-    ':automergeDigest',
-    ':automergeMinor',
-    ':automergePatch',
     ':enablePreCommit',
     ':gitSignOff',
     ':semanticCommits',
     'helpers:pinGitHubActionDigests',
   ],
-  automergeType: 'pr',
+
   lockFileMaintenance: {
     enabled: true,
   },
@@ -25,10 +22,10 @@
   // Package managers
   flux: {
     managerFilePatterns: [
-      '(?:^|/)gotk-components\\.yaml$',
-      '(?:^|/)apps/.*\\.yaml$',
-      '(?:^|/)release\\.yaml$',
-      '(?:^|/)repository\\.yaml$',
+      '(?:^|/)gotk-components\\.ya?ml$',
+      '(?:^|/)apps/\\.ya?ml$',
+      '(?:^|/)release\\.ya?ml$',
+      '(?:^|/)repository\\.ya?ml$',
     ],
   },
   kubernetes: {
@@ -39,7 +36,7 @@
       depNameTemplate: 'opentofu/opentofu',
       datasourceTemplate: 'github-releases',
       versioningTemplate: 'semver',
-      fileMatch: ['(?:^|/)\\.opentofu-version$'],
+      fileMatch: ['(^|/)\\.opentofu-version$'],
       matchStrings: ['^v?(?<currentValue>[^\\s]+)'],
     },
   ],
@@ -51,7 +48,7 @@
   packageRules: [
     {
       matchCategories: ['docker'],
-      ignorePaths: ['**/flux-system/**/*.yaml'],
+      ignorePaths: ['**/flux-system/gotk-components.yaml'],
     },
     {
       matchManagers: ['github-actions', 'pre-commit'],
