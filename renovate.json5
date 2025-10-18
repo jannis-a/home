@@ -79,6 +79,15 @@
   ],
   packageRules: [
     {
+      matchDatasources: [
+        'terraform-provider',
+        'terraform-module',
+      ],
+      registryUrls: [
+        'https://registry.opentofu.org',
+      ],
+    },
+    {
       matchCategories: [
         'docker',
       ],
