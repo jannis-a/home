@@ -19,6 +19,7 @@
   ],
   automergeType: 'pr',
   enabledManagers: [
+    'regex',
     'flux',
     'github-actions',
     'kubernetes',
@@ -46,8 +47,7 @@
       depNameTemplate: 'opentofu/opentofu',
       datasourceTemplate: 'github-releases',
       managerFilePatterns: [
-        '/.opentofu-version',
-        '**/.opentofu-version',
+        '(^|/)\\.opentofu-version$',
       ],
       matchStrings: [
         '^(?<currentValue>.*)$',
@@ -65,17 +65,6 @@
         '^(?<currentValue>.*)$',
       ],
     },
-//    {
-//      depNameTemplate: 'gruntwork-io/terragrunt',
-//      datasourceTemplate: 'github-releases',
-//      versioningTemplate: 'semver',
-//      fileMatch: [
-//        '\\.terragrunt-version$',
-//      ],
-//      matchStrings: [
-//        '^(?<currentValue>.*)$',
-//      ],
-//    },
   ],
   packageRules: [
     {
