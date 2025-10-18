@@ -28,6 +28,11 @@
     'terragrunt',
     'terragrunt-version',
   ],
+  terraform: {
+    ignorePaths: [
+      '**/providers.tf',
+    ],
+  },
   flux: {
     managerFilePatterns: [
       '/(?:^|/)gotk-components\\.ya?ml$/',
