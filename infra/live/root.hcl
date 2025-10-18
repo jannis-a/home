@@ -9,10 +9,6 @@ remote_state {
   config = {
     bucket = get_env("OCI_BUCKET")
     key    = "${path_relative_to_include()}/tfstate.json"
-    endpoint = format("https://%s.compat.objectstorage.%s.oraclecloud.com",
-      get_env("OCI_NAMESPACE"),
-      get_env("AWS_REGION"),
-    )
 
     encrypt      = true
     use_lockfile = true
