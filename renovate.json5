@@ -18,17 +18,6 @@
     'helpers:pinGitHubActionDigests',
   ],
   automergeType: 'pr',
-//  enabledManagers: [
-//    'custom.regex',
-//    'regex',
-//    'flux',
-//    'github-actions',
-//    'kubernetes',
-//    'pre-commit',
-//    'terraform',
-//    'terragrunt',
-//    'terragrunt-version',
-//  ],
   terraform: {
     ignorePaths: [
       '**/providers.tf',
@@ -57,18 +46,6 @@
       ],
       matchStrings: [
         '^v?(?<currentValue>[^\\s]+)',
-      ],
-    },
-    {
-      customType: 'regex',
-      depNameTemplate: 'python',
-      datasourceTemplate: 'python',
-      managerFilePatterns: [
-        '/.python-version',
-        '**/.python-version',
-      ],
-      matchStrings: [
-        '^(?<currentValue>.*)$',
       ],
     },
   ],
