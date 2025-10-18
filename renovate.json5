@@ -21,21 +21,21 @@
   // Package managers
   flux: {
     managerFilePatterns: [
-      '/(?:^|/)gotk-components\\.ya?ml$/',
-      '/(?:^|/)apps/\\.ya?ml$/',
-      '/(?:^|/)release\\.ya?ml$/',
-      '/(?:^|/)repository\\.ya?ml$/',
+      '(?:^|/)gotk-components\\.yaml$',
+      '(?:^|/)apps/.*\\.yaml$',
+      '(?:^|/)release\\.yaml$',
+      '(?:^|/)repository\\.yaml$',
     ],
   },
   kubernetes: {
-    managerFilePatterns: [',/^deploy\\/.*\\.ya?ml$/'],
+    managerFilePatterns: ['deploy/**/*.yaml'],
   },
   regexManagers: [
     {
       depNameTemplate: 'opentofu/opentofu',
       datasourceTemplate: 'github-releases',
       versioningTemplate: 'semver',
-      fileMatch: ['(^|/)\\.opentofu-version$'],
+      fileMatch: ['(?:^|/)\\.opentofu-version$'],
       matchStrings: ['^v?(?<currentValue>[^\\s]+)'],
     },
   ],
@@ -47,7 +47,7 @@
   packageRules: [
     {
       matchCategories: ['docker'],
-      ignorePaths: ['**/gotk-components.yaml'],
+      ignorePaths: ['**/flux-system/**/*.yaml'],
     },
     {
       matchManagers: ['github-actions', 'pre-commit'],
