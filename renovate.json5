@@ -25,6 +25,7 @@
     'pre-commit',
     'terraform',
     'terragrunt',
+    'terragrunt-version',
   ],
   flux: {
     managerFilePatterns: [
@@ -45,7 +46,8 @@
       depNameTemplate: 'opentofu/opentofu',
       datasourceTemplate: 'github-releases',
       managerFilePatterns: [
-        '/^\\.opentofu-version$/',
+        '/.opentofu-version',
+        '**/.opentofu-version',
       ],
       matchStrings: [
         '^(?<currentValue>.*)$',
@@ -56,23 +58,24 @@
       depNameTemplate: 'python',
       datasourceTemplate: 'python',
       managerFilePatterns: [
-        '/^\\.python-version$',
+        '/.python-version',
+        '**/.python-version',
       ],
       matchStrings: [
         '^(?<currentValue>.*)$',
       ],
     },
-    {
-      customType: 'regex',
-      depNameTemplate: 'gruntwork-io/terragrunt',
-      datasourceTemplate: 'github-releases',
-      managerFilePatterns: [
-        '/^\\.terragrunt-version$/',
-      ],
-      matchStrings: [
-        '^(?<currentValue>.*)$',
-      ],
-    },
+//    {
+//      depNameTemplate: 'gruntwork-io/terragrunt',
+//      datasourceTemplate: 'github-releases',
+//      versioningTemplate: 'semver',
+//      fileMatch: [
+//        '\\.terragrunt-version$',
+//      ],
+//      matchStrings: [
+//        '^(?<currentValue>.*)$',
+//      ],
+//    },
   ],
   packageRules: [
     {
