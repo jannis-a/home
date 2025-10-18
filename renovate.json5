@@ -18,16 +18,17 @@
     'helpers:pinGitHubActionDigests',
   ],
   automergeType: 'pr',
-  enabledManagers: [
-    'regex',
-    'flux',
-    'github-actions',
-    'kubernetes',
-    'pre-commit',
-    'terraform',
-    'terragrunt',
-    'terragrunt-version',
-  ],
+//  enabledManagers: [
+//    'custom.regex',
+//    'regex',
+//    'flux',
+//    'github-actions',
+//    'kubernetes',
+//    'pre-commit',
+//    'terraform',
+//    'terragrunt',
+//    'terragrunt-version',
+//  ],
   terraform: {
     ignorePaths: [
       '**/providers.tf',
@@ -51,8 +52,11 @@
       customType: 'regex',
       depNameTemplate: 'opentofu/opentofu',
       datasourceTemplate: 'github-releases',
+      versioningTemplate: 'semver',
+      matchStringsStrategy: 'any',
+      extractVersionTemplate: '^v(?<version>.*)$',
       managerFilePatterns: [
-        '(^|/)\\.opentofu-version$',
+        '\\.opentofu-version',
       ],
       matchStrings: [
         '^(?<currentValue>.*)$',
