@@ -18,6 +18,9 @@
     'helpers:pinGitHubActionDigests',
   ],
   automergeType: 'pr',
+  lockFileMaintenance: {
+    enabled: true,
+  },
 
   // Package managers
   flux: {
