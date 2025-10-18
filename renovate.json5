@@ -18,16 +18,17 @@
     'helpers:pinGitHubActionDigests',
   ],
   automergeType: 'pr',
-  enabledManagers: [
-    'regex',
-    'flux',
-    'github-actions',
-    'kubernetes',
-    'pre-commit',
-    'terraform',
-    'terragrunt',
-    'terragrunt-version',
-  ],
+//  enabledManagers: [
+//    'custom.regex',
+//    'regex',
+//    'flux',
+//    'github-actions',
+//    'kubernetes',
+//    'pre-commit',
+//    'terraform',
+//    'terragrunt',
+//    'terragrunt-version',
+//  ],
   terraform: {
     ignorePaths: [
       '**/providers.tf',
@@ -46,16 +47,16 @@
       '/^deploy\\/.*\\.ya?ml$/',
     ],
   },
-  customManagers: [
+  regexManagers: [
     {
-      customType: 'regex',
       depNameTemplate: 'opentofu/opentofu',
       datasourceTemplate: 'github-releases',
-      managerFilePatterns: [
+      versioningTemplate: 'semver',
+      fileMatch: [
         '(^|/)\\.opentofu-version$',
       ],
       matchStrings: [
-        '^(?<currentValue>.*)$',
+        '^v?(?<currentValue>[^\\s]+)',
       ],
     },
     {
