@@ -18,11 +18,8 @@
     'helpers:pinGitHubActionDigests',
   ],
   automergeType: 'pr',
-  terraform: {
-    ignorePaths: [
-      '**/providers.tf',
-    ],
-  },
+
+  // Package managers
   flux: {
     managerFilePatterns: [
       '/(?:^|/)gotk-components\\.ya?ml$/',
@@ -32,65 +29,40 @@
     ],
   },
   kubernetes: {
-    managerFilePatterns: [
-      '/^deploy\\/.*\\.ya?ml$/',
-    ],
+    managerFilePatterns: [',/^deploy\\/.*\\.ya?ml$/'],
   },
   regexManagers: [
     {
       depNameTemplate: 'opentofu/opentofu',
       datasourceTemplate: 'github-releases',
       versioningTemplate: 'semver',
-      fileMatch: [
-        '(^|/)\\.opentofu-version$',
-      ],
-      matchStrings: [
-        '^v?(?<currentValue>[^\\s]+)',
-      ],
+      fileMatch: ['(^|/)\\.opentofu-version$'],
+      matchStrings: ['^v?(?<currentValue>[^\\s]+)'],
     },
   ],
+  terraform: {
+    ignorePaths: ['**/providers.tf'],
+  },
+
+  // Package rules
   packageRules: [
     {
-      matchDatasources: [
-        'terraform-provider',
-        'terraform-module',
-      ],
-      registryUrls: [
-        'https://registry.opentofu.org',
-      ],
+      matchCategories: ['docker'],
+      ignorePaths: ['**/gotk-components.yaml'],
     },
     {
-      matchCategories: [
-        'docker',
-      ],
-      ignorePaths: [
-        '**/gotk-components.yaml',
-      ],
-    },
-    {
-      matchManagers: [
-        'github-actions',
-        'pre-commit',
-      ],
+      matchManagers: ['github-actions', 'pre-commit'],
       semanticCommitScope: 'ci',
       semanticCommitType: 'chore',
     },
     {
-      matchManagers: [
-        'terraform',
-        'terragrunt',
-      ],
+      matchManagers: ['terraform', 'terragrunt'],
       semanticCommitScope: 'terraform',
       semanticCommitType: 'feat',
     },
     {
-      matchDatasources: [
-        'terraform-provider',
-        'terraform-module',
-      ],
-      registryUrls: [
-        'https://registry.opentofu.org',
-      ],
+      matchDatasources: ['terraform-provider', 'terraform-module'],
+      registryUrls: ['https://registry.opentofu.org'],
     },
   ],
 }
