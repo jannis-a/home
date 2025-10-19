@@ -14,12 +14,9 @@
     ':semanticCommits',
     'helpers:pinGitHubActionDigests',
   ],
-
   lockFileMaintenance: {
     enabled: true,
   },
-
-  // Package managers
   flux: {
     managerFilePatterns: [
       '(?:^|/)gotk-components\\.ya?ml$',
@@ -29,40 +26,62 @@
     ],
   },
   kubernetes: {
-    managerFilePatterns: ['deploy/**/*.yaml'],
+    managerFilePatterns: [
+      'deploy/**/*.yaml',
+    ],
   },
-  regexManagers: [
+  customManagers: [
     {
+      customType: 'regex',
       depNameTemplate: 'opentofu/opentofu',
       datasourceTemplate: 'github-releases',
       versioningTemplate: 'semver',
-      fileMatch: ['(^|/)\\.opentofu-version$'],
-      matchStrings: ['^v?(?<currentValue>[^\\s]+)'],
+      managerFilePatterns: [
+        '/(^|/)\\.opentofu-version$/',
+      ],
+      matchStrings: [
+        '^v?(?<currentValue>[^\\s]+)',
+      ],
     },
   ],
   terraform: {
-    ignorePaths: ['**/providers.tf'],
+    ignorePaths: [
+      '**/providers.tf',
+    ],
   },
-
-  // Package rules
   packageRules: [
     {
-      matchCategories: ['docker'],
-      ignorePaths: ['**/flux-system/gotk-components.yaml'],
+      matchCategories: [
+        'docker',
+      ],
+      ignorePaths: [
+        '**/flux-system/gotk-components.yaml',
+      ],
     },
     {
-      matchManagers: ['github-actions', 'pre-commit'],
+      matchManagers: [
+        'github-actions',
+        'pre-commit',
+      ],
       semanticCommitScope: 'ci',
       semanticCommitType: 'chore',
     },
     {
-      matchManagers: ['terraform', 'terragrunt'],
+      matchManagers: [
+        'terraform',
+        'terragrunt',
+      ],
       semanticCommitScope: 'terraform',
       semanticCommitType: 'feat',
     },
     {
-      matchDatasources: ['terraform-provider', 'terraform-module'],
-      registryUrls: ['https://registry.opentofu.org'],
+      matchDatasources: [
+        'terraform-provider',
+        'terraform-module',
+      ],
+      registryUrls: [
+        'https://registry.opentofu.org',
+      ],
     },
   ],
 }
