@@ -7,8 +7,6 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
-  path: ./apps/metrics-server
+  path: ./deploy/monitoring/metrics-server
   interval: 10m
   prune: true
-  dependsOn:
-  - name: cilium

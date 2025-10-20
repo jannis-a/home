@@ -10,3 +10,4 @@ resources:
 - networking/coredns/flux-kustomization.yaml
 - networking/gateways/flux-kustomization.yaml
 - core/external-secrets/flux-kustomization.yaml
+- monitoring/metrics-server/flux-kustomization.yaml
