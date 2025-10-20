@@ -7,13 +7,9 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
-  path: ./apps/external-dns
+  path: ./deploy/networking/external-dns
   interval: 10m
   prune: true
-  decryption:
-    provider: sops
-    secretRef:
-      name: sops-age
   dependsOn:
-  - name: cilium
   - name: coredns
+  - name: external-secrets

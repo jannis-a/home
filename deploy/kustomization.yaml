@@ -9,5 +9,6 @@ resources:
 - networking/cilium/ip-pools/flux-kustomization.yaml
 - networking/coredns/flux-kustomization.yaml
 - networking/gateways/flux-kustomization.yaml
+- networking/external-dns/flux-kustomization.yaml
 - core/external-secrets/flux-kustomization.yaml
 - monitoring/metrics-server/flux-kustomization.yaml
