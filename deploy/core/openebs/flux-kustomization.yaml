@@ -7,6 +7,6 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
-  path: ./apps/openebs
+  path: ./deploy/core/openebs
   interval: 10m
   prune: true

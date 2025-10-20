@@ -3,3 +3,4 @@ kind: Kustomization
 resources:
 - akri/flux-kustomization.yaml
 - external-secrets/flux-kustomization.yaml
+- openebs/flux-kustomization.yaml
