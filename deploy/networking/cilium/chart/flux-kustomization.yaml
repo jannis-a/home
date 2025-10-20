@@ -10,3 +10,5 @@ spec:
   path: ./deploy/networking/cilium/chart
   interval: 10m
   prune: true
+  dependsOn:
+    - name: gateway-api
