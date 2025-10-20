@@ -4,10 +4,10 @@ resources:
 - flux-system
 - crds
 - monitoring
+- core
 - networking/cilium/chart/flux-kustomization.yaml
 - networking/cilium/bgp/flux-kustomization.yaml
 - networking/cilium/ip-pools/flux-kustomization.yaml
 - networking/coredns/flux-kustomization.yaml
 - networking/gateways/flux-kustomization.yaml
 - networking/external-dns/flux-kustomization.yaml
-- core/external-secrets/flux-kustomization.yaml
