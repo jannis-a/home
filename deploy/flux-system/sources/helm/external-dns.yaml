@@ -1,8 +1,7 @@
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: HelmRepository
 metadata:
-  name: external-secrets
-  namespace: flux-system
+  name: external-dns
 spec:
   interval: 30m
-  url: https://charts.external-secrets.io
+  url: https://kubernetes-sigs.github.io/external-dns

@@ -1,8 +1,7 @@
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: HelmRepository
 metadata:
-  name: cilium
-  namespace: flux-system
+  name: akri
 spec:
   interval: 30m
-  url: https://helm.cilium.io
+  url: https://project-akri.github.io/akri

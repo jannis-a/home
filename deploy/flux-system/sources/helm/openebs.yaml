@@ -1,8 +1,7 @@
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: HelmRepository
 metadata:
-  name: akri
-  namespace: flux-system
+  name: openebs
 spec:
   interval: 30m
-  url: https://project-akri.github.io/akri
+  url: https://openebs.github.io/openebs
