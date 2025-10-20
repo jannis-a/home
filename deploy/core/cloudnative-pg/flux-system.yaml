@@ -7,9 +7,8 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
-  path: ./apps/cloudnative-pg
+  path: ./deploy/core/cloudnative-pg
   interval: 10m
   prune: true
   dependsOn:
-  - name: cilium
   - name: openebs
