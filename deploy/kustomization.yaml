@@ -3,11 +3,6 @@ kind: Kustomization
 resources:
 - flux-system
 - crds
-- monitoring
+- networking
 - core
-- networking/cilium/chart/flux-kustomization.yaml
-- networking/cilium/bgp/flux-kustomization.yaml
-- networking/cilium/ip-pools/flux-kustomization.yaml
-- networking/coredns/flux-kustomization.yaml
-- networking/gateways/flux-kustomization.yaml
-- networking/external-dns/flux-kustomization.yaml
+- monitoring
