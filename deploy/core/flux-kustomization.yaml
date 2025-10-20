@@ -7,6 +7,8 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
-  path: ./deploy/networking
+  path: ./deploy/core
   interval: 10m
   prune: true
+  dependsOn:
+  - name: crds
