@@ -6,5 +6,5 @@ resources:
 - networking/cilium/bgp/flux-kustomization.yaml
 - networking/cilium/ip-pools/flux-kustomization.yaml
 - networking/coredns/flux-kustomization.yaml
+- networking/gateways/flux-kustomization.yaml
 - crds/flux-kustomization.yaml
-- core/flux-kustomization.yaml
