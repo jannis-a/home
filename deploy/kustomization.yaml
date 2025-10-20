@@ -3,8 +3,10 @@ kind: Kustomization
 resources:
 - flux-system
 - crds/gateway-api
+- crds/external-secrets
 - networking/cilium/chart/flux-kustomization.yaml
 - networking/cilium/bgp/flux-kustomization.yaml
 - networking/cilium/ip-pools/flux-kustomization.yaml
 - networking/coredns/flux-kustomization.yaml
 - networking/gateways/flux-kustomization.yaml
+- core/external-secrets/flux-kustomization.yaml

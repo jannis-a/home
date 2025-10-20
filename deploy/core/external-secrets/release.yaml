@@ -13,5 +13,8 @@ spec:
         name: external-secrets
       chart: external-secrets
       version: 0.20.3
+  install:
+    crds: Skip
   targetNamespace: external-secrets
   releaseName: external-secrets
+
