@@ -1,14 +1,13 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: cilium
-  namespace: flux-system
+  name: akri
 spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
-  path: ./deploy/networking/cilium
+  path: ./deploy/core/akri
   interval: 10m
   prune: true
   dependsOn:
-    - name: gateway-api
+  - name: cilium

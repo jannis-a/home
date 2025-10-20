@@ -1,12 +1,13 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: external-secrets-crds
-  namespace: flux-system
+  name: cilium
 spec:
   sourceRef:
     kind: GitRepository
-    name: external-secrets
-  path: ./config/crds/bases
-  interval: 30m
+    name: flux-system
+  path: ./deploy/networking/cilium
+  interval: 10m
   prune: true
+  dependsOn:
+    - name: gateway-api
