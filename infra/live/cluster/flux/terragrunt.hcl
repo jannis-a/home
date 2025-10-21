@@ -22,6 +22,7 @@ locals {
 
 inputs = {
   repository    = "home"
+  branch        = "fix/restructure_flux"
   path          = include.cluster.locals.flux_path
   sops_key      = local.secrets["sops_agekey"]
   registry_auth = local.secrets["registry_auth"]

@@ -8,7 +8,7 @@ metadata:
 spec:
   interval: 1m0s
   ref:
-    branch: main
+    branch: fix/restructure_flux
   secretRef:
     name: flux-system
   url: ssh://git@github.com/jannis-a/home.git
