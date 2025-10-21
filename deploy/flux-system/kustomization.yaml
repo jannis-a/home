@@ -8,13 +8,6 @@ resources:
 - apps
 patches:
 - target:
-    kind: GitRepository
-    name: flux-system
-  patch: |
-    - op: add
-      path: /spec/ref/branch
-      value: feat/homeassistant
-- target:
     kind: Kustomization
     name: flux-system
   patch: |
