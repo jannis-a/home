@@ -11,5 +11,3 @@ spec:
     initdb:
       database: home-assistant
       owner: home-assistant
-      secret:
-        name: home-assistant-database
