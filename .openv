@@ -12,3 +12,6 @@ AWS_ENDPOINT_URL_S3="https://${OCI_NAMESPACE}.compat.objectstorage.${AWS_REGION}
 PROXMOX_VE_ENDPOINT="op://Homelab/Proxmox Terraform/website"
 PROXMOX_VE_API_TOKEN="op://Homelab/Proxmox Terraform/token"
 PROXMOX_VE_INSECURE="true"
+
+CLOUDFLARE_EMAIL="op://Private/Cloudflare/username"
+CLOUDFLARE_API_KEY="op://Private/Cloudflare/api-key"
