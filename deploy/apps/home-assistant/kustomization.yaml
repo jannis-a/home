@@ -3,9 +3,5 @@ kind: Kustomization
 namespace: home-assistant
 resources:
 - namespace.yaml
+- core
 - database
-#- deployment.yaml
-#- httproute.yaml
-#- pvc.yaml
-#- service.yaml
-#- service-account.yaml
