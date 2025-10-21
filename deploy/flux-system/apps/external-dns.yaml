@@ -9,6 +9,9 @@ spec:
   path: ./deploy/networking/external-dns
   interval: 10m
   prune: true
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age
   dependsOn:
   - name: coredns
-  - name: external-secrets
