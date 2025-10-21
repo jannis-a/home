@@ -21,10 +21,6 @@ spec:
         env:
         - name: TZ
           value: Europe/Berlin
-        envFrom:
-          - secretRef:
-              name: home-assistant-database-app
-            prefix: postgres
         ports:
         - name: http
           containerPort: 8123
