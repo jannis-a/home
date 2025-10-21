@@ -12,9 +12,6 @@ patches:
     name: flux-system
   patch: |
     - op: add
-      path: /spec/path
-      value: ./deploy/flux-system
-    - op: add
       path: /spec/decryption
       value:
         provider: sops
