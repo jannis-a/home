@@ -6,8 +6,6 @@ resources:
 - cloudnative-pg.yaml
 - coredns.yaml
 - external-dns.yaml
-- external-secrets.yaml
-- external-secrets-crds.yaml
 - gateway-api.yaml
 - gateways.yaml
 - home-assistant.yaml
