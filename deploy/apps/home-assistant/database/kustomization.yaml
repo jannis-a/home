@@ -3,4 +3,3 @@ kind: Kustomization
 namespace: home-assistant
 resources:
 - cluster.yaml
-- secret.yaml
