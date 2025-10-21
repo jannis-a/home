@@ -9,3 +9,7 @@ spec:
   path: ./deploy/apps/home-assistant
   interval: 10m
   prune: true
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age
