@@ -18,16 +18,16 @@
     enabled: true,
   },
   flux: {
+    ignorePaths: [
+      '**/flux-system/gotk-sync.yaml',
+    ],
     managerFilePatterns: [
-      '(?:^|/)gotk-components\\.ya?ml$',
-      '(?:^|/)apps/\\.ya?ml$',
-      '(?:^|/)release\\.ya?ml$',
-      '(?:^|/)repository\\.ya?ml$',
+      '/deploy/.*\\.ya?ml$/',
     ],
   },
   kubernetes: {
     managerFilePatterns: [
-      'deploy/**/*.yaml',
+      '/deploy/.*\\.ya?ml$/'
     ],
   },
   customManagers: [
@@ -37,7 +37,7 @@
       datasourceTemplate: 'github-releases',
       versioningTemplate: 'semver',
       managerFilePatterns: [
-        '/(^|/)\\.opentofu-version$/',
+        '/\\.opentofu-version$/',
       ],
       matchStrings: [
         '^v?(?<currentValue>[^\\s]+)',
