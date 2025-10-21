@@ -14,3 +14,10 @@ provider "flux" {
     }
   }
 }
+
+provider "kubernetes" {
+  host                   = var.kubernetes.host
+  cluster_ca_certificate = var.kubernetes.cluster_ca_certificate
+  client_certificate     = var.kubernetes.client_certificate
+  client_key             = var.kubernetes.client_key
+}

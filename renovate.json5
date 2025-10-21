@@ -9,34 +9,25 @@
     ':separateMajorReleases',
     'group:monorepos',
     'group:recommended',
-    ':automergeDigest',
-    ':automergeMinor',
-    ':automergePatch',
     ':enablePreCommit',
     ':gitSignOff',
     ':semanticCommits',
     'helpers:pinGitHubActionDigests',
   ],
-  automergeType: 'pr',
-  enabledManagers: [
-    'flux',
-    'github-actions',
-    'kubernetes',
-    'pre-commit',
-    'terraform',
-    'terragrunt',
-  ],
+  lockFileMaintenance: {
+    enabled: true,
+  },
   flux: {
     managerFilePatterns: [
-      '/(?:^|/)gotk-components\\.ya?ml$/',
-      '/(?:^|/)apps/\\.ya?ml$/',
-      '/(?:^|/)release\\.ya?ml$/',
-      '/(?:^|/)repository\\.ya?ml$/',
+      '(?:^|/)gotk-components\\.ya?ml$',
+      '(?:^|/)apps/\\.ya?ml$',
+      '(?:^|/)release\\.ya?ml$',
+      '(?:^|/)repository\\.ya?ml$',
     ],
   },
   kubernetes: {
     managerFilePatterns: [
-      '/^deploy\\/.*\\.ya?ml$/',
+      'deploy/**/*.yaml',
     ],
   },
   customManagers: [
@@ -44,43 +35,27 @@
       customType: 'regex',
       depNameTemplate: 'opentofu/opentofu',
       datasourceTemplate: 'github-releases',
+      versioningTemplate: 'semver',
       managerFilePatterns: [
-        '/^\\.opentofu-version$/',
+        '/(^|/)\\.opentofu-version$/',
       ],
       matchStrings: [
-        '^(?<currentValue>.*)$',
-      ],
-    },
-    {
-      customType: 'regex',
-      depNameTemplate: 'python',
-      datasourceTemplate: 'python',
-      managerFilePatterns: [
-        '/^\\.python-version$',
-      ],
-      matchStrings: [
-        '^(?<currentValue>.*)$',
-      ],
-    },
-    {
-      customType: 'regex',
-      depNameTemplate: 'gruntwork-io/terragrunt',
-      datasourceTemplate: 'github-releases',
-      managerFilePatterns: [
-        '/^\\.terragrunt-version$/',
-      ],
-      matchStrings: [
-        '^(?<currentValue>.*)$',
+        '^v?(?<currentValue>[^\\s]+)',
       ],
     },
   ],
+  terraform: {
+    ignorePaths: [
+      '**/providers.tf',
+    ],
+  },
   packageRules: [
     {
       matchCategories: [
         'docker',
       ],
       ignorePaths: [
-        '**/gotk-components.yaml',
+        '**/flux-system/gotk-components.yaml',
       ],
     },
     {

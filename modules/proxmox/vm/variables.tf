@@ -20,13 +20,15 @@ variable "memory" {
   })
 }
 
-variable "disk" {
-  type = object({
-    size     = number
-    iothread = optional(bool, true)
-    ssd      = optional(bool, true)
-    discard  = optional(string, "on")
-  })
+variable "disks" {
+  type = list(object({
+    size      = number
+    ssd       = optional(bool, true)
+    iothread  = optional(bool, true)
+    backup    = optional(bool, false)
+    replicate = optional(bool, false)
+    discard   = optional(string, "on")
+  }))
 }
 
 variable "network" {

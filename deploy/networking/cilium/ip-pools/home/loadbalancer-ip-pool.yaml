@@ -1,0 +1,12 @@
+apiVersion: cilium.io/v2
+kind: CiliumLoadBalancerIPPool
+metadata:
+  name: home
+spec:
+  allowFirstLastIPs: No
+  serviceSelector:
+    matchLabels:
+      site: home
+  blocks:
+    - cidr: 10.96.1.0/24
+    - cidr: fd11:99c6:9b95:ffff:1::/112

@@ -1,0 +1,22 @@
+apiVersion: cilium.io/v2
+kind: CiliumBGPAdvertisement
+metadata:
+  name: home
+  labels:
+    site: home
+spec:
+  advertisements:
+  - advertisementType: CiliumPodIPPool
+    selector:
+      matchLabels:
+        site: home
+  - advertisementType: Service
+    selector:
+      matchLabels:
+        site: home
+        bgp: announce
+    service:
+      addresses:
+      - ClusterIP
+      - ExternalIP
+      - LoadBalancerIP

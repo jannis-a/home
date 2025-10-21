@@ -20,12 +20,17 @@ resource "proxmox_virtual_environment_vm" "this" {
     floating  = var.memory.floating
   }
 
-  disk {
-    interface = "scsi0"
-    size      = var.disk.size
-    iothread  = var.disk.iothread
-    ssd       = var.disk.ssd
-    discard   = var.disk.discard
+  dynamic "disk" {
+    for_each = var.disks
+    content {
+      interface = "scsi${disk.key}"
+      size      = disk.value.size
+      iothread  = disk.value.iothread
+      replicate = disk.value.replicate
+      backup    = disk.value.backup
+      ssd       = disk.value.ssd
+      discard   = disk.value.discard
+    }
   }
 
   network_device {

@@ -1,0 +1,15 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: home
+  namespace: gateways
+spec:
+  gatewayClassName: cilium
+  infrastructure:
+    labels:
+      site: home
+      bgp: announce
+  listeners:
+    - name: http
+      port: 80
+      protocol: HTTP
