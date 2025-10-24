@@ -4,10 +4,10 @@ metadata:
   name: home-assistant
 spec:
   hostnames:
-  - home-assistant
+  - home-assistant-new
   parentRefs:
-    - name: cilium
-      namespace: gateway
+    - name: home
+      namespace: gateways
   rules:
     - backendRefs:
         - name: home-assistant
