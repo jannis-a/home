@@ -23,7 +23,7 @@ dependencies {
 }
 
 dependency "image" {
-  config_path = "${get_terragrunt_dir()}/../image"
+  config_path = "../image"
 }
 
 inputs = {
@@ -38,8 +38,10 @@ inputs = {
       kubernetes_version = "1.34.1"
       kubelet_subnets = [
         include.network.locals.subnets.v4,
-        include.network.locals.subnets.v6_ula,
+        include.network.locals.subnets.v6.ula,
       ]
+      nameservers = include.network.locals.nameservers
+      timeservers = include.network.locals.timeservers
       disks = {
         openebs-local = {
           min_size = "500GB"

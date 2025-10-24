@@ -7,9 +7,9 @@ metadata:
 spec:
   ipv4:
     cidrs:
-    - 10.244.0.0/16
+    - 172.18.0.0/16
     maskSize: 24
   ipv6:
     cidrs:
-    - 2a02:8070:6480:32f1:0::/68
+    - 2a02:8070:6480:32f0::/64
     maskSize: 80

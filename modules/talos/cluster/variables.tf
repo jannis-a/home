@@ -1,6 +1,7 @@
 variable "cluster_name" {
   type = string
 }
+
 variable "nodes" {
   type = map(object({
     control_plane      = bool
@@ -9,6 +10,8 @@ variable "nodes" {
     kubernetes_version = string
     kubelet_subnets    = list(string)
     site               = string
+    nameservers        = set(string)
+    timeservers        = set(string)
     disks = map(object({
       device   = string
       min_size = string

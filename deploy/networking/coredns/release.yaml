@@ -22,7 +22,7 @@ spec:
       create: true
     service:
       ipFamilyPolicy: RequireDualStack
-      clusterIP: 10.96.0.10
+      clusterIP: 172.17.0.10
       clusterIPs:
-      - 10.96.0.10
-      - fd11:99c6:9b95:ffff::a
+      - 172.17.0.10
+      - fd5d:feeb:a195::a

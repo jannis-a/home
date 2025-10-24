@@ -31,7 +31,12 @@ data "talos_machine_configuration" "this" {
           }
 
           network = {
-            hostname = each.key
+            hostname    = each.key
+            nameservers = each.value.nameservers
+          }
+
+          time = {
+            servers = each.value.timeservers
           }
 
           kubelet = {

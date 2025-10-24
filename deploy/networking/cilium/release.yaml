@@ -14,9 +14,10 @@ spec:
       version: 1.18.2
       interval: 30m
   targetNamespace: kube-system
+  releaseName: cilium
   values:
     cluster:
-      name: knecht
+      name: unterschicht
 
     rollOutCiliumPods: true
 

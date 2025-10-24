@@ -8,7 +8,8 @@ variable "branch" {
 }
 
 variable "path" {
-  type = string
+  type    = string
+  default = "deploy"
 }
 
 variable "key_name" {

@@ -8,5 +8,5 @@ spec:
     matchLabels:
       site: home
   blocks:
-    - cidr: 10.96.1.0/24
-    - cidr: fd11:99c6:9b95:ffff:1::/112
+    - cidr: 172.16.1.0/24
+    - cidr: fd5d:feeb:a195:a::/64
