@@ -7,6 +7,7 @@ remote_state {
     if_exists = "overwrite_terragrunt"
   }
   config = {
+    region = get_env("OCI_REGION")
     bucket = get_env("OCI_BUCKET")
     key    = "${path_relative_to_include()}/tfstate.json"
 
