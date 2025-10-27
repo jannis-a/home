@@ -10,4 +10,5 @@ resources:
 - gateways.yaml
 - home-assistant.yaml
 - metrics-server.yaml
+- multus.yaml
 - openebs.yaml

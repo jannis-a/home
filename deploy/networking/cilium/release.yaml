@@ -19,6 +19,9 @@ spec:
     cluster:
       name: unterschicht
 
+    cni:
+      exclusive: false
+
     rollOutCiliumPods: true
 
     k8sServiceHost: localhost

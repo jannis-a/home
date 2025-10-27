@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: kube-multus-ds
+spec:
+  template:
+    spec:
+      initContainers:
+      - name: install-cni-plugins
+        image: docker.io/library/busybox:1.36
+        env:
+        - name: RELEASE
+          value: "1.8.0"
+        - name: TARGET
+          value: "/host/opt/cni/bin"
+        command:
+        - sh
+        - -c
+        # language=bash
+        - |
+          set -eux
+
+          ARCH="$(uname -m)"
+          [[ "$ARCH" = "x86_64" ]] && ARCH="amd64"
+          OS="$(uname -s | tr '[[:upper:]]' '[[:lower:]]')"
+
+          wget -O - https://github.com/containernetworking/plugins/releases/download/v${RELEASE}/cni-plugins-${OS}-${ARCH}-v${RELEASE}.tgz \
+            | tar xzf -
+
+          cp -f macvlan $TARGET
+        securityContext:
+          privileged: true
+        volumeMounts:
+        - name: cnibin
+          mountPath: /host/opt/cni/bin
+          mountPropagation: Bidirectional

@@ -11,6 +11,8 @@ spec:
       app: home-assistant
   template:
     metadata:
+      annotations:
+        k8s.v1.cni.cncf.io/networks: macvlan
       labels:
         app: home-assistant
     spec:
