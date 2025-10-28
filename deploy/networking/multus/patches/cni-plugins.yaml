@@ -27,7 +27,7 @@ spec:
           wget -O - https://github.com/containernetworking/plugins/releases/download/v${RELEASE}/cni-plugins-${OS}-${ARCH}-v${RELEASE}.tgz \
             | tar xzf -
 
-          cp -f macvlan $TARGET
+          cp -f macvlan static $TARGET
         securityContext:
           privileged: true
         volumeMounts:
