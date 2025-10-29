@@ -13,5 +13,5 @@ PROXMOX_VE_ENDPOINT="op://Homelab/Proxmox Terraform/website"
 PROXMOX_VE_API_TOKEN="op://Homelab/Proxmox Terraform/token"
 PROXMOX_VE_INSECURE="true"
 
-CLOUDFLARE_EMAIL="op://Private/Cloudflare/username"
-CLOUDFLARE_API_KEY="op://Private/Cloudflare/api-key"
+CLOUDFLARE_EMAIL="op://Homelab/Cloudflare/username"
+CLOUDFLARE_API_KEY="op://Homelab/Cloudflare/api-key"
