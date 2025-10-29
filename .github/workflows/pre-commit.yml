@@ -21,9 +21,8 @@ jobs:
     runs-on: ubuntu-24.04
     name: "Hook: ${{ matrix.hook }}"
     needs: get-hooks
-    # TODO: think about where to place this
     env:
-      PROXMOX_VE_INSECURE: true
+      TENV_AUTO_INSTALL: true
     strategy:
       fail-fast: false
       matrix:
@@ -33,15 +32,6 @@ jobs:
       - uses: jaxxstorm/action-install-gh-release@v1.10.0
         with:
           repo: tofuutils/tenv
-    #      - id: versions
-    #        run: |
-    #          echo "terragrunt=$(cat .terragrunt-version)" >> $GITHUB_OUTPUT
-    #          echo "tofu=$(cat .opentofu-version)" >> $GITHUB_OUTPUT
-    #          echo $GITHUB_OUTPUT
-    #      - uses: gruntwork-io/terragrunt-action@95fc057922e3c3d4cc021a81a213f088f333ddef # v3.0.2
-    #        with:
-    #          tg_version: ${{ steps.versions.outputs.terragrunt }}
-    #          tofu_version: ${{ steps.versions.outputs.tofu }}
       - uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c # v6.0.0
         with:
           python-version-file: .python-version
