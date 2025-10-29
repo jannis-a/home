@@ -30,12 +30,6 @@ data "talos_machine_configuration" "this" {
             image = each.value.talos_installer
           }
 
-          kernel = {
-            modules = [
-              { name = "zfs" }
-            ]
-          }
-
           network = {
             hostname    = each.key
             nameservers = each.value.nameservers
