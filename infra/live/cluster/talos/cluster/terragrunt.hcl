@@ -28,6 +28,7 @@ dependency "image" {
 
 inputs = {
   cluster_name    = include.cluster.locals.name
+  pod_subnets     = include.cluster.locals.pod_subnets
   service_subnets = include.cluster.locals.service_subnets
   nodes = {
     knecht = {
@@ -46,6 +47,25 @@ inputs = {
         openebs-local = {
           min_size = "500GB"
           device   = "/dev/sdb"
+        }
+      }
+      network = {
+        ens27u1 = {
+          addresses = [for cidr in [
+            include.network.locals.subnets.v4,
+            include.network.locals.subnets.v6.ula,
+            include.network.locals.subnets.v6.gua,
+          ] : "${cidrhost(cidr, 2)}/${split("/", cidr)[1]}"]
+          routes = [
+            {
+              network = "0.0.0.0/0"
+              gateway = include.network.locals.router.v4
+            },
+            {
+              network = "::/0"
+              gateway = include.network.locals.router.v6.gua
+            },
+          ]
         }
       }
     }

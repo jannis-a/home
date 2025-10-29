@@ -33,6 +33,12 @@ data "talos_machine_configuration" "this" {
           network = {
             hostname    = each.key
             nameservers = each.value.nameservers
+
+            interfaces = [for device, config in each.value.network : {
+              interface = device
+              addresses = config.addresses
+              routes    = config.routes
+            }]
           }
 
           time = {
@@ -59,6 +65,11 @@ data "talos_machine_configuration" "this" {
 
         cluster = {
           allowSchedulingOnControlPlanes = true
+
+          network = {
+            podSubnets     = var.pod_subnets
+            serviceSubnets = var.service_subnets
+          }
         }
       }),
 
@@ -78,15 +89,6 @@ data "talos_machine_configuration" "this" {
           network = {
             cni = {
               name = "none"
-            }
-
-            podSubnets     = []
-            serviceSubnets = var.service_subnets
-
-          }
-          controllerManager = {
-            extraArgs = {
-              allocate-node-cidrs = false
             }
           }
         }

@@ -16,7 +16,18 @@ variable "nodes" {
       device   = string
       min_size = string
     }))
+    network = map(object({
+      addresses = list(string)
+      routes = list(object({
+        network = string
+        gateway = string
+      }))
+    }))
   }))
+}
+
+variable "pod_subnets" {
+  type = list(string)
 }
 
 variable "service_subnets" {

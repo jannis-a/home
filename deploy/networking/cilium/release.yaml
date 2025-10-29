@@ -39,13 +39,7 @@ spec:
       enabled: true
 
     ipam:
-      mode: multi-pool
-
-    bpf:
-      lbExternalClusterIP: true
-
-    bgpControlPlane:
-      enabled: true
+      mode: kubernetes
 
     hubble:
       relay:
