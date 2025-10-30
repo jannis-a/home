@@ -5,6 +5,7 @@ provider "registry.opentofu.org/fluxcd/flux" {
   version     = "1.7.4"
   constraints = "~> 1.0"
   hashes = [
+    "h1:6ALrAYdMdbCvkmqNkWhya1C4vNHSLTSR7zCgsiuQx84=",
     "h1:ghEypxw0SCvu5f15mOTmfi9fiKH7THnpJkhmy9JQOqM=",
     "zh:102af2c2945833631699a909d28d4a9054ecd3d16edca6a40438de39e89a926e",
     "zh:351e57ddba51f19d453cd1c74eff1c5f443ed7be0e6a1d0df1e67aee48fd73ea",
@@ -65,6 +66,7 @@ provider "registry.opentofu.org/integrations/github" {
   constraints = "~> 6.0"
   hashes = [
     "h1:Jwdu/dDXKwrwLFn6RgnjItp4q3DNHKHPOvxQ6rGmPQE=",
+    "h1:pZfKEBcmxSaJnrEzyOfVlml3/RD4DO8Vyn6IMvWU4hI=",
     "zh:13686ba2e4e86070a51902b07503c0b3f9d3d3a77ea9ca4487dad68bc9f51e15",
     "zh:268180ca9ff7d10046d7b49b30de0e7a35074090995160d5732a9d20336d0c73",
     "zh:407b43ca464b199ccd522a9948097f8d90fedc58175bd350747723545c66974b",
