@@ -1,5 +1,5 @@
 locals {
-  name          = "unterschicht"
+  name          = "knecht"
   talos_version = "1.11.3"
   pod_subnets = [
     "172.18.0.0/16",

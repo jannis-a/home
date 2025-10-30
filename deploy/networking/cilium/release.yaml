@@ -17,7 +17,7 @@ spec:
   releaseName: cilium
   values:
     cluster:
-      name: unterschicht
+      name: knecht
 
     cni:
       exclusive: false
