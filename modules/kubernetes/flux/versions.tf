@@ -8,7 +8,7 @@ terraform {
     }
     github = {
       source  = "integrations/github"
-      version = "~> 6.0, < 6.7" # TODO: find out why 6.7 breaks
+      version = "~> 6.0"
     }
     kubernetes = {
       source  = "hashicorp/kubernetes"
