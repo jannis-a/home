@@ -73,6 +73,26 @@ data "talos_machine_configuration" "this" {
         }
       }),
 
+      # OpenEBS
+      yamlencode({
+        machine = {
+          kernel = {
+            modules = [
+              { name = "zfs" },
+            ]
+          }
+
+          kubelet = {
+            extraMounts = [{
+              destination = "/var/local/openebs-openebs"
+              source      = "/var/local/openebs-openebs"
+              type        = "bind"
+              options     = ["bind", "rshared", "rw"]
+            }]
+          }
+        }
+      }),
+
       # Cilium
       yamlencode({
         machine = {
@@ -109,22 +129,6 @@ data "talos_machine_configuration" "this" {
         }
       }),
     ],
-
-    # Volumes
-    [for name, config in each.value.disks : yamlencode({
-      apiVersion = "v1alpha1"
-      kind       = "UserVolumeConfig"
-      name       = name
-      provisioning = {
-        diskSelector = {
-          match = "disk.dev_path == '${config.device}'"
-        }
-        minSize = config.min_size
-      }
-      filesystem = {
-        type = "ext4"
-      }
-    })],
   )
 }
 

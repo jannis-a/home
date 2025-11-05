@@ -12,10 +12,6 @@ variable "nodes" {
     site               = string
     nameservers        = set(string)
     timeservers        = set(string)
-    disks = map(object({
-      device   = string
-      min_size = string
-    }))
     network = map(object({
       addresses = list(string)
       routes = list(object({

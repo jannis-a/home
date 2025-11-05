@@ -43,12 +43,6 @@ inputs = {
       ]
       nameservers = include.network.locals.nameservers
       timeservers = include.network.locals.timeservers
-      disks = {
-        openebs-local = {
-          min_size = "500GB"
-          device   = "/dev/sdb"
-        }
-      }
       network = {
         ens27u1 = {
           addresses = [for cidr in [
