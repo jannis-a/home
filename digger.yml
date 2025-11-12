@@ -1,0 +1,4 @@
+projects:
+  - name: my-dev
+    dir: infra/live
+    terragrunt: true
