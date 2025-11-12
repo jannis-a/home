@@ -7,6 +7,9 @@ on:
         required: true
       run_name:
         required: false
+  repository_dispatch:
+    types:
+      - webhook
 
 run-name: '${{github.event.inputs.run_name}}'
 
