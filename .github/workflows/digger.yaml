@@ -27,7 +27,7 @@ jobs:
         run: echo "job id ${{ fromJSON(github.event.inputs.spec).job_id }}"
       - uses: diggerhq/digger@vLatest
         with:
-          digger-spec: "${{ inputs.spec }}"
+          digger-spec: "${{ github.event.inputs.spec }}"
           setup-opentofu: true
           opentofu-version: 1.9.1
           setup-aws: true
