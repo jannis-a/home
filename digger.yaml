@@ -1,5 +1,5 @@
 
-generate_projects
+generate_projects:
     blocks:
       - block_name: dev
         terragrunt: true
