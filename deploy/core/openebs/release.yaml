@@ -16,26 +16,18 @@ spec:
       chart: openebs
       version: 4.3.3
   values:
-    zfs-localpv:
-      zfsNode:
-        encrKeysDir: /var/openebs/zfs/keys
-
     localpv-provisioner:
       localpv:
-        enabled: false
+        basePath: /var/mnt/tank
       hostpathClass:
-        enabled: false
-      rbac:
-        pspEnabled: false
-      serviceAccount:
-        create: false
+        reclaimPolicy: Retain
 
     engines:
       local:
         lvm:
           enabled: false
         zfs:
-          enabled: true
+          enabled: false
       replicated:
         mayastor:
           enabled: false

@@ -45,10 +45,23 @@ data "talos_machine_configuration" "this" {
             servers = each.value.timeservers
           }
 
+          kernel = {
+            modules = [
+              { name = "zfs" },
+            ]
+          }
+
           kubelet = {
             nodeIP = {
               validSubnets = each.value.kubelet_subnets
             }
+
+            extraMounts = [{
+              destination = "/var/mnt/tank"
+              source      = "/var/mnt/tank"
+              type        = "bind"
+              options     = ["bind", "rshared", "rw"]
+            }]
           }
 
           features = {
@@ -69,26 +82,6 @@ data "talos_machine_configuration" "this" {
           network = {
             podSubnets     = var.pod_subnets
             serviceSubnets = var.service_subnets
-          }
-        }
-      }),
-
-      # OpenEBS
-      yamlencode({
-        machine = {
-          kernel = {
-            modules = [
-              { name = "zfs" },
-            ]
-          }
-
-          kubelet = {
-            extraMounts = [{
-              destination = "/var/local/openebs-openebs"
-              source      = "/var/local/openebs-openebs"
-              type        = "bind"
-              options     = ["bind", "rshared", "rw"]
-            }]
           }
         }
       }),

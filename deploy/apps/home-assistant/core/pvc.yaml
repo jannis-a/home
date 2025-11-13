@@ -3,7 +3,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: home-assistant
 spec:
-  storageClassName: openebs-zfs
+  storageClassName: openebs-hostpath
   accessModes:
   - ReadWriteOnce
   resources:

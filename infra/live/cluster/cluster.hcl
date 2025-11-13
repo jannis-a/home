@@ -1,6 +1,6 @@
 locals {
   name          = "knecht"
-  talos_version = "1.11.3"
+  talos_version = "1.11.5"
   pod_subnets = [
     "172.18.0.0/16",
     "2a02:8070:6480:32f1::/64",
