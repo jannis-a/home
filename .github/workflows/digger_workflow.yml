@@ -12,7 +12,11 @@ run-name: '${{ github.event.inputs.run_name }}'
 
 jobs:
   digger-job:
-    runs-on: ubuntu-24.04
+    #runs-on: ubuntu-24.04
+    runs-on: arc-runner-set-test
+
+    env:
+      TENV_AUTO_INSTALL: true
 
     permissions:
       contents: write      # required to merge PRs
@@ -25,10 +29,17 @@ jobs:
     steps:
       - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
       - run: echo "job id ${{ fromJSON(inputs.spec).job_id }}"
-      - run: |
-          mkdir -p /usr/local/bin
-          curl -fsSL "https://github.com/tofuutils/tenv/releases/download/v4.7.21/tenv_v4.7.21_Linux_x86_64.tar.gz" \
-            | tar xzf - -C /usr/local/bin
+      - uses: jaxxstorm/action-install-gh-release@6096f2a2bbfee498ced520b6922ac2c06e990ed2 # v2.1.0
+        with:
+          repo: tofuutils/tenv
+      - uses: 1password/load-secrets-action/configure@13f58eec611f8e5db52ec16247f58c508398f3e6 # v3.0.0
+        with:
+          service-account-token: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
+      - uses: 1password/load-secrets-action@vzt/prepare-relese-v3.1.0
+        with:
+          export-env: true
+        env:
+          OP_ENV_FILE: .openv
       - uses: diggerhq/digger@56fcfdad089792f88db7de27e8ea91da9723a420 # v0.6.136
         with:
           digger-spec: ${{ inputs.spec }}
