@@ -7,15 +7,13 @@ on:
         required: true
       run_name:
         required: false
-  repository_dispatch:
-    types:
-      - webhook
 
-#run-name: '${{github.event.inputs.run_name}}'
+run-name: '${{ github.event.inputs.run_name }}'
 
 jobs:
   digger-job:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
+
     permissions:
       contents: write      # required to merge PRs
       actions: write       # required for plan persistence
@@ -26,14 +24,14 @@ jobs:
 
     steps:
       - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
-      - name: ${{ fromJSON(github.event.inputs.spec).job_id }}
-        run: echo "job id ${{ fromJSON(github.event.inputs.spec).job_id }}"
+      - run: echo "job id ${{ fromJSON(inputs.spec).job_id }}"
+      - run: |
+          mkdir -p /usr/local/bin
+          curl -fsSL "https://github.com/tofuutils/tenv/releases/download/v4.7.21/tenv_v4.7.21_Linux_x86_64.tar.gz" \
+            | tar xzf - -C /usr/local/bin
       - uses: diggerhq/digger@56fcfdad089792f88db7de27e8ea91da9723a420 # v0.6.136
         with:
           digger-spec: ${{ inputs.spec }}
-          setup-aws: true
-          setup-terraform: true
-          terraform-version: 1.5.5
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

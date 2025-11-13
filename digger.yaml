@@ -1,7 +1,6 @@
-
 generate_projects:
-    blocks:
-      - block_name: dev
-        terragrunt: true
-        root_dir: infra/live
-        workflow: default
+  blocks:
+  - block_name: dev
+    terragrunt: true
+    root_dir: infra/live
+    workflow: default
