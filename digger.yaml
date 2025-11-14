@@ -4,3 +4,10 @@ generate_projects:
     terragrunt: true
     root_dir: infra/live
     workflow: default
+workflows:
+  default:
+    plan:
+      steps:
+      - init
+      - plan
+      - run: echo "Terragrunt generation!"
