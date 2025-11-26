@@ -30,7 +30,7 @@ jobs:
           mkdir -p /usr/local/bin
           curl -fsSL "https://github.com/tofuutils/tenv/releases/download/v4.7.21/tenv_v4.7.21_Linux_x86_64.tar.gz" \
             | tar xzf - -C /usr/local/bin
-      - uses: diggerhq/digger@56fcfdad089792f88db7de27e8ea91da9723a420 # v0.6.136
+      - uses: diggerhq/digger@5836163954506313b3aa65aa185d3ca971de5e5c # v0.6.137
         with:
           digger-spec: ${{ inputs.spec }}
         env:
