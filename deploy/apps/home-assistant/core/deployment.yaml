@@ -19,7 +19,7 @@ spec:
       serviceAccountName: home-assistant
       containers:
       - name: home-assistant
-        image: ghcr.io/home-assistant/home-assistant:2025.11.3
+        image: ghcr.io/home-assistant/home-assistant:2025.12.0
         env:
         - name: TZ
           value: Europe/Berlin
