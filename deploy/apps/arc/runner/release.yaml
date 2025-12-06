@@ -1,12 +1,10 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: arc-runner-set-test
-  namespace: flux-system
+  name: default
+  namespace: arc-runners
 spec:
   interval: 10m
-  targetNamespace: arc-runners
-  releaseName: arc-runner-set-test
   chart:
     spec:
       chart: gha-runner-scale-set
