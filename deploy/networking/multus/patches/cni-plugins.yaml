@@ -13,21 +13,56 @@ spec:
           value: "1.8.0"
         - name: TARGET
           value: "/host/opt/cni/bin"
+        - name: PLUGINS
+          value: "macvlan,static"
         command:
         - sh
         - -c
         # language=bash
         - |
-          set -eux
+          set -eu
+
+          # Convert comma-separated list to space-separated
+          PLUGINS_LIST="$(printf '%s\n' "$PLUGINS" | tr ',' ' ')"
+
+          # Check if all plugins already exist
+          NEEDS_PLUGINS=0
+          for p in $PLUGINS_LIST; do
+            if [ ! -f "$TARGET/$p" ]; then
+              NEEDS_PLUGINS=1
+              break
+            fi
+          done
+
+          if [ "$NEEDS_PLUGINS" -eq 0 ]; then
+            echo "All requested CNI plugins already present"
+            exit 0
+          fi
 
           ARCH="$(uname -m)"
-          [[ "$ARCH" = "x86_64" ]] && ARCH="amd64"
-          OS="$(uname -s | tr '[[:upper:]]' '[[:lower:]]')"
+          case "$ARCH" in
+            x86_64) ARCH="amd64" ;;
+            aarch64) ARCH="arm64" ;;
+            armv7l|armv7) ARCH="arm" ;;
+          esac
 
-          wget -O - https://github.com/containernetworking/plugins/releases/download/v${RELEASE}/cni-plugins-${OS}-${ARCH}-v${RELEASE}.tgz \
+          OS="$(uname -s | tr '[:upper:]' '[:lower:]')"
+
+          echo "Downloading CNI plugins ${RELEASE} for ${OS}-${ARCH}..."
+          wget -O - "https://github.com/containernetworking/plugins/releases/download/v${RELEASE}/cni-plugins-${OS}-${ARCH}-v${RELEASE}.tgz" \
             | tar xzf -
 
-          cp -f macvlan static $TARGET
+          # Copy only the requested plugins
+          for p in $PLUGINS_LIST; do
+            if [ -f "$p" ]; then
+              cp -f "$p" "$TARGET/"
+            else
+              echo "WARNING: plugin '$p' not found in release archive" >&2
+            fi
+          done
+
+          echo "CNI plugins installed into $TARGET:"
+          ls -1 "$TARGET"
         securityContext:
           privileged: true
         volumeMounts:

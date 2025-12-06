@@ -9,5 +9,3 @@ spec:
   path: ./deploy/networking/multus
   interval: 10m
   prune: true
-  dependsOn:
-  - name: cilium
