@@ -13,7 +13,7 @@ resource "github_repository_deploy_key" "this" {
   read_only  = false
 }
 
-resource "kubernetes_namespace" "this" {
+resource "kubernetes_namespace_v1" "this" {
   metadata {
     name = var.namespace
   }
@@ -23,7 +23,7 @@ resource "kubernetes_namespace" "this" {
   }
 }
 
-resource "kubernetes_secret" "sops" {
+resource "kubernetes_secret_v1" "sops" {
   metadata {
     name      = "sops-age"
     namespace = var.namespace
@@ -34,7 +34,7 @@ resource "kubernetes_secret" "sops" {
   }
 }
 
-resource "kubernetes_secret" "registry_auth" {
+resource "kubernetes_secret_v1" "registry_auth" {
   metadata {
     name      = "registry-auth"
     namespace = var.namespace
@@ -59,8 +59,8 @@ resource "flux_bootstrap_git" "this" {
   namespace = var.namespace
 
   kustomization_override = templatefile("${path.module}/templates/kustomization.yaml.tftpl", {
-    sops_secret   = kubernetes_secret.sops.metadata[0].name
-    registry_auth = kubernetes_secret.registry_auth.metadata[0].name
+    sops_secret   = kubernetes_secret_v1.sops.metadata[0].name
+    registry_auth = kubernetes_secret_v1.registry_auth.metadata[0].name
     bootstrap     = var.bootstrap
   })
 }
