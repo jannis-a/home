@@ -8,7 +8,6 @@ spec:
   infrastructure:
     labels:
       site: home
-      bgp: announce
   listeners:
     - name: http
       port: 80
