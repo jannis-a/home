@@ -20,6 +20,6 @@ inputs = {
     "siderolabs/intel-ucode",
     "siderolabs/qemu-guest-agent",
     "siderolabs/util-linux-tools",
-    "siderolabs/zfs",
+    # "siderolabs/zfs",
   ]
 }
