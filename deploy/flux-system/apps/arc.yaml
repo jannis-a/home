@@ -9,5 +9,9 @@ spec:
   path: ./deploy/apps/arc
   interval: 10m
   prune: true
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age
   dependsOn:
   - name: cilium
