@@ -9,9 +9,10 @@ spec:
     storageClass: tank
     pvcTemplate:
       volumeName: local-pv-24158c21
+  superuserSecret:
+    name: database-superuser
   bootstrap:
     initdb:
       database: home-assistant
       owner: home-assistant
-      secret:
-        name: database
+      encoding: utf8
