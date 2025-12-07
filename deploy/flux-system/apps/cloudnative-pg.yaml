@@ -10,4 +10,4 @@ spec:
   interval: 10m
   prune: true
   dependsOn:
-  - name: openebs
+  - name: local-static-provisioner

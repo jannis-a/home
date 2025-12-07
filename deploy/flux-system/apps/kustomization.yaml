@@ -10,6 +10,6 @@ resources:
 - gateway-api.yaml
 - gateways.yaml
 - home-assistant.yaml
+- local-static-provisioner.yaml
 - metrics-server.yaml
 - multus.yaml
-- openebs.yaml
