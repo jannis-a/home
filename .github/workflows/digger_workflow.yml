@@ -8,7 +8,7 @@ on:
       run_name:
         required: false
 
-run-name: '${{ github.event.inputs.run_name }}'
+run-name: '${{inputs.run_name}}'
 
 jobs:
   digger-job:
@@ -25,13 +25,15 @@ jobs:
 
     steps:
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
-      - run: echo "job id ${{ fromJSON(inputs.spec).job_id }}"
+      - name: ${{ fromJSON(github.event.inputs.spec).job_id }}
+        run: echo "job id ${{ fromJSON(github.event.inputs.spec).job_id }}"
       - uses: jaxxstorm/action-install-gh-release@v1.10.0
         with: # Grab a specific platform and/or architecture
           repo: tofuutils/tenv
       - uses: diggerhq/digger@vLatest
         with:
           digger-spec: ${{ inputs.spec }}
+          configure-checkout: false
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
-          #GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
