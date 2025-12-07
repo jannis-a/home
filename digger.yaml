@@ -2,5 +2,6 @@ generate_projects:
   blocks:
   - block_name: dev
     terragrunt: true
+    opentofu: true
     root_dir: infra/live
     workflow: default
