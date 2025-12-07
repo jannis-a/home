@@ -7,9 +7,10 @@ remote_state {
     if_exists = "overwrite_terragrunt"
   }
   config = {
-    region = get_env("OCI_REGION")
-    bucket = get_env("OCI_BUCKET")
-    key    = "${path_relative_to_include()}/tfstate.json"
+    region   = get_env("OCI_REGION")
+    bucket   = get_env("OCI_BUCKET")
+    key      = "${path_relative_to_include()}/tfstate.json"
+    endpoint = "https://${get_env("OCI_NAMESPACE")}.compat.objectstorage.${get_env("OCI_REGION")}.oraclecloud.com"
 
     encrypt      = true
     use_lockfile = true
