@@ -33,7 +33,7 @@ generate "remote_state_encryption_config" {
         key_provider "external" "environment" {
           command = ["sh", "-c",
             <<-SH
-              KEY="$(base64 <<< $TOFU_STATE_KEY)"
+              KEY="$(echo "$TOFU_STATE_KEY" | base64)"
               printf '{"keys": {"encryption_key": "%s", "decryption_key": "%s"}}' $KEY $KEY
             SH
           ]
