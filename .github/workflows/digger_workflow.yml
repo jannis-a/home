@@ -30,6 +30,14 @@ jobs:
       - uses: jaxxstorm/action-install-gh-release@v1.10.0
         with: # Grab a specific platform and/or architecture
           repo: tofuutils/tenv
+      - uses: 1password/load-secrets-action/configure@13f58eec611f8e5db52ec16247f58c508398f3e6 # v3.0.0
+        with:
+          service-account-token: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
+      - uses: 1password/load-secrets-action@vzt/prepare-relese-v3.1.0
+        with:
+          export-env: true
+        env:
+          OP_ENV_FILE: .openv
       - uses: diggerhq/digger@vLatest
         with:
           digger-spec: ${{ inputs.spec }}
