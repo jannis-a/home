@@ -13,7 +13,7 @@ run-name: '${{ github.event.inputs.run_name }}'
 jobs:
   digger-job:
     #runs-on: ubuntu-24.04
-    runs-on: arc-runner-set-test
+    runs-on: default
 
     permissions:
       contents: write      # required to merge PRs
