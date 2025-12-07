@@ -42,6 +42,7 @@ jobs:
         with:
           digger-spec: ${{ inputs.spec }}
           configure-checkout: false
+          cache-dependencies: true
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
