@@ -26,10 +26,9 @@ jobs:
     steps:
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
       - run: echo "job id ${{ fromJSON(inputs.spec).job_id }}"
-      - run: |
-          mkdir -p /usr/local/bin
-          curl -fsSL "https://github.com/tofuutils/tenv/releases/download/v4.7.21/tenv_v4.7.21_Linux_x86_64.tar.gz" \
-            | tar xzf - -C /usr/local/bin
+      - uses: jaxxstorm/action-install-gh-release@v1.10.0
+        with: # Grab a specific platform and/or architecture
+          repo: tofuutils/tenv
       - uses: diggerhq/digger@5836163954506313b3aa65aa185d3ca971de5e5c # v0.6.137
         with:
           digger-spec: ${{ inputs.spec }}
