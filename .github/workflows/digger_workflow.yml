@@ -29,9 +29,9 @@ jobs:
       - uses: jaxxstorm/action-install-gh-release@v1.10.0
         with: # Grab a specific platform and/or architecture
           repo: tofuutils/tenv
-      - uses: diggerhq/digger@5836163954506313b3aa65aa185d3ca971de5e5c # v0.6.137
+      - uses: diggerhq/digger@vLatest
         with:
           digger-spec: ${{ inputs.spec }}
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          #GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
