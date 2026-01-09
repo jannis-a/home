@@ -1,0 +1,10 @@
+TOFU_STATE_KEY="op://Homelab/Tofu state key/password"
+SOPS_AGE_KEY="op://Homelab/SOPS Age-Key/password"
+
+OCI_BUCKET="op://Homelab/Tofu backend OCI/bucket"
+OCI_NAMESPACE="op://Homelab/Tofu backend OCI/namespace"
+OCI_REGION="op://Homelab/Tofu backend OCI/region"
+
+AWS_ACCESS_KEY_ID="op://Homelab/Tofu backend OCI/username"
+AWS_SECRET_ACCESS_KEY="op://Homelab/Tofu backend OCI/password"
+AWS_ENDPOINT_URL_S3="https://${OCI_NAMESPACE}.compat.objectstorage.${OCI_REGION}.oraclecloud.com"
