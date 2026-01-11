@@ -8,3 +8,7 @@ OCI_REGION="op://Homelab/Tofu backend OCI/region"
 AWS_ACCESS_KEY_ID="op://Homelab/Tofu backend OCI/username"
 AWS_SECRET_ACCESS_KEY="op://Homelab/Tofu backend OCI/password"
 AWS_ENDPOINT_URL_S3="https://${OCI_NAMESPACE}.compat.objectstorage.${OCI_REGION}.oraclecloud.com"
+
+PROXMOX_VE_ENDPOINT="op://Homelab/Proxmox root/website"
+PROXMOX_VE_USERNAME="op://Homelab/Proxmox root/username-realm"
+PROXMOX_VE_PASSWORD="op://Homelab/Proxmox root/password"
