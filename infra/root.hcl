@@ -49,3 +49,7 @@ generate "remote_state_encryption_config" {
     }
   HCL
 }
+
+locals {
+  cloudflare_account_id = "f8ce0e89b81c568f7585d90fb5cb6744"
+}

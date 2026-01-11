@@ -12,3 +12,6 @@ AWS_ENDPOINT_URL_S3="https://${OCI_NAMESPACE}.compat.objectstorage.${OCI_REGION}
 PROXMOX_VE_ENDPOINT="op://Homelab/Proxmox root/website"
 PROXMOX_VE_USERNAME="op://Homelab/Proxmox root/username-realm"
 PROXMOX_VE_PASSWORD="op://Homelab/Proxmox root/password"
+
+CLOUDFLARE_EMAIL="op://Homelab/Cloudflare/username"
+CLOUDFLARE_API_KEY="op://Homelab/Cloudflare/api-key"
