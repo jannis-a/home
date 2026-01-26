@@ -1,3 +1,9 @@
+locals {
+  cloudflare_account_id = "f8ce0e89b81c568f7585d90fb5cb6744"
+
+  project = try(read_terragrunt_config(find_in_parent_folders("project.hcl")).locals, {})
+}
+
 remote_state {
   backend = "s3"
   generate = {
@@ -48,8 +54,4 @@ generate "remote_state_encryption_config" {
       }
     }
   HCL
-}
-
-locals {
-  cloudflare_account_id = "f8ce0e89b81c568f7585d90fb5cb6744"
 }

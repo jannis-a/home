@@ -3,11 +3,6 @@ include "root" {
   expose = true
 }
 
-include "project" {
-  path   = find_in_parent_folders("project.hcl")
-  expose = true
-}
-
 terraform {
   source = "${get_repo_root()}/modules/cloudflare/access"
 }
