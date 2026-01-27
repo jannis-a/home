@@ -4,10 +4,10 @@ include "root" {
 }
 
 terraform {
-  source = "git::https://github.com/oracle-terraform-modules/terraform-oci-vcn//?ref=v3.6.0"
+  source = "${get_repo_root()}/modules/oci/network/vcn"
 }
 
 inputs = {
   compartment_id = include.root.locals.project.compartment_id
-  enable_ipv6    = true
+  name           = include.root.locals.project.name
 }
