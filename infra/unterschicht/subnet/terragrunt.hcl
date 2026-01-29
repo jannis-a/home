@@ -14,6 +14,7 @@ terraform {
 inputs = {
   compartment_id = include.root.locals.project.compartment_id
   vcn_id         = dependency.vcn.outputs.vcn_all_attributes.id
+  route_table_id = dependency.vcn.outputs.ig_route_id
   cidr           = {
     v4 = cidrsubnet(dependency.vcn.outputs.vcn_all_attributes.cidr_blocks[0], 8, 0)
     v6 = cidrsubnet(dependency.vcn.outputs.vcn_all_attributes.ipv6cidr_blocks[0], 8, 0)
