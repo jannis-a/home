@@ -8,15 +8,14 @@ dependency "vcn" {
 }
 
 terraform {
-  source = "${get_repo_root()}/modules/oci/subnet"
+  source = "${get_repo_root()}/modules/oci/network//subnet"
 }
 
 inputs = {
   compartment_id = include.root.locals.project.compartment_id
-  vcn_id         = dependency.vcn.outputs.vcn_all_attributes.id
-  route_table_id = dependency.vcn.outputs.ig_route_id
+  vcn_id         = dependency.vcn.outputs.id
   cidr           = {
-    v4 = cidrsubnet(dependency.vcn.outputs.vcn_all_attributes.cidr_blocks[0], 8, 0)
-    v6 = cidrsubnet(dependency.vcn.outputs.vcn_all_attributes.ipv6cidr_blocks[0], 8, 0)
+    v4 = cidrsubnet(dependency.vcn.outputs.cidr.v4[0], 8, 0)
+    v6 = cidrsubnet(dependency.vcn.outputs.cidr.v6[0], 8, 0)
   }
 }

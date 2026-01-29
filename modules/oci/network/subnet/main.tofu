@@ -2,6 +2,7 @@ resource "oci_core_subnet" "this" {
   compartment_id = var.compartment_id
   vcn_id         = var.vcn_id
 
+  route_table_id = var.route_table_id
   cidr_block     = var.cidr.v4
   ipv6cidr_block = var.cidr.v6
 
