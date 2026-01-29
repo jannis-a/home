@@ -10,15 +10,24 @@ variable "name" {
   type = string
 }
 
-variable "rules" {
+variable "egress" {
   type = list(object({
-    direction   = string
+    protocol  = string
+    dest_type = optional(string, "CIDR_BLOCK")
+    dest      = string
+  }))
+  default = []
+}
+
+variable "ingress" {
+  type = list(object({
     protocol    = string
-    source_type = string
+    source_type = optional(string, "CIDR_BLOCK")
     source      = string
     ports = object({
       from = optional(number, null)
       to   = number
     })
   }))
+  default = []
 }

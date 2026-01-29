@@ -8,6 +8,18 @@ module "vcn" {
   create_service_gateway  = var.service_gateway
 }
 
+module "nsg_egress" {
+  source = "../security-rule"
+
+  compartment_id = var.compartment_id
+  vcn_id         = module.vcn.vcn_id
+  name           = "egress"
+  egress = [
+    { protocol = "all", dest = "0.0.0.0/0" },
+    { protocol = "all", dest = "::/0" },
+  ]
+}
+
 module "nsg_ssh" {
   source = "../security-rule"
 
@@ -18,8 +30,8 @@ module "nsg_ssh" {
   compartment_id = var.compartment_id
   vcn_id         = module.vcn.vcn_id
   name           = "ssh"
-  rules = [
-    { direction = "INGRESS", protocol = "6", ports = { to = 22 }, source_type = "CIDR_BLOCK", source = "0.0.0.0/0" },
-    { direction = "INGRESS", protocol = "6", ports = { to = 22 }, source_type = "CIDR_BLOCK", source = "::/0" },
+  ingress = [
+    { protocol = "tcp", ports = { to = 22 }, source = "0.0.0.0/0" },
+    { protocol = "tcp", ports = { to = 22 }, source = "::/0" },
   ]
 }

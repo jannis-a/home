@@ -1,5 +1,5 @@
 include "root" {
-  path   = find_in_parent_folders("root.hcl")
+  path = find_in_parent_folders("root.hcl")
   expose = true
 }
 
@@ -14,8 +14,9 @@ terraform {
 inputs = {
   compartment_id = include.root.locals.project.compartment_id
   vcn_id         = dependency.vcn.outputs.id
+  route_table_id = dependency.vcn.outputs.ig_route_id
   cidr           = {
-    v4 = cidrsubnet(dependency.vcn.outputs.cidr.v4[0], 8, 0)
-    v6 = cidrsubnet(dependency.vcn.outputs.cidr.v6[0], 8, 0)
+    for proto, cidrs in dependency.vcn.outputs.cidr :
+    proto => cidrsubnet(cidrs[0], 8, 0)
   }
 }

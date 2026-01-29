@@ -4,8 +4,13 @@ output "id" {
 
 output "security_groups" {
   value = {
-    ssh = module.nsg_ssh.id
+    egress = module.nsg_egress.id
+    ssh    = module.nsg_ssh.id
   }
+}
+
+output "ig_route_id" {
+  value = module.vcn.ig_route_id
 }
 
 output "cidr" {
