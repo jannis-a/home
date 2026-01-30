@@ -50,5 +50,33 @@ resource "oci_core_instance" "vm" {
 
   metadata = {
     ssh_authorized_keys = var.ssh_public_key
+    # language=yaml
+    user_data           = base64encode(<<-EOF
+      #cloud-config
+      package_update: true
+      packages:
+        - git
+        - podman
+        - zsh-autosuggestions
+        - zsh-completions
+        - zsh-syntax-highlighting
+        - yadm
+        - zsh
+      users:
+        - name: jannis
+          groups:
+            - sudo
+          shell: /bin/zsh
+          sudo:
+            - ALL=(ALL) NOPASSWD:ALL
+          ssh_authorized_keys:
+            - ${var.ssh_public_key}
+      runcmd:
+        - systemctl enable --now podman.socket
+        - loginctl enable-linger jannis
+        - sudo -u jannis -i yadm clone --recurse-submodules git@github.com:jannis-a/dotfiles.git
+        - sudo -u jannis -i yadm submodule update --init --recursive
+      EOF
+    )
   }
 }
