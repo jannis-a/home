@@ -11,7 +11,17 @@ data "oci_core_images" "this" {
   sort_order               = "DESC"
 }
 
-resource "oci_core_instance" "vm" {
+resource "tls_private_key" "ssh" {
+  algorithm   = "ED25519"
+  ecdsa_curve = "P521"
+}
+
+resource "github_user_ssh_key" "this" {
+  title = var.name
+  key   = tls_private_key.ssh.public_key_openssh
+}
+
+resource "oci_core_instance" "this" {
   availability_domain = data.oci_identity_availability_domains.ads.availability_domains[0].name
   compartment_id      = var.compartment_id
   display_name        = var.name
@@ -55,13 +65,12 @@ resource "oci_core_instance" "vm" {
       #cloud-config
       package_update: true
       packages:
-        - git
-        - podman
-        - zsh-autosuggestions
-        - zsh-completions
-        - zsh-syntax-highlighting
-        - yadm
         - zsh
+        - zsh-autosuggestions
+        - zsh-syntax-highlighting
+        - git
+        - yadm
+        - podman
       users:
         - name: jannis
           groups:
@@ -71,9 +80,24 @@ resource "oci_core_instance" "vm" {
             - ALL=(ALL) NOPASSWD:ALL
           ssh_authorized_keys:
             - ${var.ssh_public_key}
+      write_files:
+        - path: /home/jannis/.ssh/id_${lower(tls_private_key.ssh.algorithm)}
+          owner: root:root
+          permissions: "0600"
+          content: |
+            ${indent(6, tls_private_key.ssh.private_key_openssh)}
+        - path: /home/jannis/.ssh/id_${lower(tls_private_key.ssh.algorithm)}.pub
+          owner: root:root
+          permissions: "0600"
+          content: |
+            ${indent(6, tls_private_key.ssh.public_key_openssh)}
       runcmd:
+        - mkdir -p /home/jannis/.ssh
+        - chown -R jannis:jannis /home/jannis
         - systemctl enable --now podman.socket
         - loginctl enable-linger jannis
+        - sudo -u jannis -i systemctl --user enable --now podman.socket
+        - sudo -u jannis -i ssh-keyscan github.com >> /home/jannis/.ssh/known_hosts
         - sudo -u jannis -i yadm clone --recurse-submodules git@github.com:jannis-a/dotfiles.git
         - sudo -u jannis -i yadm submodule update --init --recursive
       EOF
