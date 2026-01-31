@@ -10,7 +10,7 @@ terraform {
 inputs = {
   account_id = include.root.locals.cloudflare_account_id
   zone       = "jannis-assenheimer.de"
-  domain     = include.project.locals.name
+  domain     = include.root.locals.project.name
 
   session_duration = "336h"
   allowed_emails = [
