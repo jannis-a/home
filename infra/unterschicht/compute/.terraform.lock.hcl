@@ -5,6 +5,8 @@ provider "registry.opentofu.org/hashicorp/tls" {
   version     = "4.2.1"
   constraints = "~> 4.0"
   hashes = [
+    "h1:ApZvTsHD9LJxRJiTlZnXCRTGQ92YUCDXUxNwaVbsQyQ=",
+    "h1:RZDD1y8qrxf7+gdnfFcGP0G6GDe/kv4zNDNdg1HpuSQ=",
     "h1:ZilRQg3gaNxvWpwnrjV3ZyU4dXI0yQfgsxu2swX9E14=",
     "zh:0435b85c1aa6ac9892e88d99eaae0b1712764b236bf469c114c6ff4377b113d6",
     "zh:3413d6c61a6a1db2466200832e1d86b2992b81866683b1b946e7e25d99e8daf9",
@@ -22,7 +24,9 @@ provider "registry.opentofu.org/integrations/github" {
   version     = "6.10.2"
   constraints = "~> 6.0"
   hashes = [
+    "h1:3t6AjDaLXNo7AP6A1yli07Y24K4LSEQN9umlYrCdedk=",
     "h1:FBpodFPW47rtbjMx2olf4qwXHwh42BX0Wwy7nfXdnQ8=",
+    "h1:xuphBoJqSkQT4s20Y6afnkfVbbRfGdbPEdM8frN/41I=",
     "zh:0276720213c19abb83faf6774697518dc1040fd37bc83eef86634f85d4781cae",
     "zh:19c6a9736a3d0264c9e0064ee66f7a957f2e35af2d2b7d4a2936d6d02ae122c4",
     "zh:3212c3c92b2ab16feb6d99c1d2b252fef255aeb709303a2428ea3af0677c30a1",
@@ -66,6 +70,8 @@ provider "registry.opentofu.org/oracle/oci" {
   constraints = "~> 7.0"
   hashes = [
     "h1:9DRhJsxlQCJ67sOLzNuiTAcQHbB5YjM3QECW8q2tIZ0=",
+    "h1:JE7YiFIVCd+GJrdRrNWVoAKbnfYaKmHfE0vsDEaJ21E=",
+    "h1:UqvWLjv2KpQ49NwHZsEefx/RgmMQrANlQ0G9r6t0jyo=",
     "zh:06c0815f0c4a656851b29bc4cb8fcbda14cd47ea1ac87d86820c751475375067",
     "zh:1856a255cbbe2a3cc096674bd743e02af3fcbea97ad0b41ed06876924a7a7e61",
     "zh:213cec9042744349f950c24019e8817c49d9be187293e5593177f67a115b9fed",
